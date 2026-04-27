@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mentoria Veloso — Arthur Mendes</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --moss-deep:     #2d3a1e;
+      --moss-mid:      #3e5228;
+      --moss-light:    #5a7340;
+      --moss-pale:     #8aac68;
+      --moss-tint:     #d6e4c8;
+      --moss-wash:     #eef4e7;
+      --parchment:     #f7f5f0;
+      --parchment-2:   #f2efe8;
+      --divider:       #dcd9d2;
+      --text-primary:  #1e2416;
+      --text-body:     #3a3d33;
+      --text-muted:    #6b7060;
+      --text-faint:    #9aa090;
+      --gold-accent:   #8b6914;
+
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body:    'DM Sans', 'Helvetica Neue', sans-serif;
+
+      --text-xs:   clamp(0.75rem,  0.7rem  + 0.25vw, 0.875rem);
+      --text-sm:   clamp(0.875rem, 0.8rem  + 0.35vw, 1rem);
+      --text-base: clamp(1rem,     0.95rem + 0.25vw, 1.125rem);
+      --text-lg:   clamp(1.125rem, 1rem    + 0.75vw, 1.5rem);
+      --text-xl:   clamp(1.5rem,   1.2rem  + 1.25vw, 2.25rem);
+      --text-2xl:  clamp(2rem,     1.2rem  + 2.5vw,  3rem);
+      --text-hero: clamp(2.5rem,   1rem    + 4vw,    4.5rem);
+
+      --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem;
+      --space-4: 1rem;    --space-5: 1.25rem; --space-6: 1.5rem;
+      --space-8: 2rem;    --space-10: 2.5rem; --space-12: 3rem;
+      --space-16: 4rem;   --space-20: 5rem;   --space-24: 6rem;
+
+      --radius-sm: 0.25rem; --radius-md: 0.5rem;
+      --radius-lg: 0.75rem; --radius-xl: 1.25rem;
+      --shadow-sm: 0 1px 3px oklch(0.18 0.04 130 / 0.08);
+      --shadow-md: 0 4px 14px oklch(0.18 0.04 130 / 0.10);
+      --shadow-lg: 0 12px 36px oklch(0.18 0.04 130 / 0.13);
+      --transition: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      scroll-padding-top: 5rem;
+    }
+
+    body {
+      background: var(--parchment);
+      color: var(--text-body);
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: 1.75;
+      min-height: 100dvh;
+    }
+
+    /* ─── HEADER ─── */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: oklch(from var(--parchment) l c h / 0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--divider);
+    }
+    .header-inner {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: var(--space-4) var(--space-6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+    }
+    .site-logo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+    .logo-mark svg { width: 32px; height: 32px; }
+    .logo-text {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--moss-deep);
+      letter-spacing: 0.01em;
+      line-height: 1.1;
+    }
+    .logo-sub {
+      display: block;
+      font-family: var(--font-body);
+      font-size: var(--text-xs);
+      font-weight: 300;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ─── MAIN CONTAINER ─── */
+    .page-container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: var(--space-10) var(--space-6) var(--space-20);
+    }
+
+    /* ─── HERO SECTION ─── */
+    .hero {
+      padding: var(--space-16) 0 var(--space-12);
+      border-bottom: 1px solid var(--divider);
+      margin-bottom: var(--space-16);
+    }
+    .hero-label {
+      font-size: var(--text-xs);
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--moss-light);
+      margin-bottom: var(--space-4);
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: var(--text-hero);
+      font-weight: 500;
+      color: var(--moss-deep);
+      line-height: 1.1;
+      margin-bottom: var(--space-3);
+      letter-spacing: -0.01em;
+    }
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      font-weight: 400;
+      color: var(--moss-mid);
+      margin-bottom: var(--space-8);
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+    .meta-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-4);
+      background: var(--moss-wash);
+      border: 1px solid var(--moss-tint);
+      border-radius: var(--radius-xl);
+      font-size: var(--text-xs);
+      font-weight: 500;
+      color: var(--moss-mid);
+      letter-spacing: 0.03em;
+    }
+    .meta-chip-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--moss-pale);
+      flex-shrink: 0;
+    }
+
+    /* ─── SECTION GENERIC ─── */
+    .content-section {
+      margin-bottom: var(--space-16);
+    }
+    .section-label {
+      font-size: var(--text-xs);
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--moss-light);
+      margin-bottom: var(--space-3);
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: 500;
+      color: var(--moss-deep);
+      line-height: 1.2;
+      margin-bottom: var(--space-6);
+    }
+    .section-divider {
+      width: 48px;
+      height: 2px;
+      background: var(--moss-pale);
+      margin-bottom: var(--space-8);
+      border-radius: 2px;
+    }
+
+    /* ─── PARAGRAPH ─── */
+    .prose p {
+      color: var(--text-body);
+      line-height: 1.8;
+      margin-bottom: var(--space-5);
+      max-width: 72ch;
+    }
+    .prose p:last-child { margin-bottom: 0; }
+
+    /* ─── CALLOUT CARD ─── */
+    .callout {
+      background: var(--parchment-2);
+      border: 1px solid var(--divider);
+      border-left: 3px solid var(--moss-pale);
+      border-radius: var(--radius-md);
+      padding: var(--space-5) var(--space-6);
+      margin: var(--space-6) 0;
+    }
+    .callout-title {
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--moss-deep);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-2);
+    }
+    .callout p {
+      font-size: var(--text-sm);
+      color: var(--text-body);
+      line-height: 1.75;
+      max-width: 100%;
+    }
+    .callout.alert {
+      border-left-color: var(--gold-accent);
+      background: #fdfaf3;
+    }
+    .callout.alert .callout-title { color: var(--gold-accent); }
+
+    /* ─── TRAINING BLOCKS ─── */
+    .training-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+      margin: var(--space-8) 0;
+    }
+    @media (max-width: 600px) {
+      .training-grid { grid-template-columns: 1fr; }
+    }
+    .training-card {
+      background: var(--parchment-2);
+      border: 1px solid var(--divider);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5) var(--space-6);
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow var(--transition);
+    }
+    .training-card:hover { box-shadow: var(--shadow-md); }
+    .training-card-label {
+      font-size: var(--text-xs);
+      font-weight: 500;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--moss-light);
+      margin-bottom: var(--space-2);
+    }
+    .training-card-title {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--moss-deep);
+      margin-bottom: var(--space-3);
+      line-height: 1.2;
+    }
+    .training-card a {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--moss-mid);
+      text-decoration: none;
+      border-bottom: 1px solid var(--moss-tint);
+      padding-bottom: 1px;
+      transition: color var(--transition), border-color var(--transition);
+    }
+    .training-card a:hover {
+      color: var(--moss-deep);
+      border-bottom-color: var(--moss-pale);
+    }
+    .training-card a::after {
+      content: "→";
+      font-size: 0.85em;
+    }
+
+    /* ─── BULLET LIST ─── */
+    .bullet-list {
+      list-style: none;
+      margin: var(--space-5) 0;
+    }
+    .bullet-list li {
+      position: relative;
+      padding-left: var(--space-6);
+      margin-bottom: var(--space-3);
+      font-size: var(--text-base);
+      color: var(--text-body);
+      line-height: 1.7;
+      max-width: 72ch;
+    }
+    .bullet-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.62em;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--moss-pale);
+      flex-shrink: 0;
+    }
+
+    /* ─── NUMBERED LIST ─── */
+    .numbered-list {
+      list-style: none;
+      counter-reset: step;
+      margin: var(--space-5) 0;
+    }
+    .numbered-list li {
+      counter-increment: step;
+      position: relative;
+      padding-left: var(--space-10);
+      margin-bottom: var(--space-4);
+      font-size: var(--text-base);
+      color: var(--text-body);
+      line-height: 1.7;
+      max-width: 72ch;
+    }
+    .numbered-list li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0.05em;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--moss-wash);
+      border: 1px solid var(--moss-tint);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      color: var(--moss-mid);
+      line-height: 1;
+    }
+
+    /* ─── EVIDENCE TABLE ─── */
+    .evidence-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: var(--space-6) 0;
+      font-size: var(--text-sm);
+    }
+    .evidence-table thead th {
+      text-align: left;
+      padding: var(--space-3) var(--space-4);
+      background: var(--moss-wash);
+      color: var(--moss-mid);
+      font-weight: 600;
+      font-size: var(--text-xs);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--moss-tint);
+    }
+    .evidence-table thead th:first-child { border-radius: var(--radius-sm) 0 0 0; }
+    .evidence-table thead th:last-child { border-radius: 0 var(--radius-sm) 0 0; }
+    .evidence-table tbody tr {
+      border-bottom: 1px solid var(--divider);
+      transition: background var(--transition);
+    }
+    .evidence-table tbody tr:hover { background: var(--moss-wash); }
+    .evidence-table tbody td {
+      padding: var(--space-3) var(--space-4);
+      color: var(--text-body);
+      vertical-align: top;
+    }
+    .evidence-table tbody td:first-child { font-weight: 500; color: var(--moss-deep); }
+
+    /* ─── DIET TABLE ─── */
+    .diet-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: var(--space-6) 0;
+      font-size: var(--text-sm);
+    }
+    .diet-table thead th {
+      text-align: left;
+      padding: var(--space-3) var(--space-4);
+      background: var(--moss-wash);
+      color: var(--moss-mid);
+      font-weight: 600;
+      font-size: var(--text-xs);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--moss-tint);
+    }
+    .diet-table thead th:first-child { border-radius: var(--radius-sm) 0 0 0; }
+    .diet-table thead th:last-child { border-radius: 0 var(--radius-sm) 0 0; }
+    .diet-table tbody tr { border-bottom: 1px solid var(--divider); transition: background var(--transition); }
+    .diet-table tbody tr:hover { background: var(--moss-wash); }
+    .diet-table tbody td { padding: var(--space-3) var(--space-4); color: var(--text-body); vertical-align: top; }
+    .diet-table tbody td:first-child { font-weight: 600; color: var(--moss-deep); white-space: nowrap; }
+    .diet-table .kcal-cell { font-variant-numeric: tabular-nums; color: var(--text-muted); font-size: var(--text-xs); }
+    .diet-table tfoot td {
+      padding: var(--space-3) var(--space-4);
+      font-weight: 600;
+      font-size: var(--text-xs);
+      color: var(--moss-mid);
+      background: var(--moss-wash);
+      border-top: 2px solid var(--moss-tint);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    /* ─── MACRO GRID ─── */
+    .macro-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-3);
+      margin: var(--space-6) 0;
+    }
+    @media (max-width: 560px) {
+      .macro-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .macro-card {
+      background: var(--parchment-2);
+      border: 1px solid var(--divider);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4) var(--space-5);
+      text-align: center;
+    }
+    .macro-card-value {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: 600;
+      color: var(--moss-deep);
+      line-height: 1.1;
+      margin-bottom: var(--space-1);
+    }
+    .macro-card-unit {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .macro-card-label {
+      font-size: var(--text-xs);
+      font-weight: 500;
+      color: var(--moss-light);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: var(--space-2);
+    }
+
+    /* ─── SEPARATOR LINE ─── */
+    .page-divider {
+      border: none;
+      border-top: 1px solid var(--divider);
+      margin: var(--space-16) 0;
+    }
+
+    /* ─── TAG BADGE ─── */
+    .badge {
+      display: inline-block;
+      padding: 2px var(--space-3);
+      background: var(--moss-wash);
+      border: 1px solid var(--moss-tint);
+      border-radius: var(--radius-xl);
+      font-size: var(--text-xs);
+      font-weight: 600;
+      color: var(--moss-mid);
+      letter-spacing: 0.04em;
+    }
+    .badge.gold {
+      background: #fdf6e3;
+      border-color: #e8d8a0;
+      color: var(--gold-accent);
+    }
+
+    /* ─── FOOTER ─── */
+    .site-footer {
+      border-top: 1px solid var(--divider);
+      background: var(--parchment-2);
+    }
+    .footer-inner {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: var(--space-12) var(--space-6) var(--space-8);
+    }
+    .footer-thanks {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: 500;
+      color: var(--moss-deep);
+      margin-bottom: var(--space-4);
+      line-height: 1.3;
+    }
+    .footer-message {
+      font-size: var(--text-base);
+      color: var(--text-body);
+      line-height: 1.8;
+      max-width: 62ch;
+      margin-bottom: var(--space-8);
+    }
+    .footer-divider {
+      border: none;
+      border-top: 1px solid var(--divider);
+      margin: var(--space-8) 0;
+    }
+    .footer-disclaimer {
+      font-size: 0.70rem;
+      color: var(--text-faint);
+      line-height: 1.65;
+      max-width: 70ch;
+    }
+
+    /* ─── MEAL CARDS ─── */
+    .meal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-5);
+      margin: var(--space-8) 0;
+    }
+    @media (max-width: 640px) { .meal-grid { grid-template-columns: 1fr; } }
+    .meal-card {
+      background: var(--parchment-2);
+      border: 1px solid var(--divider);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .meal-card-header {
+      background: var(--moss-wash);
+      border-bottom: 1px solid var(--moss-tint);
+      padding: var(--space-3) var(--space-5);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .meal-number {
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--moss-deep);
+      letter-spacing: 0.02em;
+    }
+    .meal-macros {
+      font-size: var(--text-xs);
+      color: var(--moss-light);
+      font-variant-numeric: tabular-nums;
+    }
+    .meal-items {
+      list-style: none;
+      padding: var(--space-4) var(--space-5);
+      margin: 0;
+    }
+    .meal-items li {
+      font-size: var(--text-sm);
+      color: var(--text-body);
+      padding: var(--space-2) 0;
+      border-bottom: 1px solid var(--divider);
+      line-height: 1.5;
+    }
+    .meal-items li:last-child { border-bottom: none; }
+    .meal-qty {
+      display: inline-block;
+      min-width: 52px;
+      font-weight: 600;
+      color: var(--moss-deep);
+      font-variant-numeric: tabular-nums;
+      margin-right: var(--space-1);
+    }
+    .meal-ref { color: var(--text-muted); font-size: 0.82em; }
+    .meal-obs {
+      font-size: var(--text-xs);
+      color: var(--moss-mid);
+      font-style: italic;
+      padding: var(--space-2) var(--space-5) var(--space-3);
+      border-top: 1px solid var(--moss-tint);
+      background: #f6faf2;
+    }
+    .variation-card {
+      background: var(--parchment-2);
+      border: 1px solid var(--divider);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-4);
+      overflow: hidden;
+    }
+    .variation-title {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--moss-deep);
+      padding: var(--space-3) var(--space-5);
+      background: var(--moss-wash);
+      border-bottom: 1px solid var(--moss-tint);
+    }
+    .variation-card .meal-items { padding: var(--space-3) var(--space-5); }
+    .variation-card .meal-obs {
+      font-size: var(--text-xs);
+      color: var(--moss-mid);
+      font-style: italic;
+      padding: var(--space-2) var(--space-5) var(--space-3);
+      border-top: 1px solid var(--moss-tint);
+      background: #f6faf2;
+    }
+    .subsection-label {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--moss-mid);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-4);
+      padding-bottom: var(--space-2);
+      border-bottom: 1px solid var(--divider);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <div class="site-logo">
+        <div class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Logo">
+            <circle cx="16" cy="16" r="15" stroke="#3e5228" stroke-width="1.5" fill="none"/>
+            <path d="M10 22 Q16 8 22 22" stroke="#3e5228" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <circle cx="16" cy="13" r="2.5" fill="#5a7340"/>
+          </svg>
+        </div>
+        <div class="logo-text">
+          Mentoria Veloso
+          <span class="logo-sub">Protocolo Individual — Arthur Mendes</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-container" role="main">
+
+    <!-- HERO -->
+    <section class="hero" aria-labelledby="hero-title">
+      <h1 id="hero-title" class="hero-title">Plano Personalizado</h1>
+      <div class="hero-meta">
+        <span class="meta-chip"><span class="meta-chip-dot"></span>Divisão Torso / Limbs</span>
+        <span class="meta-chip"><span class="meta-chip-dot"></span>Fase de Cutting</span>
+        <span class="meta-chip"><span class="meta-chip-dot"></span>Frequência 4x / semana</span>
+        <span class="meta-chip"><span class="meta-chip-dot"></span>Zona 6–9 Repetições</span>
+      </div>
+    </section>
+
+
+    <!-- SEÇÃO 1: APRESENTAÇÃO -->
+    <section class="content-section" aria-labelledby="s1-title">
+      <p class="section-label">Introdução</p>
+      <h2 id="s1-title" class="section-title">Apresentação do Protocolo</h2>
+      <div class="section-divider" aria-hidden="true"></div>
+      <div class="prose">
+        <p>Arthur, este documento reúne de forma organizada todas as informações referentes ao seu protocolo de treinamento e às diretrizes nutricionais desta fase. Cada decisão aqui descrita baseia-se na melhor evidência científica disponível, sendo adaptada às suas características individuais, objetivos e contexto atual. Leia com atenção e não hesite em entrar em contato a qualquer momento para esclarecimentos.</p>
+        <p>Estou disponível em tempo integral para acompanhar sua evolução, sanar dúvidas, realizar ajustes no plano alimentar e analisar os registros de treino. Minha disponibilidade não se limita ao horário de sessões presenciais — toda e qualquer comunicação entre nós é bem-vinda e valorizada.</p>
+      </div>
+    </section>
+
+    <hr class="page-divider" aria-hidden="true" />
+
+
+    <!-- SEÇÃO 2: DIVISÃO DE TREINO -->
+    <section class="content-section" aria-labelledby="s2-title">
+      <p class="section-label">Estrutura do Treinamento</p>
+      <h2 id="s2-title" class="section-title">Divisão Torso / Limbs — Justificativa Científica</h2>
+      <div class="section-divider" aria-hidden="true"></div>
+
+      <div class="prose">
+        <p>A divisão de treinamento escolhida para você é a Torso / Limbs em formato de dois ciclos distintos (Torso 1, Limbs 1, Torso 2 e Limbs 2), totalizando quatro sessões semanais. Essa estrutura permite que cada grande grupo muscular seja estimulado com frequência de duas vezes por semana, o que está em consonância com a literatura científica, que aponta a frequência bisemanal por grupo muscular como superior à frequência única para maximização da hipertrofia (Schoenfeld et al., 2016; Ralston et al., 2017).</p>
+        <p>A divisão Torso / Limbs organiza o estímulo de forma que membros superiores de empurrar e de puxar, bem como a musculatura do tronco, sejam trabalhados em dias específicos (Torso), enquanto os membros inferiores e a musculatura de quadril recebem atenção dedicada (Limbs). Essa separação respeita os princípios de recuperação muscular e permite um volume suficiente por sessão sem comprometer a qualidade do esforço ao longo do treino.</p>
+        <p>Importante destacar que, quando o volume semanal é equalizado, a divisão em split e o treino full-body produzem resultados semelhantes em termos de hipertrofia e força (Ramos-Campo et al., 2024). Portanto, a escolha da divisão Torso / Limbs não representa superioridade absoluta em relação a outros modelos, mas sim adequação ao seu estilo de vida, às suas preferências e ao nível de treinamento em que você se encontra.</p>
+      </div>
+
+      <div class="callout alert">
+        <p class="callout-title">Priorização Estratégica</p>
+        <p>Este protocolo foi desenhado com atenção especial à face anterior da coxa (quadríceps), que identificamos como um ponto de relativa negligência no histórico de treinamento. Além disso, peitoral e deltoides recebem prioridade nas sessões de Torso, uma vez que seus braços já apresentam desenvolvimento satisfatório e não demandam volume adicional neste momento.</p>
+      </div>
+
+      <div class="callout">
+        <p class="callout-title">Sequência dos Exercícios</p>
+        <p>A ordem dos exercícios dentro de cada sessão não é arbitrária. Os músculos prioritários são posicionados no início do treino, quando o sistema nervoso central está em plena capacidade e os estoques de glicogênio muscular estão íntegros. À medida que a sessão avança, a fadiga acumulada reduz a capacidade de produção de força — portanto, exercícios de músculos secundários ou acessórios são deliberadamente alocados para o final. Respeitar essa sequência é fundamental para que os resultados esperados se concretizem.</p>
+      </div>
+    </section>
+
+    <!-- DIVISÃO COM LINKS -->
+    <section class="content-section" aria-labelledby="s-links-title">
+      <p class="section-label">Acesso Direto no Hevy</p>
+      <h2 id="s-links-title" class="section-title">Suas Rotinas de Treino</h2>
+      <div class="section-divider" aria-hidden="true"></div>
+      <div class="training-grid">
+        <div class="training-card">
+          <p class="training-card-label">Sessão A</p>
+          <p class="training-card-title">Torso 1</p>
+          <a href="https://hevy.com/routine/WLhCTJ9aVDJ" target="_blank" rel="noopener noreferrer">Abrir no Hevy</a>
+        </div>
+        <div class="training-card">
+          <p class="training-card-label">Sessão B</p>
+          <p class="training-card-title">Limbs 1</p>
+          <a href="https://hevy.com/routine/lqtL7Z9UjFs" target="_blank" rel="noopener noreferrer">Abrir no Hevy</a>
+        </div>
+        <div class="training-card">
+          <p class="training-card-label">Sessão C</p>
+          <p class="training-card-title">Torso 2</p>
+          <a href="https://hevy.com/routine/xEVWbRI70EE" target="_blank" rel="noopener noreferrer">Abrir no Hevy</a>
+        </div>
+        <div class="training-card">
+          <p class="training-card-label">Sessão D</p>
+          <p class="training-card-title">Limbs 2</p>
+          <a href="https://hevy.com/routine/NpIWyTqL6Ua" target="_blank" rel="noopener noreferrer">Abrir no Hevy</a>
+        </div>
+      </div>
+    </section>
+
+    <hr class="page-divider" aria-hidden="true" />
+
+
+    <!-- SEÇÃO 3: VOLUME, FREQUÊNCIA E PROXIMIDADE DA FALHA -->
+    <section class="content-section" aria-labelledby="s3-title">
+      <p class="section-label">Variáveis de Prescrição</p>
+      <h2 id="s3-title" class="section-title">Volume, Frequência Semanal e Proximidade da Falha</h2>
+      <div class="section-divider" aria-hidden="true"></div>
+      <div class="prose">
+        <p>O volume de treinamento foi propositalmente mantido baixo nesta fase. Essa decisão fundamenta-se na premissa de que, ao reduzir o número de séries por sessão, é possível manter a intensidade de esforço consistentemente elevada — ou seja, cada série pode ser executada com máxima proximidade da falha, o que representa um estímulo hipertrófico de qualidade superior. A literatura científica indica que o volume e a intensidade de esforço são inversamente relacionados na prática: ao acumular muitas séries, a fadiga progressiva inevitavelmente compromete a qualidade das últimas séries da sessão.</p>
+        <p>A zona de repetições adotada é de 6 a 9 repetições por série. A orientação é que você nunca consiga completar 9 repetições com boa técnica — isso significa que a carga está calibrada de forma que o esforço seja real e significativo desde as primeiras repetições. Séries excessivamente longas (12 ou mais repetições) tendem a ser realizadas aquém da intensidade ideal por iniciativa do próprio praticante, o que reduz o estímulo hipertrófico real.</p>
+        <p>Quanto à frequência semanal, cada grupo muscular é estimulado duas vezes por semana, frequência que a meta-análise de Schoenfeld et al. (2016) identificou como superior à frequência única para ganho de massa muscular.</p>
+      </div>
+
+      <div class="callout">
+        <p class="callout-title">Séries W — Feeder Sets (Opcionais)</p>
+        <p>As séries marcadas com a letra W em seu plano são as chamadas feeder sets, ou séries de preparação. Elas não são obrigatórias e não contam para o volume de trabalho efetivo. Sua função é preparar a articulação e o sistema neuromuscular para a carga de trabalho que virá, reduzindo o risco de lesão e melhorando o desempenho nas séries válidas. Utilize-as quando sentir necessidade, especialmente nos primeiros exercícios da sessão, em dias de maior sensação de rigidez articular ou quando optar por cargas mais elevadas.</p>
+      </div>
+
+      <div class="callout alert">
+        <p class="callout-title">Séries F — Séries Válidas: Sempre até a Falha</p>
+        <p>As séries marcadas com a letra F são as suas séries de trabalho efetivo — e todas elas devem ser levadas à falha concêntrica. Falha, neste contexto, significa o momento em que você não consegue completar mais nenhuma repetição com técnica minimamente adequada, sem ajuda externa e sem "forçar" uma repetição que o coloque em risco de lesão. Não interrompa a série com repetições disponíveis — o esforço máximo é o objetivo.</p>
+      </div>
+    </section>
+
+    <hr class="page-divider" aria-hidden="true" />
+
+
+    <!-- SEÇÃO 4: RIR E PROXIMIDADE DA FALHA -->
+    <section class="content-section" aria-labelledby="s4-title">
+      <p class="section-label">Intensidade de Esforço</p>
+      <h2 id="s4-title" class="section-title">Repetições em Reserva (RIR) e a Proximidade da Falha</h2>
+      <div class="section-divider" aria-hidden="true"></div>
+      <div class="prose">
+        <p>A literatura científica é relativamente clara ao indicar que, em cenários com volume equalizado, treinar a séries muito próximas da falha não produz hipertrofia significativamente superior ao treino com 1 a 3 repetições em reserva (Refalo et al., 2023). Em outras palavras, as evidências sugerem que não é necessário ir à falha absoluta em todas as séries para maximizar o crescimento muscular — e que deixar algumas repetições na reserva (o chamado RIR) pode ser uma estratégia válida.</p>
+        <p>Entretanto, essa conclusão carrega uma premissa muitas vezes ignorada na prática: que o praticante seja capaz de estimar com precisão quantas repetições lhe restam. Pesquisas demonstram que a acurácia na estimativa de RIR é significativamente inferior em indivíduos com menos experiência de treino, especialmente em cargas mais leves e em zonas de repetições mais altas (Zourdos et al., 2016; Vitruve et al., 2022). Em termos práticos, a maioria das pessoas acredita estar a 2 repetições da falha quando, na realidade, ainda poderia realizar 4, 5 ou até 6 repetições adicionais.</p>
+        <p>Por essa razão, a estratégia adotada para você é a de máxima proximidade da falha nas séries F. Isso elimina a subjetividade da estimativa e garante que o estímulo fornecido seja genuinamente intenso. A ressalva importante é que não se deve forçar repetições adicionais após a falha técnica — aquelas repetições "parciais" ou realizadas com compensações evidentes não aumentam o estímulo hipertrófico e aumentam desnecessariamente o risco de lesão. Quando a técnica ceder, a série encerra.</p>
+      </div>
+    </section>
+
+    <hr class="page-divider" aria-hidden="true" />
+
+
+    <!-- SEÇÃO 5: AMPLITUDE E PADRÃO DE MOVIMENTO -->
+    <section class="content-section" aria-labelledby="s5-title">
+      <p class="section-label">Técnica de Execução</p>
+      <h2 id="s5-title" class="section-title">Amplitude de Movimento e Padrões de Execução</h2>
+      <div class="section-divider" aria-hidden="true"></div>
+      <div class="prose">
+        <p>A amplitude de movimento é um dos fatores técnicos com maior impacto na qualidade do estímulo hipertrófico. A revisão sistemática de Schoenfeld e Grgic (2020) e investigações subsequentes indicam que o treinamento com amplitude completa — particularmente com ênfase no alongamento do músculo (posição de maior comprimento) — produz adaptações hipertróficas superiores ao treinamento parcial encurtado. Estudos mais recentes confirmam que o estímulo no comprimento máximo do músculo é um driver importante para a síntese proteica miofibrilar.</p>
+        <p>Portanto, em todos os exercícios do seu plano, a orientação é executar o movimento com a maior amplitude que sua mobilidade e controle motor permitam, garantindo que o músculo-alvo seja levado à posição de maior alongamento possível em cada repetição. Não "encurte" o movimento para utilizar cargas maiores — isso representa uma troca desfavorável entre o peso na barra e a qualidade do estímulo.</p>
+        <p>Igualmente importante é a conservação dos padrões de movimento ao longo de toda a série e ao longo de toda a sessão. Alterações na mecânica de execução provocadas pela fadiga não são um sinal de esforço honesto — são um sinal de que a série deve ser encerrada. Preserve sua técnica como prioridade absoluta. Uma repetição bem executada com carga moderada é sempre superior a uma repetição mal executada com carga elevada.</p>
+      </div>
+
+      <div class="callout">
+        <p class="callout-title">Registro de Vídeo — Primeira Semana</p>
+        <p>Durante esta primeira semana de treino, solicito que você grave pelo menos uma série válida (série F) de cada exercício do seu plano e me envie para avaliação. O objetivo não é julgamento, mas identificar eventuais compensações, ajustar a amplitude de movimento e garantir que o padrão de execução está alinhado com a intenção do exercício. Após essa avaliação inicial, os envios de vídeo serão pontuais e sob demanda.</p>
+      </div>
+    </section>
+
+    <hr class="page-divider" aria-hidden="true" />
+
+
+    <!-- SEÇÃO 6: SOBRECARGA PROGRESSIVA -->
+    <section class="content-section" aria-labelledby="s6-title">
+      <p class="section-label">O Fator mais Importante</p>
+      <h2 id="s6-title" class="section-title">Sobrecarga Progressiva — O Motor do Desenvolvimento</h2>
+      <div class="section-divider" aria-hidden="true"></div>
+      <div class="prose">
+        <p>A sobrecarga progressiva é o princípio central do treinamento de força e hipertrofia. O músculo somente se adapta — cresce, fica mais forte — quando submetido a estímulos progressivamente maiores do que aqueles a que já está adaptado. Na ausência de progressão, o estímulo deixa de ser novo e a adaptação cessa. Estudo publicado no Journal of Applied Physiology demonstrou que o grupo com sobrecarga progressiva apresentou ganho de espessura muscular 21,4% superior ao grupo sem progressão, confirmando que treinar sem progredir gera resultados substancialmente inferiores (Lopes et al., 2026).</p>
+        <p>Isso significa que você deve se policiar rigorosamente para progredir a cada sessão. Progressão não implica necessariamente adicionar carga a cada treino — pode se expressar como mais uma repetição na mesma carga, melhor técnica de execução, menor tempo de descanso ou maior amplitude de movimento. O que não é aceitável é realizar sistematicamente o mesmo número de repetições com a mesma carga sem tentar superar esse patamar.</p>
+        <p>É justamente para isso que o registro detalhado de cada treino é indispensável. Sem dados concretos, você não tem como saber se está progredindo — e eu não tenho como orientar ajustes precisos. O registro não é burocracia: é a ferramenta que torna o treinamento inteligente.</p>
+      </div>
+    </section>
+
+    <hr class="page-divider" aria-hidden="true" />
+
+
+    <!-- SEÇÃO 7: REGISTRO NO HEVY -->
+    <section class="content-section" aria-labelledby="s7-title">
+      <p class="section-label">Ferramenta de Acompanhamento</p>
+      <h2 id="s7-title" class="section-title">Como Registrar seus Treinos no Hevy</h2>
+      <div class="section-divider" aria-hidden="true"></div>
+      <div class="prose">
+        <p>O aplicativo Hevy é a plataforma oficial de registro e acompanhamento do seu treinamento. Ele permite registrar cargas, repetições, tempo de descanso e notas por exercício, além de exibir o histórico de desempenho diretamente na interface de log — o que facilita a visualização da progressão a cada sessão. Abaixo está um guia objetivo de uso.</p>
+      </div>
+
+      <ol class="numbered-list">
+        <li>Acesse a aba <span class="badge">Workout</span> e localize a seção <span class="badge">Routines</span>. Suas rotinas estarão disponíveis pelos links fornecidos neste documento. Toque em <span class="badge">Start Routine</span> na rotina do dia para iniciar a sessão.</li>
+        <li>Para cada série, insira o peso utilizado e o número de repetições realizadas. Não estime — registre exatamente o que ocorreu. O aplicativo exibe automaticamente o desempenho da sessão anterior (coluna <em>Previous</em>), o que facilita a comparação e a tomada de decisão sobre a carga.</li>
+        <li>Ao concluir uma série válida (série F), marque-a como <span class="badge">To Failure</span> nas opções de tipo de série. Ao concluir uma feeder set (série W), marque-a como <span class="badge">Warm-Up</span>. Essa distinção é importante para a análise posterior.</li>
+        <li>Após completar cada série, o timer de descanso automático será ativado. Respeite o intervalo indicado — ele não é aleatório. Veja a próxima seção para entender a importância do descanso adequado.</li>
+        <li>Ao finalizar a sessão, salve o treino com um toque em <span class="badge">Finish Workout</span>. Você pode adicionar uma nota curta sobre como se sentiu no treino — essa informação é valiosa para o acompanhamento.</li>
+      </ol>
+
+      <div class="callout">
+        <p class="callout-title">Consistência no Registro</p>
+        <p>Registre todos os treinos, sem exceção. Um registro incompleto é equivalente a nenhum registro para fins de análise de progressão. Anote a carga real, as repetições reais e, caso algo tenha saído fora do planejado (indisposição, dor articular, ajuste de carga), inclua essa informação nas notas do treino.</p>
+      </div>
+    </section>
+
+    <hr class="page-divider" aria-hidden="true" />
+
+
+    <!-- SEÇÃO 8: INTERVALO DE DESCANSO -->
+    <section class="content-section" aria-labelledby="s8-title">
+      <p class="section-label">Gestão do Descanso</p>
+      <h2 id="s8-title" class="section-title">Intervalo entre Séries</h2>
+      <div class="section-divider" aria-hidden="true"></div>
+      <div class="prose">
+        <p>O intervalo de descanso entre as séries é uma variável de treinamento — não um tempo livre de gerenciamento. Intervalos insuficientes comprometem a recuperação do fosfato de creatina intramuscular e a restauração da capacidade de produção de força, o que reduz diretamente o desempenho nas séries subsequentes e, consequentemente, o estímulo hipertrófico. A literatura científica é consistente ao indicar que intervalos de 2 a 3 minutos entre séries de exercícios multiarticulares pesados são superiores a intervalos curtos para ganhos de força e hipertrofia (Grgic et al., 2017).</p>
+        <p>Dito isso, o intervalo configurado no Hevy para cada exercício deve ser respeitado como referência. Caso sinta que precisa de um tempo adicional para recuperação plena — especialmente nos movimentos mais intensos como agachamento, levantamento terra ou supino — aguarde até se sentir pronto. Respeitar a recuperação não é preguiça: é treinamento inteligente.</p>
+      </div>
+    </section>
+
+    <hr class="page-divider" aria-hidden="true" />
+
+
+    <!-- SEÇÃO 9: CARDIO PÓS-TREINO -->
+    <section class="content-section" aria-labelledby="s9-title">
+      <p class="section-label">Componente Aeróbio</p>
+      <h2 id="s9-title" class="section-title">Caminhada Inclinada Pós-Treino</h2>
+      <div class="section-divider" aria-hidden="true"></div>
+      <div class="prose">
+        <p>Ao final de cada sessão de musculação, solicito que você realize 20 minutos de caminhada na esteira com inclinação máxima e velocidade entre 4 e 7 km/h. Essa estratégia é respaldada por evidências que demonstram que, após o treino de força, os estoques de glicogênio muscular estão parcialmente depletados — o que favorece o uso de gordura como substrato energético preferencial durante o exercício aeróbio subsequente. Estudos recentes compararam a caminhada inclinada com corridas de igual gasto calórico e verificaram que a caminhada inclinada promoveu 40% de seu gasto calórico a partir da oxidação de gordura, contra 33% na corrida — um diferencial favorável à caminhada, sobretudo relevante em fase de cutting (International Journal of Exercise Science, 2025).</p>
+        <p>A velocidade entre 4 e 7 km/h corresponde a uma caminhada rápida — nenhum trecho deverá ser realizado em corrida. O objetivo é manter a intensidade na zona aeróbia de oxidação de gordura (zona 2 de frequência cardíaca), sem elevar excessivamente o estresse metabólico sobre um organismo já fadigado pelo treino de força. Assim como na musculação, a progressão no cardio também deve ser buscada: aumente a velocidade gradualmente ao longo das semanas, sempre dentro da faixa estipulada e sem correr.</p>
+      </div>
+    </section>
+
+
+    <hr class="page-divider" aria-hidden="true" />
+
+
+    <!-- SEÇÃO 10: PLANO ALIMENTAR COMPLETO -->
+    <section class="content-section" aria-labelledby="s-diet-guide-title">
+      <p class="section-label">Plano Alimentar</p>
+      <h2 id="s-diet-guide-title" class="section-title">Guia de Orientações</h2>
+      <div class="section-divider" aria-hidden="true"></div>
+      <div class="prose">
+        <p>Leia com atenção antes de iniciar o plano.</p>
+      </div>
+
+      <div class="callout">
+        <p class="callout-title">Pesagem dos Alimentos</p>
+        <p>Para que os resultados sejam concretos e previsíveis, todos os alimentos devem ser pesados com precisão. Ao longo deste material, estará indicado se o peso de cada alimento se refere ao item cru, cozido ou pronto para consumo. Essa distinção é fundamental, pois o mesmo alimento pode apresentar diferenças calóricas significativas dependendo do momento da pesagem.</p>
+      </div>
+
+      <div class="callout">
+        <p class="callout-title">Personalização e Adesão</p>
+        <p>Este plano foi elaborado com base nas preferências alimentares e no perfil individual do cliente, respeitando escolhas, rotina e praticidade. Ele está sujeito a ajustes sempre que necessário — nenhum plano é estático. O fator mais determinante para o resultado é, sem dúvida, a adesão consistente ao plano alimentar. Nenhuma estratégia funciona se não for seguida com regularidade.</p>
+      </div>
+
+      <div class="callout">
+        <p class="callout-title">Base Científica</p>
+        <p>As quantidades, distribuições de macronutrientes e escolhas alimentares aqui presentes foram fundamentadas no que há de mais sólido na literatura científica atual. Permanece à disposição para esclarecimento de dúvidas, adaptações e reavaliações periódicas.</p>
+      </div>
+
+      <div class="callout alert">
+        <p class="callout-title">Vegetais e Frutas — Aliados da Saciedade</p>
+        <p>Frutas e vegetais desempenham papel estratégico no controle da fome, especialmente em fases de déficit calórico. Eles contribuem com volume alimentar, fibras, vitaminas e minerais, sem elevar significativamente a densidade calórica da refeição. São ferramentas poderosas para manter a saciedade e a adesão.</p>
+        <p style="margin-top: var(--space-3);">Em todas as refeições principais, inclua um prato à parte com vegetais e folhas à vontade: alface, rúcula, brócolis, couve-flor, pepino, tomate, abobrinha e similares. Esses alimentos praticamente não interferem no cômputo calórico e contribuem de forma expressiva para a saciedade e o aporte de micronutrientes.</p>
+        <p style="margin-top: var(--space-3);">Para fases de controle calórico, prefira frutas de menor densidade energética e bom aporte de fibra: maçã, melancia, melão, morango, kiwi e pera. São excelentes para lanches intermediários ou finais de refeição.</p>
+      </div>
+
+      <div class="callout">
+        <p class="callout-title">Calorias Ocultas</p>
+        <p>Um erro frequente em dietas é subestimar as calorias provenientes de gorduras de adição. Óleo, azeite, manteiga, frituras, molhos prontos, maionese, queijos gordurosos e preparações com gordura extra podem elevar o total calórico diário de forma silenciosa. O ideal é reduzir ao máximo ou eliminar frituras e gorduras de adição no preparo cotidiano, optando por métodos como grelhado, cozido, assado ou refogado com quantidade mínima de azeite.</p>
+      </div>
+
+      <div class="callout">
+        <p class="callout-title">Whey Protein Concentrado</p>
+        <p>Em situações de correria, praticidade reduzida ou dificuldade em atingir a meta proteica apenas com alimentos sólidos, o whey protein concentrado é uma ferramenta eficiente e prática. Como referência, o whey concentrado da Growth Supplements fornece aproximadamente 23–24 g de proteína por medida de 30 g de produto. Os valores podem variar conforme o sabor e o lote — consulte sempre o rótulo para confirmar a composição exata.</p>
+      </div>
+
+      <div class="callout">
+        <p class="callout-title">Refeições Livres Controladas</p>
+        <p>Um plano alimentar eficaz não precisa ser monótono nem excludente. Há espaço para refeições livres controladas sem comprometer os resultados. Sempre que desejar incluir um lanche diferente, uma sobremesa ou uma refeição especial, avise para que o plano seja ajustado de forma inteligente e o equilíbrio calórico seja mantido.</p>
+      </div>
+    </section>
+
+    <hr class="page-divider" aria-hidden="true" />
+
+
+    <!-- CARDÁPIO PRINCIPAL -->
+    <section class="content-section" aria-labelledby="s-cardapio-title">
+      <p class="section-label">Estrutura do Plano Alimentar</p>
+      <h2 id="s-cardapio-title" class="section-title">Cardápio Principal</h2>
+      <div class="section-divider" aria-hidden="true"></div>
+      <div class="prose">
+        <p>Os pesos indicados seguem a referência especificada para cada alimento (cru, cozido ou pronto para consumo). Os valores nutricionais são aproximados e podem variar conforme marca, corte e método de preparo.</p>
+      </div>
+
+      <div class="meal-grid">
+
+        <div class="meal-card">
+          <div class="meal-card-header">
+            <span class="meal-number">Refeição 1</span>
+            <span class="meal-macros">520 kcal &nbsp;|&nbsp; PTN: 33 g &nbsp;|&nbsp; CHO: 70 g &nbsp;|&nbsp; GOR: 6 g</span>
+          </div>
+          <ul class="meal-items">
+            <li><span class="meal-qty">50 g</span> Pão francês <span class="meal-ref">— pronto para consumo</span></li>
+            <li><span class="meal-qty">100 g</span> Peito de frango grelhado e desfiado <span class="meal-ref">— peso cozido</span></li>
+            <li><span class="meal-qty">130 g</span> Maçã média <span class="meal-ref">— in natura</span></li>
+          </ul>
+        </div>
+
+        <div class="meal-card">
+          <div class="meal-card-header">
+            <span class="meal-number">Refeição 2</span>
+            <span class="meal-macros">560 kcal &nbsp;|&nbsp; PTN: 43 g &nbsp;|&nbsp; CHO: 70 g &nbsp;|&nbsp; GOR: 10 g</span>
+          </div>
+          <ul class="meal-items">
+            <li><span class="meal-qty">130 g</span> Arroz branco <span class="meal-ref">— peso cozido</span></li>
+            <li><span class="meal-qty">80 g</span> Feijão carioca <span class="meal-ref">— peso cozido</span></li>
+            <li><span class="meal-qty">130 g</span> Patinho bovino grelhado/assado <span class="meal-ref">— peso cozido</span></li>
+            <li><span class="meal-qty">à vontade</span> Legumes variados cozidos/refogados</li>
+          </ul>
+          <p class="meal-obs">Adicionar um prato à parte com vegetais e folhas à vontade.</p>
+        </div>
+
+        <div class="meal-card">
+          <div class="meal-card-header">
+            <span class="meal-number">Refeição 3</span>
+            <span class="meal-macros">520 kcal &nbsp;|&nbsp; PTN: 33 g &nbsp;|&nbsp; CHO: 70 g &nbsp;|&nbsp; GOR: 6 g</span>
+          </div>
+          <ul class="meal-items">
+            <li><span class="meal-qty">50 g</span> Pão francês <span class="meal-ref">— pronto para consumo</span></li>
+            <li><span class="meal-qty">100 g</span> Peito de frango grelhado e desfiado <span class="meal-ref">— peso cozido</span></li>
+            <li><span class="meal-qty">130 g</span> Maçã média <span class="meal-ref">— in natura</span></li>
+          </ul>
+        </div>
+
+        <div class="meal-card">
+          <div class="meal-card-header">
+            <span class="meal-number">Refeição 4</span>
+            <span class="meal-macros">560 kcal &nbsp;|&nbsp; PTN: 43 g &nbsp;|&nbsp; CHO: 70 g &nbsp;|&nbsp; GOR: 10 g</span>
+          </div>
+          <ul class="meal-items">
+            <li><span class="meal-qty">130 g</span> Arroz branco <span class="meal-ref">— peso cozido</span></li>
+            <li><span class="meal-qty">80 g</span> Feijão carioca <span class="meal-ref">— peso cozido</span></li>
+            <li><span class="meal-qty">130 g</span> Patinho bovino grelhado/assado <span class="meal-ref">— peso cozido</span></li>
+            <li><span class="meal-qty">à vontade</span> Legumes variados cozidos/refogados</li>
+          </ul>
+          <p class="meal-obs">Adicionar um prato à parte com vegetais e folhas à vontade.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <hr class="page-divider" aria-hidden="true" />
+
+
+    <!-- OPÇÕES SECUNDÁRIAS -->
+    <section class="content-section" aria-labelledby="s-opcoes-title">
+      <p class="section-label">Variações do Plano</p>
+      <h2 id="s-opcoes-title" class="section-title">Opções Secundárias por Refeição</h2>
+      <div class="section-divider" aria-hidden="true"></div>
+      <div class="prose">
+        <p>Variações próximas ao plano principal, mantendo lógica proteica e energética semelhante.</p>
+      </div>
+
+      <p class="subsection-label">Refeições 1 e 3 — Opções</p>
+
+      <div class="variation-card">
+        <p class="variation-title">Variação A — Wrap proteico com batata-doce</p>
+        <ul class="meal-items">
+          <li><span class="meal-qty">80 g</span> 2 wraps integrais médios <span class="meal-ref">— pronto para consumo</span></li>
+          <li><span class="meal-qty">100 g</span> Peito de frango grelhado e desfiado <span class="meal-ref">— peso cozido</span></li>
+        </ul>
+        <p class="meal-obs">Lógica semelhante à refeição principal.</p>
+      </div>
+
+      <div class="variation-card">
+        <p class="variation-title">Variação B — Tapioca com frango e fruta</p>
+        <ul class="meal-items">
+          <li><span class="meal-qty">~60 g</span> 2 tapiocas médias (goma hidratada) <span class="meal-ref">— prontas para consumo</span></li>
+          <li><span class="meal-qty">75–80 g</span> Peito de frango grelhado e desfiado <span class="meal-ref">— peso CRU, sem pele</span></li>
+          <li><span class="meal-qty">130 g</span> 1 maçã média ou 200 g de melancia <span class="meal-ref">— in natura</span></li>
+        </ul>
+        <p class="meal-obs">Opção prática e de fácil preparo.</p>
+      </div>
+
+      <p class="subsection-label" style="margin-top: var(--space-8);">Refeições 2 e 4 — Opções</p>
+
+      <div class="variation-card">
+        <p class="variation-title">Variação A — Coxão mole com arroz e feijão</p>
+        <ul class="meal-items">
+          <li>Arroz branco: mesma quantidade da refeição principal <span class="meal-ref">— peso COZIDO</span></li>
+          <li>Feijão carioca: mesma quantidade da refeição principal <span class="meal-ref">— peso COZIDO</span></li>
+          <li>Coxão mole grelhado/assado: mesma quantidade do patinho <span class="meal-ref">— peso CRU</span></li>
+          <li>Legumes variados: mesma quantidade <span class="meal-ref">— peso CRU</span></li>
+        </ul>
+        <p class="meal-obs">O coxão mole tem perfil calórico muito próximo ao patinho. Substituição direta, sem necessidade de ajuste.</p>
+      </div>
+
+      <div class="variation-card">
+        <p class="variation-title">Variação B — Peito de frango com arroz, feijão e legumes</p>
+        <ul class="meal-items">
+          <li>Arroz branco: mesma quantidade da refeição principal <span class="meal-ref">— peso COZIDO</span></li>
+          <li>Feijão carioca: mesma quantidade da refeição principal <span class="meal-ref">— peso COZIDO</span></li>
+          <li><span class="meal-qty">155 g</span> Peito de frango grelhado <span class="meal-ref">— peso CRU, sem pele (equivalente proteico ao patinho)</span></li>
+          <li>Legumes variados: mesma quantidade <span class="meal-ref">— peso CRU</span></li>
+        </ul>
+        <p class="meal-obs">O frango possui menos gordura intramuscular que o patinho. Eleva levemente a proteína, reduz levemente a gordura total.</p>
+      </div>
+
+      <div class="variation-card">
+        <p class="variation-title">Variação C — Acém magro com arroz, feijão e legumes</p>
+        <ul class="meal-items">
+          <li>Arroz branco: mesma quantidade da refeição principal <span class="meal-ref">— peso COZIDO</span></li>
+          <li>Feijão carioca: mesma quantidade da refeição principal <span class="meal-ref">— peso COZIDO</span></li>
+          <li>Acém magro cozido/assado: mesma quantidade do patinho <span class="meal-ref">— peso CRU</span></li>
+          <li>Legumes variados: mesma quantidade <span class="meal-ref">— peso CRU</span></li>
+        </ul>
+        <p class="meal-obs">O acém magro pode ter variação maior de gordura conforme o corte; prefira peças mais magras e visualmente sem marmoreio excessivo.</p>
+      </div>
+    </section>
+
+    <hr class="page-divider" aria-hidden="true" />
+
+
+    <!-- TABELA DE SUBSTITUIÇÕES -->
+    <section class="content-section" aria-labelledby="s-subs-title">
+      <p class="section-label">Equivalências Proteicas</p>
+      <h2 id="s-subs-title" class="section-title">Tabela de Substituições de Proteínas</h2>
+      <div class="section-divider" aria-hidden="true"></div>
+      <div class="prose">
+        <p>As substituições abaixo são baseadas em equivalência proteica aproximada. Pequenas variações calóricas e de gordura podem ocorrer, mas são desprezíveis para o resultado geral. O objetivo é oferecer praticidade e variedade sem comprometer a consistência do plano.</p>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table class="evidence-table" aria-label="Tabela de substituições proteicas">
+          <thead>
+            <tr>
+              <th scope="col">Fonte de Origem</th>
+              <th scope="col">Equivale a</th>
+              <th scope="col">Observação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>100 g de patinho (cozido)</td>
+              <td>100 g de coxão mole (cozido)</td>
+              <td>Substituição direta — perfil calórico muito semelhante</td>
+            </tr>
+            <tr>
+              <td>100 g de patinho (cozido)</td>
+              <td>100 g de acém magro (cozido)</td>
+              <td>Preferir cortes menos marmorizados</td>
+            </tr>
+            <tr>
+              <td>100 g de patinho (cozido)</td>
+              <td>~120 g de peito de frango (CRU)</td>
+              <td>Frango tem menos gordura, ligeiro aumento de proteína</td>
+            </tr>
+            <tr>
+              <td>100 g de peito de frango (cozido)</td>
+              <td>~83 g de patinho (cozido)</td>
+              <td>Equivalência inversa — ajustar quantidade</td>
+            </tr>
+            <tr>
+              <td>100 g de peito de frango (cozido)</td>
+              <td>4 claras + 1 ovo inteiro</td>
+              <td>Aprox. 25 g PTN — confirmar conforme tamanho dos ovos</td>
+            </tr>
+            <tr>
+              <td>30 g de whey concentrado</td>
+              <td>~70 g de peito de frango (cozido)</td>
+              <td>~23–24 g PTN (Growth); checar rótulo do produto</td>
+            </tr>
+            <tr>
+              <td>30 g de whey concentrado</td>
+              <td>4–5 claras de ovo</td>
+              <td>Equivalência proteica aproximada</td>
+            </tr>
+            <tr>
+              <td>100 g de peito de frango (cozido)</td>
+              <td>~400 g filé de tilápia</td>
+              <td>Maior quantidade, equivalência nutricional</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout" style="margin-top: var(--space-4);">
+        <p class="callout-title">Atenção</p>
+        <p>Todas as equivalências são aproximadas. Variações de marca, corte e preparo podem influenciar os valores finais.</p>
+      </div>
+    </section>
+
+    <hr class="page-divider" aria-hidden="true" />
+
+
+    <!-- DISTRIBUIÇÃO DE MACRONUTRIENTES -->
+    <section class="content-section" aria-labelledby="s-macro-title">
+      <p class="section-label">Distribuição de Macronutrientes</p>
+      <h2 id="s-macro-title" class="section-title">Aporte Energético Diário</h2>
+      <div class="section-divider" aria-hidden="true"></div>
+      <div class="prose">
+        <p>A distribuição abaixo reflete o equilíbrio entre os macronutrientes no plano alimentar proposto. A proteína está em patamar elevado para suportar a preservação e o ganho de massa muscular, enquanto os carboidratos fornecem energia para o treino e a recuperação. A gordura, em menor proporção, cumpre suas funções hormonais e estruturais.</p>
+      </div>
+
+      <div class="macro-grid">
+        <div class="macro-card">
+          <div class="macro-card-value">~2.000<span class="macro-card-unit"> kcal</span></div>
+          <div class="macro-card-label">Total diário</div>
+        </div>
+        <div class="macro-card">
+          <div class="macro-card-value">~150<span class="macro-card-unit"> g</span></div>
+          <div class="macro-card-label">Proteínas — 31%</div>
+        </div>
+        <div class="macro-card">
+          <div class="macro-card-value">~260<span class="macro-card-unit"> g</span></div>
+          <div class="macro-card-label">Carboidratos — 55%</div>
+        </div>
+        <div class="macro-card">
+          <div class="macro-card-value">~29<span class="macro-card-unit"> g</span></div>
+          <div class="macro-card-label">Gorduras — 14%</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <p class="callout-title">Valores Aproximados</p>
+        <p>Total calórico diário: ~2.000 kcal | PTN: ~150 g | CHO: ~260 g | GOR: ~29 g. Valores aproximados — podem variar conforme preparo e marcas dos alimentos.</p>
+      </div>
+    </section>
+
+    <hr class="page-divider" aria-hidden="true" />
+
+
+    <!-- CIÊNCIA E EVIDÊNCIAS NUTRICIONAIS -->
+    <section class="content-section" aria-labelledby="s-nutri-ev-title">
+      <p class="section-label">Fundamentos Científicos</p>
+      <h2 id="s-nutri-ev-title" class="section-title">Ciência e Evidências Nutricionais</h2>
+      <div class="section-divider" aria-hidden="true"></div>
+
+      <div class="callout">
+        <p class="callout-title">1. Proteína para Hipertrofia e Preservação Muscular</p>
+        <p>A ingestão proteica adequada é um dos fatores nutricionais mais estudados e consolidados na literatura científica sobre composição corporal. Uma meta-análise de referência (Morton et al., 2018), envolvendo 49 estudos e quase 1.900 participantes, demonstrou que a suplementação proteica potencializa de forma significativa os ganhos de massa livre de gordura e força durante o treinamento resistido em adultos saudáveis. O efeito positivo foi observado até aproximadamente 1,6 g/kg/dia, com benefícios adicionais marginais acima dessa faixa. Estudos posteriores (Tagawa et al., 2020; Nunes et al., 2022) reforçam essa base e sugerem que a faixa de 1,6 a 2,4 g de proteína por kg/dia é recomendada para praticantes de treino de força em fases de ganho ou preservação muscular em déficit calórico.</p>
+      </div>
+
+      <div class="callout">
+        <p class="callout-title">2. Carboidratos e Performance no Treinamento</p>
+        <p>O glicogênio muscular é o principal substrato energético durante exercícios de alta intensidade, incluindo o treinamento resistido. Uma revisão sistemática publicada no Journal of Strength and Conditioning Research (Krings et al., 2022) avaliou o efeito da ingestão de carboidratos sobre o desempenho no treinamento de força, indicando benefícios especialmente em sessões realizadas em estado de depleção de glicogênio. Murray e Rosenbloom (2018), em revisão publicada na Nutrition Reviews, detalham os mecanismos pelos quais o glicogênio muscular e hepático sustenta a performance física, ressaltando que a síntese de glicogênio aumenta proporcionalmente à ingestão de carboidratos.</p>
+      </div>
+
+      <div class="callout">
+        <p class="callout-title">3. Frutas, Vegetais, Fibras e Controle da Saciedade</p>
+        <p>Alimentos de baixa densidade energética — como frutas e hortaliças — promovem saciedade por meio do volume físico que ocupam no trato digestivo e pelo aporte de fibras solúveis e insolúveis. Uma revisão sistemática (Dreher, 2018) demonstrou que o aumento do consumo de fibras está associado à redução da ingestão calórica total e ao melhor controle do apetite. Uma meta-análise sobre densidade energética e apetite (Dhillon et al., 2020) confirmou que dietas com maior presença de alimentos de baixa densidade calórica resultam em redução espontânea da ingestão energética total — o que posiciona frutas, legumes e hortaliças como aliados estratégicos no controle de peso e composição corporal.</p>
+      </div>
+    </section>
+
+    <hr class="page-divider" aria-hidden="true" />
+
+
+    <!-- REFERÊNCIAS CIENTÍFICAS NUTRICIONAIS -->
+    <section class="content-section" aria-labelledby="s-nutri-refs-title">
+      <p class="section-label">Referências Nutricionais</p>
+      <h2 id="s-nutri-refs-title" class="section-title">Referências Científicas — Nutrição</h2>
+      <div class="section-divider" aria-hidden="true"></div>
+
+      <ol class="numbered-list">
+        <li>Morton RW, Murphy KT, McKellar SR, et al. A systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength in healthy adults. <em>Br J Sports Med.</em> 2018;52(6):376–384.</li>
+        <li>Tagawa R, Watanabe D, Okubo R, et al. Dose-response relationship between protein intake and muscle mass increase: a systematic review and meta-analysis of randomized controlled trials. <em>Nutr Rev.</em> 2021;79(1):66–75.</li>
+        <li>Nunes EA, Colenso-Semple L, McKellar SR, et al. Systematic review and meta-analysis of protein intake to support muscle mass and function in healthy adults. <em>J Cachexia Sarcopenia Muscle.</em> 2022;13(2):795–810.</li>
+        <li>Stokes T, Hector AJ, Morton RW, McGlory C, Phillips SM. Recent perspectives regarding the role of dietary protein for the promotion of muscle hypertrophy with resistance exercise training. <em>Nutrients.</em> 2018;10(2):180.</li>
+        <li>Cholewa JM, Newmire DE, Zanchi NE. Carbohydrate restriction: Friend or foe of resistance-based exercise performance? <em>Nutrition.</em> 2017;42:104–112.</li>
+        <li>Krings BM, Peterson TJ, Shepherd DB, et al. The effect of carbohydrate intake on strength and resistance training performance: a systematic review. <em>Nutrients.</em> 2022;14(4):856.</li>
+        <li>Murray B, Rosenbloom C. Fundamentals of glycogen metabolism for coaches and athletes. <em>Nutr Rev.</em> 2018;76(4):243–259.</li>
+        <li>Dhillon J, Craig BA, Mattes RD. Dietary energy density and appetite: a systematic review and meta-analysis. <em>Nutrition.</em> 2020;70:110571.</li>
+        <li>Dreher ML. Whole fruits and fruit fiber emerging health effects. <em>Nutrients.</em> 2018;10(12):1833.</li>
+        <li>Wanders AJ, van den Borne JJ, de Graaf C, et al. Effects of dietary fibre on subjective appetite, energy intake and body weight: a systematic review of randomized controlled trials. <em>Obes Rev.</em> 2011;12(9):724–739.</li>
+      </ol>
+    </section>
+
+    <hr class="page-divider" aria-hidden="true" />
+
+
+    <!-- SEÇÃO 11: EVIDÊNCIAS CIENTÍFICAS -->
+    <section class="content-section" aria-labelledby="s-ev-title">
+      <p class="section-label">Embasamento Científico</p>
+      <h2 id="s-ev-title" class="section-title">Referências e Evidências Utilizadas</h2>
+      <div class="section-divider" aria-hidden="true"></div>
+      <div class="prose">
+        <p>A tabela abaixo reúne as principais evidências científicas que fundamentaram as decisões deste protocolo, com indicação do tipo de estudo e a variável de treinamento a que se relacionam.</p>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table class="evidence-table" aria-label="Evidências científicas do protocolo">
+          <thead>
+            <tr>
+              <th scope="col">Referência</th>
+              <th scope="col">Tipo de Estudo</th>
+              <th scope="col">Variável</th>
+              <th scope="col">Conclusão Principal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Schoenfeld et al. (2016) — J Strength Cond Res</td>
+              <td>Meta-análise</td>
+              <td>Frequência semanal</td>
+              <td>Frequência bisemanal por grupo muscular é superior à frequência única para hipertrofia</td>
+            </tr>
+            <tr>
+              <td>Ramos-Campo et al. (2024) — J Strength Cond Res</td>
+              <td>Revisão sistemática e meta-análise</td>
+              <td>Split vs. Full-Body</td>
+              <td>Com volume equalizado, split e full-body produzem resultados semelhantes em força e hipertrofia</td>
+            </tr>
+            <tr>
+              <td>Refalo et al. (2023) — Eur J Sport Sci</td>
+              <td>Revisão sistemática e meta-análise</td>
+              <td>Proximidade da falha</td>
+              <td>Há vantagem trivial para treino até a falha sobre treino non-failure; diferença desaparece quando volume é equalizado</td>
+            </tr>
+            <tr>
+              <td>Zourdos et al. (2016) — J Strength Cond Res</td>
+              <td>Estudo experimental</td>
+              <td>Acurácia do RIR</td>
+              <td>Levantadores experientes têm maior acurácia na estimativa de RIR; iniciantes superestimam sistematicamente repetições restantes</td>
+            </tr>
+            <tr>
+              <td>Schoenfeld & Grgic (2020) — Strength Cond Res</td>
+              <td>Revisão sistemática</td>
+              <td>Amplitude de movimento</td>
+              <td>Amplitude completa com ênfase no alongamento muscular produz hipertrofia superior ao treino parcial encurtado</td>
+            </tr>
+            <tr>
+              <td>Lopes et al. (2026) — J Appl Physiol</td>
+              <td>Ensaio clínico randomizado</td>
+              <td>Sobrecarga progressiva</td>
+              <td>Grupo com sobrecarga progressiva apresentou 21,4% mais ganho de espessura muscular que grupo sem progressão</td>
+            </tr>
+            <tr>
+              <td>Barakat et al. (2020) — Strength Cond J</td>
+              <td>Revisão narrativa</td>
+              <td>Cutting e preservação muscular</td>
+              <td>Déficit gradual (0,5–1,0% peso/semana) é superior a déficit agressivo na preservação de massa magra em atletas treinados</td>
+            </tr>
+            <tr>
+              <td>Morton et al. (2018) — Am J Clin Nutr</td>
+              <td>Revisão sistemática</td>
+              <td>Distribuição proteica</td>
+              <td>Síntese proteica muscular é maximizada com ingestão de ~0,4 g/kg por refeição distribuída em 4–6 tomadas diárias</td>
+            </tr>
+            <tr>
+              <td>International Journal of Exercise Science (2025)</td>
+              <td>Ensaio clínico</td>
+              <td>Cardio inclinado pós-treino</td>
+              <td>Caminhada inclinada queima 40% de suas calorias via oxidação de gordura vs. 33% na corrida equiparada em gasto calórico total</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+
+      <p class="footer-thanks">Obrigado pela confiança, Arthur.</p>
+      <p class="footer-message">
+        Estou à disposição em tempo integral para acompanhar sua evolução, sanar qualquer dúvida e realizar os ajustes que forem necessários ao longo do processo. Este é um protocolo vivo — será continuamente refinado com base nos seus feedbacks, nos registros de treino e na sua resposta ao plano alimentar. Bons treinos.
+      </p>
+
+      <hr class="footer-divider" aria-hidden="true" />
+
+      <p class="footer-disclaimer">
+        Este documento não constitui prescrição médica, prescrição nutricional nem prescrição de exercício físico no sentido regulatório dos termos. Não substitui o acompanhamento presencial de um profissional de Educação Física devidamente credenciado pelo CREF, tampouco de um Nutricionista registrado no CRN. O conteúdo aqui apresentado reflete exclusivamente uma mentoria fundamentada na literatura científica disponível e na experiência acadêmica e prática do mentor responsável, sendo elaborado de forma individualizada. Sua replicação a outros indivíduos sem avaliação específica é desaconselhada. O acompanhamento profissional contínuo é indispensável para a segurança e a eficácia de qualquer protocolo de treinamento e nutrição.
+      </p>
+
+    </div>
+  </footer>
+
+</body>
+</html>
