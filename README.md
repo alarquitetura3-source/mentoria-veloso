@@ -1,6 +1,6 @@
 # Mentoria Veloso
 
-Protocolo personalizado de treinamento e nutrição para Arthur Mendes.
+Protocolo personalizado de treinamento e nutrição 
 
 ## Acesso ao Site
 
@@ -14,6 +14,4 @@ Seu plano está disponível em: **https://alarquitetura3-source.github.io/mentor
 - 📊 Tabelas de substituições e macronutrientes
 - 🎯 Guias de execução e progressão
 
----
-
-Protokolo criado com base em evidência científica e experiência prática.
+Protocolo criado com base em evidência científica e experiência prática.
