@@ -7,7 +7,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -28,8 +28,8 @@
       --text-faint:    #9aa090;
       --gold-accent:   #8b6914;
 
-      --font-display: 'Cormorant Garamond', Georgia, serif;
-      --font-body:    'DM Sans', 'Helvetica Neue', sans-serif;
+      --font-display: 'Inter', sans-serif;
+      --font-body:    'Inter', sans-serif;
 
       --text-xs:   clamp(0.75rem,  0.7rem  + 0.25vw, 0.875rem);
       --text-sm:   clamp(0.875rem, 0.8rem  + 0.35vw, 1rem);
@@ -197,7 +197,48 @@
       border-bottom-color: var(--moss-pale);
     }
 
-    /* ─── MAIN CONTAINER ─── */
+    /* ─── QUICK ACCESS BUTTONS ─── */
+    .quick-access {
+      display: flex;
+      gap: var(--space-4);
+      margin-bottom: var(--space-8);
+      justify-content: center;
+    }
+    .quick-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-6);
+      background: var(--moss-mid);
+      color: white;
+      border: none;
+      border-radius: var(--radius-lg);
+      font-size: var(--text-base);
+      font-weight: 500;
+      text-decoration: none;
+      transition: background var(--transition);
+      cursor: pointer;
+    }
+    .workout-controls {
+      display: flex;
+      gap: var(--space-4);
+      justify-content: center;
+      margin: var(--space-6) 0;
+    }
+    .workout-btn {
+      padding: var(--space-3) var(--space-6);
+      background: var(--gold-accent);
+      color: white;
+      border: none;
+      border-radius: var(--radius-lg);
+      font-size: var(--text-base);
+      font-weight: 500;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+    .workout-btn:hover {
+      background: #7b5b0a;
+    }
     .page-container {
       max-width: 820px;
       margin: 0 auto;
@@ -786,6 +827,34 @@
     </form>
   </div>
 
+  <!-- ADMIN PANEL -->
+  <div id="adminPanel" style="display: none;">
+    <div class="page-container">
+      <header class="site-header">
+        <div class="header-inner">
+          <div class="site-logo">
+            <div class="logo-mark" aria-hidden="true">
+              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Logo">
+                <circle cx="16" cy="16" r="15" stroke="#3e5228" stroke-width="1.5" fill="none"/>
+                <path d="M10 22 Q16 8 22 22" stroke="#3e5228" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                <circle cx="16" cy="13" r="2.5" fill="#5a7340"/>
+              </svg>
+            </div>
+            <div class="logo-text">
+              Mentoria Veloso
+              <span class="logo-sub">Painel Administrativo</span>
+            </div>
+          </div>
+          <button id="adminLogoutBtn" class="logout-btn">Sair</button>
+        </div>
+      </header>
+
+      <main id="adminContent">
+        <!-- Admin content will be rendered here -->
+      </main>
+    </div>
+  </div>
+
   <!-- MAIN CONTENT -->
   <div class="main-content" id="mainContent">
 
@@ -818,7 +887,7 @@
       <div class="footer-inner">
         <p class="footer-thanks" id="footerThanks">Obrigado pela confiança!</p>
         <p class="footer-message">
-          Estou à disposição em tempo integral para acompanhar sua evolução, sanar dúvidas, realizar ajustes no plano alimentar e analisar os registros de treino. Este é um protocolo vivo — será continuamente refinado com base nos seus feedbacks, nos registros de treino e na sua resposta ao plano alimentar. Bons treinos.
+          Estou à disposição em tempo integral para acompanhar sua evolução, sanar dúvidas, realizar ajustes no plano alimentar e analisar os registros de treino. Este é um protocolo vivo. Será continuamente refinado com base nos seus feedbacks, nos registros de treino e na sua resposta ao plano alimentar. Bons treinos.
         </p>
         <hr class="footer-divider" aria-hidden="true" />
         <p class="footer-disclaimer">
@@ -832,19 +901,25 @@
   <script>
     // Dados dos alunos
     const students = {
+      'bcardosov': {
+        password: '12345678',
+        name: 'Administrador',
+        isAdmin: true
+      },
       'arthur': {
         password: '1234',
         name: 'Arthur Mendes',
         heroMeta: ['Divisão Torso / Limbs', 'Fase de Cutting', 'Frequência 4x / semana', 'Zona 6–9 Repetições'],
-        trainingTitle: 'Divisão Torso / Limbs — Justificativa Científica',
+        trainingTitle: 'Divisão Torso / Limbs: Justificativa Científica',
         sessionTitles: ['Torso 1', 'Limbs 1', 'Torso 2', 'Limbs 2'],
         trainingContent: [
           'A divisão de treinamento escolhida para você é a Torso / Limbs em formato de dois ciclos distintos (Torso 1, Limbs 1, Torso 2 e Limbs 2), totalizando quatro sessões semanais. Essa estrutura permite que cada grande grupo muscular seja estimulado com frequência de duas vezes por semana, o que está em consonância com a literatura científica, que aponta a frequência bisemanal por grupo muscular como superior à frequência única para maximização da hipertrofia (Schoenfeld et al., 2016; Ralston et al., 2017).',
           'A divisão Torso / Limbs organiza o estímulo de forma que membros superiores de empurrar e de puxar, bem como a musculatura do tronco, sejam trabalhados em dias específicos (Torso), enquanto os membros inferiores e a musculatura de quadril recebem atenção dedicada (Limbs). Essa separação respeita os princípios de recuperação muscular e permite um volume suficiente por sessão sem comprometer a qualidade do esforço ao longo do treino.',
-          'Neste protocolo, a prioridade estratégica recai sobre o desenvolvimento dos membros inferiores, com atenção especial ao quadríceps e à cadeia posterior, enquanto o peitoral e os deltoides recebem estímulo direcionado para equilibrar força e estética.'
+          'Neste protocolo, a prioridade estratégica recai sobre o desenvolvimento dos seus membros inferiores, com atenção especial ao quadríceps e à cadeia posterior, enquanto o peitoral e os deltoides recebem estímulo direcionado para equilibrar força e estética.'
         ],
-        trainingPriority: 'Este plano foi desenhado para enfatizar o fortalecimento dos membros inferiores e promover estímulo seletivo também em peitoral e deltoides, respeitando o tempo de recuperação e a qualidade técnica das sessões.',
+        trainingPriority: 'Izael, este protocolo foi construído em torno da sua recuperação. Cada escolha de exercício, volume e intensidade considera o estado atual dos seus cotovelos e respeita o ritmo que o seu corpo precisa para evoluir com segurança. Recuperação da epicondilalgia lateral (cotovelos) é prioridade número um, com fortalecimento do antebraço como foco central. Melhora da composição corporal é conduzida com volume equilibrado e intensidade elevada. Quadríceps recebe atenção prioritária nas sessões de membros inferiores, enquanto peitoral e deltoides são priorizados nas sessões de membros superiores.',
         trainingSequence: 'A ordem dos exercícios é organizada para priorizar os músculos mais relevantes de cada sessão, preservando a qualidade de execução enquanto mantém o volume total adequado.',
+        trainingPriority: 'Arthur, seus membros inferiores foram identificados como ponto de negligência no histórico de treinamento. Quadríceps, posteriores de coxa e glúteos recebem atenção e volume prioritários para equilibrar seu desenvolvimento muscular.',
         routines: {
           torso1: 'https://hevy.com/routine/WLhCTJ9aVDJ',
           limbs1: 'https://hevy.com/routine/lqtL7Z9UjFs',
@@ -899,7 +974,7 @@
         password: '1234',
         name: 'Jean',
         heroMeta: ['Divisão Torso / Limbs', 'Fase de Cutting', 'Frequência 4x / semana', 'Zona 6–9 Repetições'],
-        trainingTitle: 'Divisão Torso / Limbs — Justificativa Científica',
+        trainingTitle: 'Divisão Torso / Limbs: Justificativa Científica',
         sessionTitles: ['Torso 1', 'Limbs 1', 'Torso 2', 'Limbs 2'],
         trainingContent: [
           'A divisão de treinamento escolhida para você é a Torso / Limbs em formato de dois ciclos distintos (Torso 1, Limbs 1, Torso 2 e Limbs 2), totalizando quatro sessões semanais. Essa estrutura permite que cada grande grupo muscular seja estimulado com frequência de duas vezes por semana, o que está em consonância com a literatura científica, que aponta a frequência bisemanal por grupo muscular como superior à frequência única para maximização da hipertrofia (Schoenfeld et al., 2016; Ralston et al., 2017).',
@@ -907,7 +982,7 @@
           'Seu protocolo foi ajustado para melhorar especificamente ombros e braços, usando a divisão torso/limbs para distribuir volume de forma equilibrada sem comprometer a recuperação dos grandes grupamentos.',
           'A priorização estratégica garante estímulo direcionado aos deltoides e aos músculos do braço, ao mesmo tempo em que mantém atenção consistente aos grandes grupos musculares do tronco e dos membros inferiores.'
         ],
-        trainingPriority: 'A organização do treino favorece o desenvolvimento de ombros e braços sem abrir mão do equilíbrio geral, preservando recurso de recuperação e qualidade técnica.',
+        trainingPriority: 'Jean, seus braços e ombros são prioridade declarada. Bíceps, tríceps e deltoides recebem volume e seleção de exercícios condizentes com esse foco.',
         trainingSequence: 'A ordem dos exercícios é planejada para entregar estímulo focalizado nas articulações dos ombros e na musculatura braquial, com preocupação em manter o padrão de movimento ideal durante toda a sessão.',
         routines: {
           torso1: 'https://hevy.com/routine/8EtLC4a7DH1',
@@ -1051,15 +1126,19 @@
 
       if (students[username] && students[username].password === password) {
         currentStudent = username;
-        showMainContent();
+        if (students[username].isAdmin) {
+          showAdminPanel();
+        } else {
+          showMainContent();
+        }
         errorMsg.textContent = '';
       } else {
         errorMsg.textContent = 'Nome ou senha incorretos.';
       }
     });
 
-    // Logout
-    document.getElementById('logoutBtn').addEventListener('click', function(e) {
+    // Admin Logout
+    document.getElementById('adminLogoutBtn').addEventListener('click', function(e) {
       e.preventDefault();
       currentStudent = null;
       showLogin();
@@ -1070,15 +1149,70 @@
       document.getElementById('mainContent').style.display = 'none';
     }
 
-    function showMainContent() {
+    function showAdminPanel() {
       document.getElementById('loginContainer').style.display = 'none';
-      document.getElementById('mainContent').style.display = 'block';
-      renderContent();
+      document.getElementById('mainContent').style.display = 'none';
+      document.getElementById('adminPanel').style.display = 'block';
+      renderAdminContent();
+    }
+
+    function renderAdminContent() {
+      const content = `
+        <section class="content-section">
+          <p class="section-label">Gerenciamento</p>
+          <h2 class="section-title">Painel Administrativo</h2>
+          <div class="section-divider"></div>
+          <p>Bem-vindo ao painel administrativo. Aqui você pode gerenciar perfis, treinos e dietas.</p>
+          <div class="training-grid">
+            <div class="training-card">
+              <p class="training-card-label">Perfis</p>
+              <p class="training-card-title">Gerenciar Alunos</p>
+              <button onclick="manageProfiles()">Editar</button>
+            </div>
+            <div class="training-card">
+              <p class="training-card-label">Treinos</p>
+              <p class="training-card-title">Gerenciar Rotinas</p>
+              <button onclick="manageWorkouts()">Editar</button>
+            </div>
+            <div class="training-card">
+              <p class="training-card-label">Dietas</p>
+              <p class="training-card-title">Gerenciar Planos</p>
+              <button onclick="manageDiets()">Editar</button>
+            </div>
+            <div class="training-card">
+              <p class="training-card-label">Sistema</p>
+              <p class="training-card-title">Configurações</p>
+              <button onclick="systemSettings()">Editar</button>
+            </div>
+          </div>
+        </section>
+      `;
+      document.getElementById('adminContent').innerHTML = content;
+    }
+
+    function manageProfiles() {
+      // Placeholder for profile management
+      alert('Funcionalidade de gerenciamento de perfis em desenvolvimento.');
+    }
+
+    function manageWorkouts() {
+      // Placeholder for workout management
+      alert('Funcionalidade de gerenciamento de treinos em desenvolvimento.');
+    }
+
+    function manageDiets() {
+      // Placeholder for diet management
+      alert('Funcionalidade de gerenciamento de dietas em desenvolvimento.');
+    }
+
+    function systemSettings() {
+      // Placeholder for system settings
+      alert('Funcionalidade de configurações do sistema em desenvolvimento.');
     }
 
     function renderContent() {
       const student = students[currentStudent];
-      document.getElementById('studentName').textContent = `Protocolo Individual — ${student.name}`;
+      document.getElementById('studentName').textContent = `Protocolo Individual: ${student.name}`;
       document.getElementById('footerThanks').textContent = `Obrigado pela confiança, ${student.name.split(' ')[0]}!`;
 
       const content = `
@@ -1087,6 +1221,23 @@
           <h1 id="hero-title" class="hero-title">Plano Personalizado</h1>
           <div class="hero-meta">
             ${student.heroMeta.map(meta => `<span class="meta-chip"><span class="meta-chip-dot"></span>${meta}</span>`).join('')}
+          </div>
+        </section>
+
+        <!-- QUICK ACCESS BUTTONS -->
+        <section class="quick-access">
+          <button class="quick-btn" onclick="scrollToSection('diet')">Minha Dieta</button>
+          <button class="quick-btn" onclick="scrollToSection('training-links')">Meu Treino</button>
+        </section>
+
+        <!-- PRIORIZAÇÃO ESTRATÉGICA -->
+        <section class="content-section" aria-labelledby="priorizacao-title">
+          <p class="section-label">Priorização Estratégica</p>
+          <h2 id="priorizacao-title" class="section-title">Foco do Protocolo</h2>
+          <div class="section-divider" aria-hidden="true"></div>
+          <div class="callout">
+            <p class="callout-title">Priorização Estratégica</p>
+            <p>${student.trainingPriority || 'Este protocolo foi desenhado para você com atenção especial à face anterior da coxa (quadríceps), que identificamos como um ponto de relativa negligência no seu histórico de treinamento. Além disso, peitoral e deltoides recebem prioridade nas sessões de Torso para equilibrar a força dos seus membros superiores.'}</p>
           </div>
         </section>
 
@@ -1111,42 +1262,9 @@
           <div class="prose">
             ${student.trainingContentHtml || student.trainingContent.map(paragraph => `<p>${paragraph}</p>`).join('')}
           </div>
-          <div class="callout alert">
-            <p class="callout-title">Priorização Estratégica</p>
-            <p>${student.trainingPriority || 'Este protocolo foi desenhado com atenção especial à face anterior da coxa (quadríceps), que identificamos como um ponto de relativa negligência no histórico de treinamento. Além disso, peitoral e deltoides recebem prioridade nas sessões de Torso para equilibrar a força dos membros superiores.'}</p>
-          </div>
           <div class="callout">
             <p class="callout-title">Sequência dos Exercícios</p>
             <p>${student.trainingSequence || 'A ordem dos exercícios dentro de cada sessão não é arbitrária. Os músculos prioritários são posicionados no início do treino, quando o sistema nervoso central está em plena capacidade e os estoques de glicogênio muscular estão íntegros. À medida que a sessão avança, a fadiga acumulada reduz a capacidade de produção de força — portanto, exercícios de músculos secundários ou acessórios são deliberadamente alocados para o final. Respeitar essa sequência é fundamental para que os resultados esperados se concretizem.'}</p>
-          </div>
-        </section>
-
-        <!-- DIVISÃO COM LINKS -->
-        <section class="content-section" aria-labelledby="s-links-title">
-          <p class="section-label">Acesso Direto no Hevy</p>
-          <h2 id="s-links-title" class="section-title">Suas Rotinas de Treino</h2>
-          <div class="section-divider" aria-hidden="true"></div>
-          <div class="training-grid">
-            <div class="training-card">
-              <p class="training-card-label">Sessão A</p>
-              <p class="training-card-title">Torso 1</p>
-              <a href="${student.routines.torso1}" target="_blank" rel="noopener noreferrer">Abrir no Hevy</a>
-            </div>
-            <div class="training-card">
-              <p class="training-card-label">Sessão B</p>
-              <p class="training-card-title">Limbs 1</p>
-              <a href="${student.routines.limbs1}" target="_blank" rel="noopener noreferrer">Abrir no Hevy</a>
-            </div>
-            <div class="training-card">
-              <p class="training-card-label">Sessão C</p>
-              <p class="training-card-title">Torso 2</p>
-              <a href="${student.routines.torso2}" target="_blank" rel="noopener noreferrer">Abrir no Hevy</a>
-            </div>
-            <div class="training-card">
-              <p class="training-card-label">Sessão D</p>
-              <p class="training-card-title">Limbs 2</p>
-              <a href="${student.routines.limbs2}" target="_blank" rel="noopener noreferrer">Abrir no Hevy</a>
-            </div>
           </div>
         </section>
 
@@ -1312,7 +1430,7 @@
         <hr class="page-divider" aria-hidden="true" />
 
         <!-- CARDÁPIO PRINCIPAL -->
-        <section class="content-section" aria-labelledby="s-cardapio-title">
+        <section id="diet" class="content-section" aria-labelledby="s-cardapio-title">
           <p class="section-label">Estrutura do Plano Alimentar</p>
           <h2 id="s-cardapio-title" class="section-title">Cardápio Principal</h2>
           <div class="section-divider" aria-hidden="true"></div>
@@ -1449,8 +1567,63 @@
             <p>As substituições devem manter o equilíbrio calórico aproximado. Para proteínas, priorize fontes magras e de alta qualidade biológica. Para carboidratos, opte por opções integrais quando possível para maior saciedade e benefícios nutricionais.</p>
           </div>
         </section>
+
+        <hr class="page-divider" aria-hidden="true" />
+
+        <!-- LINKS DOS TREINOS -->
+        <section id="training-links" class="content-section" aria-labelledby="s-links-title">
+          <p class="section-label">Links dos Treinos</p>
+          <h2 id="s-links-title" class="section-title">Acesso Direto no Hevy</h2>
+          <div class="section-divider" aria-hidden="true"></div>
+          <div class="workout-controls">
+            <button class="workout-btn" onclick="startWorkout()">Iniciar Treino</button>
+            <button class="workout-btn" onclick="nextExercise()">Próximo Exercício</button>
+            <button class="workout-btn" onclick="finishWorkout()">Concluir Treino</button>
+          </div>
+          <div class="training-grid">
+            <div class="training-card">
+              <p class="training-card-label">Sessão A</p>
+              <p class="training-card-title">Torso 1</p>
+              <a href="${student.routines.torso1}" target="_blank" rel="noopener noreferrer">Abrir no Hevy</a>
+            </div>
+            <div class="training-card">
+              <p class="training-card-label">Sessão B</p>
+              <p class="training-card-title">Limbs 1</p>
+              <a href="${student.routines.limbs1}" target="_blank" rel="noopener noreferrer">Abrir no Hevy</a>
+            </div>
+            <div class="training-card">
+              <p class="training-card-label">Sessão C</p>
+              <p class="training-card-title">Torso 2</p>
+              <a href="${student.routines.torso2}" target="_blank" rel="noopener noreferrer">Abrir no Hevy</a>
+            </div>
+            <div class="training-card">
+              <p class="training-card-label">Sessão D</p>
+              <p class="training-card-title">Limbs 2</p>
+              <a href="${student.routines.limbs2}" target="_blank" rel="noopener noreferrer">Abrir no Hevy</a>
+            </div>
+          </div>
+        </section>
       `;
       document.getElementById('pageContent').innerHTML = content;
+    }
+
+    function scrollToSection(sectionId) {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    function startWorkout() {
+      alert('Treino iniciado! Boa sorte.');
+    }
+
+    function nextExercise() {
+      alert('Próximo exercício carregado.');
+    }
+
+    function finishWorkout() {
+      alert('Treino concluído! Parabéns.');
     }
   </script>
 </body>
