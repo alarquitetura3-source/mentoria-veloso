@@ -1037,9 +1037,11 @@
         password: '1234',
         name: 'Izael',
         heroMeta: ['Upper / Lower', '4x por semana', 'Meta 2.000 kcal/dia', '180 g de proteína/dia'],
-        trainingTitle: 'Justificativa Científica da Periodização e Prescrição de Exercícios para você',
+        trainingTitle: 'Justificativa Científica da Periodização e Prescrição de Exercícios: 2 Upper e 2 Lower',
         sessionTitles: ['Upper 1', 'Lower 1', 'Upper 2', 'Lower 2'],
+        routineKeys: ['upper1', 'lower1', 'upper2', 'lower2'],
         trainingContentHtml: `
+          <p>O plano é composto por quatro treinos semanais organizados em dois dias de <strong>upper</strong> e dois dias de <strong>lower</strong>, com um ciclo 2+1 de treino e descanso. Essa estrutura permite distribuir o volume de forma eficiente, manter qualidade técnica e preservar a recuperação sem recorrer à divisão Torso/Limbs. <a href="https://pubmed.ncbi.nlm.nih.gov/38595233/" target="_blank" rel="noopener noreferrer">[pubmed]</a></p>
           <p>A divisão de treino do tipo <strong>upper/lower</strong>, com frequência de quatro sessões semanais e organização de dois dias consecutivos de treino seguidos por um dia de descanso, representa uma estratégia eficiente de distribuição do volume semanal, da fadiga e da recuperação entre sessões. A literatura mostra que rotinas split e full body produzem adaptações semelhantes de força e hipertrofia quando o volume total é equalizado, de modo que a escolha entre modelos deve considerar contexto clínico, aderência e organização prática do treinamento. <a href="https://pubmed.ncbi.nlm.nih.gov/38595233/" target="_blank" rel="noopener noreferrer">[pubmed]</a></p>
           <p>No presente caso, a divisão upper/lower foi considerada mais adequada por permitir adequada frequência de estímulo por grupamento muscular, melhor controle da carga por sessão e inclusão de trabalho acessório terapêutico sem prejuízo relevante à qualidade técnica dos exercícios principais. Esse modelo é particularmente interessante para um adulto de 50 anos, pois favorece o equilíbrio entre estímulo e recuperação, algo relevante quando se deseja progresso em força, composição corporal e capacidade funcional com menor risco de acúmulo excessivo de fadiga musculoesquelética. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9107721/" target="_blank" rel="noopener noreferrer">[pmc]</a></p>
           <p>A frequência semanal proposta, com quatro sessões e lógica de dois treinos para um descanso, é coerente com a literatura sobre treinamento resistido, que sugere benefício de frequências mais altas por grupamento muscular, especialmente quando isso facilita a distribuição do volume e preserva a qualidade do desempenho em cada sessão. Revisões recentes indicam que o volume semanal é uma variável central para hipertrofia, e que frequências mais altas podem ser úteis precisamente porque permitem distribuir volumes moderados a altos de forma mais tolerável e eficiente. <a href="https://pubmed.ncbi.nlm.nih.gov/27102172/" target="_blank" rel="noopener noreferrer">[pubmed]</a></p>
@@ -1060,10 +1062,10 @@
           <p>O alto volume proposto deve ser entendido como <strong>volume terapêutico planejado</strong>, não como sobrecarga indiscriminada. Seu uso pressupõe monitorização da dor durante e após o treino, ajuste da progressão, atenção à técnica, manejo de exercícios agravantes e reavaliação contínua da função de preensão, dor residual e resposta clínica semanal. <a href="https://pubmed.ncbi.nlm.nih.gov/35867777/" target="_blank" rel="noopener noreferrer">[pubmed]</a></p>
         `,
         routines: {
-          torso1: 'https://hevy.com/routine/9ufhvVqxRpZ',
-          limbs1: 'https://hevy.com/routine/4R4YUyRSjIp',
-          torso2: 'https://hevy.com/routine/9ufhvVqxRpZ',
-          limbs2: 'https://hevy.com/routine/4R4YUyRSjIp'
+          upper1: 'https://hevy.com/routine/9ufhvVqxRpZ',
+          lower1: 'https://hevy.com/routine/4R4YUyRSjIp',
+          upper2: 'https://hevy.com/routine/9ufhvVqxRpZ',
+          lower2: 'https://hevy.com/routine/4R4YUyRSjIp'
         },
         diet: [
           {
@@ -1588,26 +1590,16 @@
             <button class="workout-btn" onclick="finishWorkout()">Concluir Treino</button>
           </div>
           <div class="training-grid">
-            <div class="training-card">
-              <p class="training-card-label">Sessão A</p>
-              <p class="training-card-title">Torso 1</p>
-              <a href="${student.routines.torso1}" target="_blank" rel="noopener noreferrer">Abrir no Hevy</a>
-            </div>
-            <div class="training-card">
-              <p class="training-card-label">Sessão B</p>
-              <p class="training-card-title">Limbs 1</p>
-              <a href="${student.routines.limbs1}" target="_blank" rel="noopener noreferrer">Abrir no Hevy</a>
-            </div>
-            <div class="training-card">
-              <p class="training-card-label">Sessão C</p>
-              <p class="training-card-title">Torso 2</p>
-              <a href="${student.routines.torso2}" target="_blank" rel="noopener noreferrer">Abrir no Hevy</a>
-            </div>
-            <div class="training-card">
-              <p class="training-card-label">Sessão D</p>
-              <p class="training-card-title">Limbs 2</p>
-              <a href="${student.routines.limbs2}" target="_blank" rel="noopener noreferrer">Abrir no Hevy</a>
-            </div>
+            ${student.sessionTitles.map((title, index) => {
+              const key = student.routineKeys ? student.routineKeys[index] : ['torso1', 'limbs1', 'torso2', 'limbs2'][index];
+              return `
+                <div class="training-card">
+                  <p class="training-card-label">Sessão ${String.fromCharCode(65 + index)}</p>
+                  <p class="training-card-title">${title}</p>
+                  <a href="${student.routines[key]}" target="_blank" rel="noopener noreferrer">Abrir no Hevy</a>
+                </div>
+              `;
+            }).join('')}
           </div>
         </section>
       `;
