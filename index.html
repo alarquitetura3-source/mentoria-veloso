@@ -892,6 +892,26 @@
       margin-bottom: var(--space-3);
       font-family: var(--font-body);
     }
+    #editProfileForm button, #editWorkoutForm button, #changePasswordForm button, #createStudentForm button {
+      margin-right: var(--space-2);
+      margin-top: var(--space-2);
+      padding: var(--space-3) var(--space-6);
+      background: var(--moss-mid);
+      color: white;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      font-weight: 500;
+    }
+    #editProfileForm button:hover, #editWorkoutForm button:hover, #changePasswordForm button:hover, #createStudentForm button:hover {
+      background: var(--moss-deep);
+    }
+    #editProfileForm button[type="button"], #editWorkoutForm button[type="button"], #changePasswordForm button[type="button"], #createStudentForm button[type="button"] {
+      background: var(--moss-light);
+    }
+    #editProfileForm button[type="button"]:hover, #editWorkoutForm button[type="button"]:hover, #changePasswordForm button[type="button"]:hover, #createStudentForm button[type="button"]:hover {
+      background: var(--moss-mid);
+    }
   </style>
 </head>
 
@@ -1216,6 +1236,30 @@
 
     let currentStudent = null;
 
+    // Funções de Persistência com localStorage
+    function saveStudents() {
+      try {
+        localStorage.setItem('students', JSON.stringify(students));
+      } catch (e) {
+        console.log('localStorage indisponível, dados serão perdidos ao recarregar.');
+      }
+    }
+
+    function loadStudents() {
+      try {
+        const saved = localStorage.getItem('students');
+        if (saved) {
+          const loaded = JSON.parse(saved);
+          Object.assign(students, loaded);
+        }
+      } catch (e) {
+        console.log('Erro ao carregar dados do localStorage.');
+      }
+    }
+
+    // Carregar dados ao iniciar
+    loadStudents();
+
     // Login
     document.getElementById('loginForm').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -1305,17 +1349,23 @@
       const content = `
         <h2 class="section-title">Gerenciar Perfis de Alunos</h2>
         <div class="section-divider"></div>
-        <p>Selecione um aluno para editar suas informações.</p>
+        <p>Selecione um aluno para editar suas informações ou crie um novo.</p>
+        <div style="margin-bottom: var(--space-4);">
+          <button onclick="createNewStudent()" style="background: var(--moss-pale); padding: var(--space-3) var(--space-6);">+ Criar Novo Aluno</button>
+        </div>
         <div class="profile-list">
           ${Object.keys(students).filter(key => !students[key].isAdmin).map(key => `
             <div class="profile-card">
               <h3>${students[key].name}</h3>
               <p>Usuário: ${key}</p>
               <button onclick="editProfile('${key}')">Editar</button>
+              <button onclick="changePassword('${key}')" style="background: var(--moss-light);">Mudar Senha</button>
             </div>
           `).join('')}
         </div>
-        <button onclick="exportStudents()">Exportar Dados (JSON)</button>
+        <hr style="margin: var(--space-6) 0;">
+        <button onclick="exportStudents()" style="margin-right: var(--space-2);">Exportar Dados (JSON)</button>
+        <button onclick="renderAdminContent()" style="background: var(--moss-mid);">← Voltar</button>
       `;
       document.getElementById('adminContent').innerHTML = content;
     }
@@ -1328,21 +1378,132 @@
         <form id="editProfileForm">
           <label>Nome:</label>
           <input type="text" id="editName" value="${student.name}" required>
-          <label>Senha:</label>
-          <input type="password" id="editPassword" value="${student.password}" required>
           <label>Bloqueado:</label>
           <input type="checkbox" id="editBlocked" ${student.blocked ? 'checked' : ''}>
+          <label style="display: flex; gap: var(--space-2); align-items: center;">
+            <input type="checkbox" id="deleteStudent"> Desativar este aluno
+          </label>
           <button type="submit">Salvar</button>
-          <button type="button" onclick="manageProfiles()">Voltar</button>
+          <button type="button" onclick="manageProfiles()">← Voltar</button>
         </form>
       `;
       document.getElementById('adminContent').innerHTML = content;
       document.getElementById('editProfileForm').addEventListener('submit', function(e) {
         e.preventDefault();
+        if (document.getElementById('deleteStudent').checked) {
+          if (confirm('Tem certeza que deseja desativar este aluno?')) {
+            delete students[username];
+            saveStudents();
+            alert('Aluno removido!');
+            manageProfiles();
+          }
+          return;
+        }
         students[username].name = document.getElementById('editName').value;
-        students[username].password = document.getElementById('editPassword').value;
         students[username].blocked = document.getElementById('editBlocked').checked;
+        saveStudents();
         alert('Perfil salvo!');
+        manageProfiles();
+      });
+    }
+
+    function changePassword(username) {
+      const student = students[username];
+      const content = `
+        <h2 class="section-title">Alterar Senha: ${student.name}</h2>
+        <div class="section-divider"></div>
+        <form id="changePasswordForm">
+          <p>Usuário: <strong>${username}</strong></p>
+          <label>Nova Senha:</label>
+          <input type="password" id="newPassword" placeholder="Digite a nova senha" required>
+          <label>Confirmar Senha:</label>
+          <input type="password" id="confirmPassword" placeholder="Confirme a nova senha" required>
+          <button type="submit">Alterar Senha</button>
+          <button type="button" onclick="manageProfiles()">← Voltar</button>
+        </form>
+      `;
+      document.getElementById('adminContent').innerHTML = content;
+      document.getElementById('changePasswordForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        if (newPassword !== confirmPassword) {
+          alert('As senhas não conferem!');
+          return;
+        }
+        if (newPassword.length < 4) {
+          alert('A senha deve ter no mínimo 4 caracteres!');
+          return;
+        }
+        students[username].password = newPassword;
+        saveStudents();
+        alert('Senha alterada com sucesso!');
+        manageProfiles();
+      });
+    }
+
+    function createNewStudent() {
+      const content = `
+        <h2 class="section-title">Criar Novo Aluno</h2>
+        <div class="section-divider"></div>
+        <form id="createStudentForm">
+          <label>Nome do Aluno:</label>
+          <input type="text" id="newName" placeholder="Ex: João Silva" required>
+          <label>Nome de Usuário (sem espaços):</label>
+          <input type="text" id="newUsername" placeholder="Ex: joaosilva" required>
+          <label>Senha:</label>
+          <input type="password" id="newPassword" placeholder="Mínimo 4 caracteres" required>
+          <label>Título do Treino:</label>
+          <input type="text" id="newTrainingTitle" placeholder="Ex: Divisão Torso / Limbs" required>
+          <label>Prioridade do Treino:</label>
+          <textarea id="newTrainingPriority" placeholder="Descreva a prioridade estratégica"></textarea>
+          <label>Total Calórico Diário:</label>
+          <input type="text" id="newTotalKcal" placeholder="Ex: ~2000" required>
+          <label>Proteína (g):</label>
+          <input type="text" id="newTotalPtn" placeholder="Ex: ~150 g" required>
+          <label>Carboidrato (g):</label>
+          <input type="text" id="newTotalCho" placeholder="Ex: ~260 g" required>
+          <label>Gordura (g):</label>
+          <input type="text" id="newTotalGor" placeholder="Ex: ~29 g" required>
+          <button type="submit">Criar Aluno</button>
+          <button type="button" onclick="manageProfiles()">← Voltar</button>
+        </form>
+      `;
+      document.getElementById('adminContent').innerHTML = content;
+      document.getElementById('createStudentForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const username = document.getElementById('newUsername').value.toLowerCase().trim();
+        if (students[username]) {
+          alert('Este nome de usuário já existe!');
+          return;
+        }
+        students[username] = {
+          password: document.getElementById('newPassword').value,
+          name: document.getElementById('newName').value,
+          blocked: false,
+          heroMeta: ['Novo Aluno', 'Fase de Ganho', 'Frequência 4x / semana'],
+          trainingTitle: document.getElementById('newTrainingTitle').value,
+          sessionTitles: ['Sessão 1', 'Sessão 2', 'Sessão 3', 'Sessão 4'],
+          trainingContent: ['Este é seu protocolo personalizado. Leia com atenção.'],
+          trainingPriority: document.getElementById('newTrainingPriority').value,
+          trainingSequence: 'A ordem dos exercícios é estratégica.',
+          routines: { sessao1: '#', sessao2: '#', sessao3: '#', sessao4: '#' },
+          diet: [
+            {
+              number: 'Refeição 1',
+              macros: '500 kcal | PTN: 30 g | CHO: 60 g | GOR: 10 g',
+              items: [{ qty: '1', item: 'Exemplo de alimento', ref: 'pronto para consumo' }]
+            }
+          ],
+          totalMacros: {
+            kcal: document.getElementById('newTotalKcal').value,
+            ptn: document.getElementById('newTotalPtn').value,
+            cho: document.getElementById('newTotalCho').value,
+            gor: document.getElementById('newTotalGor').value
+          }
+        };
+        saveStudents();
+        alert(`Aluno criado com sucesso! Usuário: ${username}`);
         manageProfiles();
       });
     }
@@ -1370,6 +1531,7 @@
             </div>
           `).join('')}
         </div>
+        <button onclick="renderAdminContent()" style="background: var(--moss-mid); margin-top: var(--space-4);">← Voltar</button>
       `;
       document.getElementById('adminContent').innerHTML = content;
     }
@@ -1394,7 +1556,7 @@
             <input type="url" id="editRoutine${key}" value="${student.routines[key]}" required>
           `).join('')}
           <button type="submit">Salvar</button>
-          <button type="button" onclick="manageWorkouts()">Voltar</button>
+          <button type="button" onclick="manageWorkouts()">← Voltar</button>
         </form>
       `;
       document.getElementById('adminContent').innerHTML = content;
@@ -1407,6 +1569,7 @@
         Object.keys(student.routines || {}).forEach(key => {
           students[username].routines[key] = document.getElementById(`editRoutine${key}`).value;
         });
+        saveStudents();
         alert('Treinos salvos!');
         manageWorkouts();
       });
@@ -1425,6 +1588,7 @@
             </div>
           `).join('')}
         </div>
+        <button onclick="renderAdminContent()" style="background: var(--moss-mid); margin-top: var(--space-4);">← Voltar</button>
       `;
       document.getElementById('adminContent').innerHTML = content;
     }
@@ -1451,7 +1615,7 @@
         </div>
         <button onclick="addMeal('${username}')">Adicionar Refeição</button>
         <button onclick="saveDiet('${username}')">Salvar Dieta</button>
-        <button onclick="manageDiets()">Voltar</button>
+        <button onclick="manageDiets()">← Voltar</button>
       `;
       document.getElementById('adminContent').innerHTML = content;
     }
@@ -1490,6 +1654,7 @@
         }
       });
       student.totalMacros = { kcal: `~${totalKcal}`, ptn: `~${totalPtn} g`, cho: `~${totalCho} g`, gor: `~${totalGor} g` };
+      saveStudents();
       alert('Dieta salva!');
       manageDiets();
     }
@@ -1501,6 +1666,7 @@
         <p>Aqui você pode gerenciar configurações gerais.</p>
         <button onclick="exportStudents()">Exportar Todos os Dados</button>
         <button onclick="importStudents()">Importar Dados (JSON)</button>
+        <button onclick="renderAdminContent()" style="background: var(--moss-mid); margin-top: var(--space-4);">← Voltar</button>
       `;
       document.getElementById('adminContent').innerHTML = content;
     }
