@@ -1147,6 +1147,7 @@
     function showLogin() {
       document.getElementById('loginContainer').style.display = 'flex';
       document.getElementById('mainContent').style.display = 'none';
+      document.getElementById('adminPanel').style.display = 'none';
     }
 
     function showAdminPanel() {
@@ -1154,6 +1155,13 @@
       document.getElementById('mainContent').style.display = 'none';
       document.getElementById('adminPanel').style.display = 'block';
       renderAdminContent();
+    }
+
+    function showMainContent() {
+      document.getElementById('loginContainer').style.display = 'none';
+      document.getElementById('adminPanel').style.display = 'none';
+      document.getElementById('mainContent').style.display = 'block';
+      renderContent();
     }
 
     function renderAdminContent() {
