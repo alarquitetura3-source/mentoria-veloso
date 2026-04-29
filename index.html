@@ -805,6 +805,93 @@
       color: var(--moss-mid);
       font-weight: bold;
     }
+
+    /* ADMIN MANAGEMENT STYLES */
+    .profile-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+    }
+    .profile-card {
+      background: var(--parchment-2);
+      border: 1px solid var(--divider);
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+      text-align: center;
+    }
+    .profile-card h3 {
+      margin-bottom: var(--space-2);
+      color: var(--moss-deep);
+    }
+    .profile-card p {
+      margin-bottom: var(--space-4);
+      color: var(--text-muted);
+    }
+    .profile-card button {
+      background: var(--moss-mid);
+      color: white;
+      border: none;
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+    }
+    .profile-card button:hover {
+      background: var(--moss-deep);
+    }
+    #editProfileForm, #editWorkoutForm {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      max-width: 600px;
+    }
+    #editProfileForm label, #editWorkoutForm label {
+      font-weight: 500;
+      color: var(--moss-mid);
+    }
+    #editProfileForm input, #editWorkoutForm input, #editProfileForm textarea, #editWorkoutForm textarea {
+      padding: var(--space-3);
+      border: 1px solid var(--divider);
+      border-radius: var(--radius-md);
+      font-family: var(--font-body);
+    }
+    #editProfileForm button, #editWorkoutForm button {
+      padding: var(--space-3) var(--space-6);
+      background: var(--moss-mid);
+      color: white;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      font-weight: 500;
+    }
+    #editProfileForm button:hover, #editWorkoutForm button:hover {
+      background: var(--moss-deep);
+    }
+    .meal-edit {
+      background: var(--parchment-2);
+      border: 1px solid var(--divider);
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+      margin-bottom: var(--space-4);
+    }
+    .meal-edit h4 {
+      margin-bottom: var(--space-3);
+      color: var(--moss-deep);
+    }
+    .meal-edit label {
+      display: block;
+      margin-bottom: var(--space-2);
+      font-weight: 500;
+      color: var(--moss-mid);
+    }
+    .meal-edit input, .meal-edit textarea {
+      width: 100%;
+      padding: var(--space-2);
+      border: 1px solid var(--divider);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-3);
+      font-family: var(--font-body);
+    }
   </style>
 </head>
 
@@ -909,6 +996,7 @@
       'arthur': {
         password: '1234',
         name: 'Arthur Mendes',
+        blocked: false,
         heroMeta: ['Divisão Torso / Limbs', 'Fase de Cutting', 'Frequência 4x / semana', 'Zona 6–9 Repetições'],
         trainingTitle: 'Divisão Torso / Limbs: Justificativa Científica',
         sessionTitles: ['Torso 1', 'Limbs 1', 'Torso 2', 'Limbs 2'],
@@ -957,14 +1045,14 @@
           },
           {
             number: 'Refeição 4',
-            macros: '560 kcal &nbsp;|&nbsp; PTN: 43 g &nbsp;|&nbsp; CHO: 70 g &nbsp;|&nbsp; GOR: 10 g',
+            macros: '550 kcal &nbsp;|&nbsp; PTN: 40 g &nbsp;|&nbsp; CHO: 50 g &nbsp;|&nbsp; GOR: 20 g',
             items: [
-              { qty: '130 g', item: 'Arroz branco', ref: 'peso cozido' },
-              { qty: '80 g', item: 'Feijão carioca', ref: 'peso cozido' },
-              { qty: '130 g', item: 'Patinho bovino grelhado/assado', ref: 'peso cozido' },
-              { qty: 'à vontade', item: 'Legumes variados cozidos/refogados' }
-            ],
-            obs: 'Adicionar um prato à parte com vegetais e folhas à vontade.'
+              { qty: '1 unidade', item: 'Pão de brioche', ref: 'pronto para consumo' },
+              { qty: '100 g', item: 'Patinho bovino moído', ref: 'peso cozido' },
+              { qty: '2 fatias', item: 'Bacon', ref: 'pronto para consumo' },
+              { qty: '1 fatia', item: 'Cheddar', ref: 'pronto para consumo' },
+              { qty: 'à vontade', item: 'Alface e tomate', ref: 'in natura' }
+            ]
           }
         ],
         totalMacros: { kcal: '~2.000', ptn: '~150 g', cho: '~260 g', gor: '~29 g' }
@@ -972,6 +1060,7 @@
       'jean': {
         password: '1234',
         name: 'Jean',
+        blocked: false,
         heroMeta: ['Divisão Torso / Limbs', 'Fase de Cutting', 'Frequência 4x / semana', 'Zona 6–9 Repetições'],
         trainingTitle: 'Divisão Torso / Limbs: Justificativa Científica',
         sessionTitles: ['Torso 1', 'Limbs 1', 'Torso 2', 'Limbs 2'],
@@ -1029,6 +1118,14 @@
               { qty: 'à vontade', item: 'Legumes variados cozidos/refogados' }
             ],
             obs: 'Adicionar um prato à parte com vegetais e folhas à vontade.'
+          },
+          {
+            number: 'Refeição 5',
+            macros: '200 kcal &nbsp;|&nbsp; PTN: 10 g &nbsp;|&nbsp; CHO: 30 g &nbsp;|&nbsp; GOR: 5 g',
+            items: [
+              { qty: '30 g', item: 'Sucrilhos', ref: 'pronto para consumo' },
+              { qty: '100 ml', item: 'Leite semidesnatado', ref: 'pronto para consumo' }
+            ]
           }
         ],
         totalMacros: { kcal: '~2.000', ptn: '~150 g', cho: '~260 g', gor: '~29 g' }
@@ -1036,6 +1133,7 @@
       'izael': {
         password: '1234',
         name: 'Izael',
+        blocked: false,
         heroMeta: ['Upper / Lower', '4x por semana', 'Meta 2.000 kcal/dia', '180 g de proteína/dia'],
         trainingTitle: 'Justificativa Científica da Periodização e Prescrição de Exercícios: 2 Upper e 2 Lower',
         sessionTitles: ['Upper 1', 'Upper 2', 'Lower 1', 'Lower 2'],
@@ -1126,6 +1224,10 @@
       const errorMsg = document.getElementById('errorMsg');
 
       if (students[username] && students[username].password === password) {
+        if (students[username].blocked) {
+          errorMsg.textContent = 'Sua conta está bloqueada. Entre em contato com o administrador.';
+          return;
+        }
         currentStudent = username;
         if (students[username].isAdmin) {
           showAdminPanel();
@@ -1200,23 +1302,229 @@
     }
 
     function manageProfiles() {
-      // Placeholder for profile management
-      alert('Funcionalidade de gerenciamento de perfis em desenvolvimento.');
+      const content = `
+        <h2 class="section-title">Gerenciar Perfis de Alunos</h2>
+        <div class="section-divider"></div>
+        <p>Selecione um aluno para editar suas informações.</p>
+        <div class="profile-list">
+          ${Object.keys(students).filter(key => !students[key].isAdmin).map(key => `
+            <div class="profile-card">
+              <h3>${students[key].name}</h3>
+              <p>Usuário: ${key}</p>
+              <button onclick="editProfile('${key}')">Editar</button>
+            </div>
+          `).join('')}
+        </div>
+        <button onclick="exportStudents()">Exportar Dados (JSON)</button>
+      `;
+      document.getElementById('adminContent').innerHTML = content;
+    }
+
+    function editProfile(username) {
+      const student = students[username];
+      const content = `
+        <h2 class="section-title">Editar Perfil: ${student.name}</h2>
+        <div class="section-divider"></div>
+        <form id="editProfileForm">
+          <label>Nome:</label>
+          <input type="text" id="editName" value="${student.name}" required>
+          <label>Senha:</label>
+          <input type="password" id="editPassword" value="${student.password}" required>
+          <label>Bloqueado:</label>
+          <input type="checkbox" id="editBlocked" ${student.blocked ? 'checked' : ''}>
+          <button type="submit">Salvar</button>
+          <button type="button" onclick="manageProfiles()">Voltar</button>
+        </form>
+      `;
+      document.getElementById('adminContent').innerHTML = content;
+      document.getElementById('editProfileForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        students[username].name = document.getElementById('editName').value;
+        students[username].password = document.getElementById('editPassword').value;
+        students[username].blocked = document.getElementById('editBlocked').checked;
+        alert('Perfil salvo!');
+        manageProfiles();
+      });
+    }
+
+    function exportStudents() {
+      const dataStr = JSON.stringify(students, null, 2);
+      const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+      const exportFileDefaultName = 'students.json';
+      const linkElement = document.createElement('a');
+      linkElement.setAttribute('href', dataUri);
+      linkElement.setAttribute('download', exportFileDefaultName);
+      linkElement.click();
     }
 
     function manageWorkouts() {
-      // Placeholder for workout management
-      alert('Funcionalidade de gerenciamento de treinos em desenvolvimento.');
+      const content = `
+        <h2 class="section-title">Gerenciar Treinos</h2>
+        <div class="section-divider"></div>
+        <p>Selecione um aluno para editar seus treinos.</p>
+        <div class="profile-list">
+          ${Object.keys(students).filter(key => !students[key].isAdmin).map(key => `
+            <div class="profile-card">
+              <h3>${students[key].name}</h3>
+              <button onclick="editWorkouts('${key}')">Editar Treinos</button>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      document.getElementById('adminContent').innerHTML = content;
+    }
+
+    function editWorkouts(username) {
+      const student = students[username];
+      const content = `
+        <h2 class="section-title">Editar Treinos: ${student.name}</h2>
+        <div class="section-divider"></div>
+        <form id="editWorkoutForm">
+          <label>Título do Treino:</label>
+          <input type="text" id="editTrainingTitle" value="${student.trainingTitle || ''}" required>
+          <label>Prioridade:</label>
+          <textarea id="editTrainingPriority">${student.trainingPriority || ''}</textarea>
+          <label>Sequência:</label>
+          <textarea id="editTrainingSequence">${student.trainingSequence || ''}</textarea>
+          <label>Conteúdo (parágrafos separados por | ):</label>
+          <textarea id="editTrainingContent">${student.trainingContent ? student.trainingContent.join('|') : ''}</textarea>
+          <h3>Links das Rotinas</h3>
+          ${Object.keys(student.routines || {}).map(key => `
+            <label>${key}:</label>
+            <input type="url" id="editRoutine${key}" value="${student.routines[key]}" required>
+          `).join('')}
+          <button type="submit">Salvar</button>
+          <button type="button" onclick="manageWorkouts()">Voltar</button>
+        </form>
+      `;
+      document.getElementById('adminContent').innerHTML = content;
+      document.getElementById('editWorkoutForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        students[username].trainingTitle = document.getElementById('editTrainingTitle').value;
+        students[username].trainingPriority = document.getElementById('editTrainingPriority').value;
+        students[username].trainingSequence = document.getElementById('editTrainingSequence').value;
+        students[username].trainingContent = document.getElementById('editTrainingContent').value.split('|').map(p => p.trim());
+        Object.keys(student.routines || {}).forEach(key => {
+          students[username].routines[key] = document.getElementById(`editRoutine${key}`).value;
+        });
+        alert('Treinos salvos!');
+        manageWorkouts();
+      });
     }
 
     function manageDiets() {
-      // Placeholder for diet management
-      alert('Funcionalidade de gerenciamento de dietas em desenvolvimento.');
+      const content = `
+        <h2 class="section-title">Gerenciar Dietas</h2>
+        <div class="section-divider"></div>
+        <p>Selecione um aluno para editar sua dieta.</p>
+        <div class="profile-list">
+          ${Object.keys(students).filter(key => !students[key].isAdmin).map(key => `
+            <div class="profile-card">
+              <h3>${students[key].name}</h3>
+              <button onclick="editDiet('${key}')">Editar Dieta</button>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      document.getElementById('adminContent').innerHTML = content;
+    }
+
+    function editDiet(username) {
+      const student = students[username];
+      const content = `
+        <h2 class="section-title">Editar Dieta: ${student.name}</h2>
+        <div class="section-divider"></div>
+        <div id="mealsContainer">
+          ${student.diet.map((meal, index) => `
+            <div class="meal-edit">
+              <h4>Refeição ${index + 1}</h4>
+              <label>Número:</label>
+              <input type="text" id="mealNumber${index}" value="${meal.number}">
+              <label>Macros:</label>
+              <input type="text" id="mealMacros${index}" value="${meal.macros}">
+              <label>Itens (qty|item|ref separados por ; ):</label>
+              <textarea id="mealItems${index}">${meal.items.map(item => `${item.qty}|${item.item}|${item.ref}`).join(';')}</textarea>
+              <label>Observação:</label>
+              <input type="text" id="mealObs${index}" value="${meal.obs || ''}">
+            </div>
+          `).join('')}
+        </div>
+        <button onclick="addMeal('${username}')">Adicionar Refeição</button>
+        <button onclick="saveDiet('${username}')">Salvar Dieta</button>
+        <button onclick="manageDiets()">Voltar</button>
+      `;
+      document.getElementById('adminContent').innerHTML = content;
+    }
+
+    function addMeal(username) {
+      const student = students[username];
+      student.diet.push({
+        number: 'Nova Refeição',
+        macros: '0 kcal | PTN: 0 g | CHO: 0 g | GOR: 0 g',
+        items: []
+      });
+      editDiet(username);
+    }
+
+    function saveDiet(username) {
+      const student = students[username];
+      student.diet.forEach((meal, index) => {
+        meal.number = document.getElementById(`mealNumber${index}`).value;
+        meal.macros = document.getElementById(`mealMacros${index}`).value;
+        const itemsStr = document.getElementById(`mealItems${index}`).value;
+        meal.items = itemsStr.split(';').map(item => {
+          const [qty, itemName, ref] = item.split('|');
+          return { qty: qty.trim(), item: itemName.trim(), ref: ref.trim() };
+        });
+        meal.obs = document.getElementById(`mealObs${index}`).value;
+      });
+      // Recalcular totalMacros aproximado
+      let totalKcal = 0, totalPtn = 0, totalCho = 0, totalGor = 0;
+      student.diet.forEach(meal => {
+        const macros = meal.macros.match(/(\d+) kcal.*PTN: (\d+) g.*CHO: (\d+) g.*GOR: (\d+) g/);
+        if (macros) {
+          totalKcal += parseInt(macros[1]);
+          totalPtn += parseInt(macros[2]);
+          totalCho += parseInt(macros[3]);
+          totalGor += parseInt(macros[4]);
+        }
+      });
+      student.totalMacros = { kcal: `~${totalKcal}`, ptn: `~${totalPtn} g`, cho: `~${totalCho} g`, gor: `~${totalGor} g` };
+      alert('Dieta salva!');
+      manageDiets();
     }
 
     function systemSettings() {
-      // Placeholder for system settings
-      alert('Funcionalidade de configurações do sistema em desenvolvimento.');
+      const content = `
+        <h2 class="section-title">Configurações do Sistema</h2>
+        <div class="section-divider"></div>
+        <p>Aqui você pode gerenciar configurações gerais.</p>
+        <button onclick="exportStudents()">Exportar Todos os Dados</button>
+        <button onclick="importStudents()">Importar Dados (JSON)</button>
+      `;
+      document.getElementById('adminContent').innerHTML = content;
+    }
+
+    function importStudents() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.json';
+      input.onchange = function(e) {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          try {
+            const imported = JSON.parse(event.target.result);
+            Object.assign(students, imported);
+            alert('Dados importados com sucesso!');
+            systemSettings();
+          } catch (err) {
+            alert('Erro ao importar dados.');
+          }
+        };
+        reader.readAsText(file);
+      };
+      input.click();
     }
 
     function renderContent() {
