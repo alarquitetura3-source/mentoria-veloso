@@ -75,6 +75,21 @@
       justify-content: center;
       min-height: 100vh;
       padding: var(--space-6);
+      position: relative;
+      overflow: hidden;
+    }
+    .login-container::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(oklch(0.15 0.02 140 / 0.62), oklch(0.15 0.02 140 / 0.62)),
+        url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1600&q=80');
+      background-size: cover;
+      background-position: center;
+      filter: blur(2px);
+      transform: scale(1.04);
+      z-index: 0;
     }
     .login-form {
       background: var(--parchment-2);
@@ -84,6 +99,8 @@
       box-shadow: var(--shadow-md);
       max-width: 360px;
       width: 100%;
+      position: relative;
+      z-index: 1;
     }
     .login-title {
       font-family: var(--font-display);
@@ -145,6 +162,15 @@
       font-size: var(--text-xs);
       text-align: center;
       line-height: 1.4;
+    }
+    .login-subtitle {
+      margin: 0 0 var(--space-4);
+      text-align: center;
+      font-size: var(--text-xs);
+      color: var(--text-body);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      letter-spacing: 0.02em;
     }
 
     /* ADMIN */
@@ -996,6 +1022,7 @@
   <div class="login-container" id="loginContainer">
     <form class="login-form" id="loginForm">
       <h1 class="login-title">Veloso</h1>
+      <p class="login-subtitle">Protocolo individualizado com fundamento cientifico.</p>
       <div class="form-group">
         <label for="username" class="form-label">Usuário</label>
         <input type="text" id="username" class="form-input" required>
@@ -1268,7 +1295,16 @@
     const adminCredentials = { username: 'bcardosov', password: '12345678' };
     const studentsSnapshot = JSON.parse(JSON.stringify(students));
     const STORAGE_KEY = 'mentoria-veloso-students-v1';
-    let adminState = { section: 'dashboard', studentKey: 'arthur', tab: 'Treino', search: '' };
+    const ENTITIES_KEY = 'mentoria-veloso-entities-v1';
+    let adminState = { section: 'dashboard', studentKey: 'arthur', tab: 'Dieta', search: '' };
+    const entities = {
+      students: {},
+      credentials: {},
+      meal_plans: {},
+      workouts: {},
+      instructions: {},
+      subscriptions: {}
+    };
 
     function saveStudentsState() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
@@ -1287,6 +1323,40 @@
       } catch (error) {
         console.error('[admin] Falha ao ler dados salvos localmente.', error);
       }
+    }
+
+    function parseNumber(value) {
+      const normalized = String(value ?? '').replace(',', '.').replace(/[^\d.\-]/g, '');
+      const num = Number(normalized);
+      return Number.isFinite(num) ? num : 0;
+    }
+
+    function buildMacrosString(meal) {
+      const p = parseNumber(meal?.protein);
+      const c = parseNumber(meal?.carbs);
+      const g = parseNumber(meal?.fat);
+      const k = parseNumber(meal?.kcal);
+      return `${k} kcal | PTN: ${p} g | CHO: ${c} g | GOR: ${g} g`;
+    }
+
+    function parseMacrosString(macrosString = '') {
+      const kcal = parseNumber((macrosString.match(/(\d+[.,]?\d*)\s*kcal/i) || [])[1]);
+      const ptn = parseNumber((macrosString.match(/PTN:\s*([\d.,]+)/i) || [])[1]);
+      const cho = parseNumber((macrosString.match(/CHO:\s*([\d.,]+)/i) || [])[1]);
+      const gor = parseNumber((macrosString.match(/GOR:\s*([\d.,]+)/i) || [])[1]);
+      return { kcal, protein: ptn, carbs: cho, fat: gor };
+    }
+
+    function recalculateDietTotals(studentId) {
+      const meals = entities.meal_plans[studentId] || [];
+      const totals = meals.reduce((acc, m) => {
+        acc.kcal += parseNumber(m.kcal);
+        acc.protein += parseNumber(m.protein);
+        acc.carbs += parseNumber(m.carbs);
+        acc.fat += parseNumber(m.fat);
+        return acc;
+      }, { kcal: 0, protein: 0, carbs: 0, fat: 0 });
+      return totals;
     }
 
     function normalizeMealItem(item) {
@@ -1390,19 +1460,19 @@
       Object.keys(students).forEach((key) => ensureStudentDefaults(students[key]));
       const keys = Object.keys(students);
       if (!keys.includes(adminState.studentKey)) adminState.studentKey = keys[0];
-      const s = students[adminState.studentKey];
+      const active = students[adminState.studentKey];
       const search = adminState.search.toLowerCase().trim();
       const filteredKeys = keys.filter(k => students[k].name.toLowerCase().includes(search) || k.includes(search));
-      const sectionList = ['dashboard', 'alunos', 'treinos', 'dietas', 'instrucoes', 'acessos', 'planos', 'configuracoes'];
+      const sectionList = ['dashboard', 'alunos', 'dieta', 'treino', 'instrucoes', 'calendario', 'acesso', 'planos'];
       const sectionLabels = {
         dashboard: 'Dashboard',
         alunos: 'Alunos',
-        treinos: 'Treinos',
-        dietas: 'Dieta e Refeições',
+        dieta: 'Dieta',
+        treino: 'Treino',
         instrucoes: 'Instruções',
-        acessos: 'Acessos',
-        planos: 'Planos',
-        configuracoes: 'Configurações'
+        calendario: 'Calendário',
+        acesso: 'Acesso',
+        planos: 'Planos'
       };
       const nav = sectionList.map(sec => `<button class="admin-nav-btn ${adminState.section === sec ? 'active' : ''}" data-admin-section="${sec}">${sectionLabels[sec]}</button>`).join('');
       const totalStudents = keys.length;
@@ -1410,9 +1480,9 @@
       const comPlanoAtivo = keys.filter(k => (students[k].planStatus || 'Ativo') === 'Ativo').length;
       const studentRows = filteredKeys.map((k) => {
         const st = students[k];
-        return `<tr data-pick-student="${k}"><td>${st.name}</td><td>${k}</td><td>${st.startDate || '-'}</td><td>${st.adherenceStatus || '-'}</td><td>${st.planStatus || 'Ativo'}</td></tr>`;
+        const due = st.planDueDate || '-';
+        return `<tr data-pick-student="${k}"><td>${st.name}</td><td>${k}</td><td>${st.startDate || '-'}</td><td>${st.adherenceStatus || '-'}</td><td>${due}</td></tr>`;
       }).join('');
-      const sectionTitle = sectionLabels[adminState.section];
 
       const content = `
         <section class="admin-shell">
@@ -1423,26 +1493,23 @@
           <section class="admin-main">
             <div class="admin-topbar">
               <div>
-                <h2 class="admin-title" style="margin-bottom:0;">${sectionTitle}</h2>
-                <p class="form-label" style="margin-top:4px;">Gestão individual por aluno com atualização desacoplada por ID</p>
+                <h2 class="admin-title" style="margin-bottom:0;">${sectionLabels[adminState.section]}</h2>
+                <p class="form-label" style="margin-top:4px;">Edição individual por aluno, sem compartilhamento de dados</p>
               </div>
-              <input id="adminSearchInput" class="form-input" style="max-width:320px;" placeholder="Buscar aluno por nome ou login" value="${adminState.search}">
+              <input id="adminSearchInput" class="form-input" style="max-width:320px;" placeholder="Buscar aluno" value="${adminState.search}">
             </div>
-
             <div class="admin-kpis">
-              <div class="admin-kpi"><div class="admin-kpi-value">${totalStudents}</div><div class="admin-kpi-label">Total alunos</div></div>
-              <div class="admin-kpi"><div class="admin-kpi-value">${comInicio}</div><div class="admin-kpi-label">Com data início</div></div>
-              <div class="admin-kpi"><div class="admin-kpi-value">${comPlanoAtivo}</div><div class="admin-kpi-label">Plano ativo</div></div>
-              <div class="admin-kpi"><div class="admin-kpi-value">${(s?.lastWorkoutUpdate || '-')}</div><div class="admin-kpi-label">Últ. treino</div></div>
+              <div class="admin-kpi"><div class="admin-kpi-value">${totalStudents}</div><div class="admin-kpi-label">Alunos</div></div>
+              <div class="admin-kpi"><div class="admin-kpi-value">${comInicio}</div><div class="admin-kpi-label">Com início</div></div>
+              <div class="admin-kpi"><div class="admin-kpi-value">${comPlanoAtivo}</div><div class="admin-kpi-label">Planos ativos</div></div>
+              <div class="admin-kpi"><div class="admin-kpi-value">${active?.planDueDate || '-'}</div><div class="admin-kpi-label">Vencimento atual</div></div>
             </div>
-
             <div class="admin-table-wrap">
               <table class="admin-table">
-                <thead><tr><th>Aluno</th><th>Login</th><th>Início</th><th>Adesão</th><th>Plano</th></tr></thead>
+                <thead><tr><th>Aluno</th><th>Login</th><th>Início</th><th>Adesão</th><th>Vencimento</th></tr></thead>
                 <tbody>${studentRows || '<tr><td colspan="5">Nenhum aluno encontrado.</td></tr>'}</tbody>
               </table>
             </div>
-
             <div id="adminEditorMount" style="margin-top: var(--space-4);"></div>
           </section>
         </section>
@@ -1453,23 +1520,46 @@
 
       document.querySelectorAll('[data-admin-section]').forEach(btn => btn.addEventListener('click', () => {
         adminState.section = btn.getAttribute('data-admin-section');
-        if (adminState.section === 'treinos') adminState.tab = 'Treino';
-        if (adminState.section === 'dietas') adminState.tab = 'Dieta';
-        if (adminState.section === 'instrucoes') adminState.tab = 'Instruções';
-        if (adminState.section === 'acessos') adminState.tab = 'Acesso';
-        if (adminState.section === 'planos') adminState.tab = 'Plano';
         renderAdminPanel();
       }));
-      document.getElementById('adminSearchInput').addEventListener('input', (e) => {
-        adminState.search = e.target.value;
-        renderAdminPanel();
-      });
+      document.getElementById('adminSearchInput').addEventListener('input', (e) => { adminState.search = e.target.value; renderAdminPanel(); });
       document.querySelectorAll('[data-pick-student]').forEach(row => row.addEventListener('click', () => {
         adminState.studentKey = row.getAttribute('data-pick-student');
         renderAdminPanel();
       }));
-
       renderAdminEditor(adminState.studentKey);
+    }
+
+    function renderCalendarTab() {
+      const now = new Date();
+      const y = now.getFullYear();
+      const m = now.getMonth();
+      const daysInMonth = new Date(y, m + 1, 0).getDate();
+      const rows = [];
+      for (let d = 1; d <= daysInMonth; d += 1) {
+        const dateStr = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        const dueStudents = Object.keys(students).filter(k => students[k].planDueDate === dateStr);
+        if (dueStudents.length) rows.push(`<tr><td>${dateStr}</td><td>${dueStudents.map(k => `<a href="#" data-pick-student="${k}">${students[k].name}</a>`).join(', ')}</td></tr>`);
+      }
+      const upcoming = Object.keys(students).map((k) => {
+        const s = students[k];
+        const due = s.planDueDate ? new Date(`${s.planDueDate}T00:00:00`) : null;
+        const diff = due ? Math.floor((due.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)) : null;
+        const status = diff === null ? 'Sem data' : diff < 0 ? 'Vencido' : diff === 0 ? 'Vence hoje' : diff <= 7 ? 'Próximo' : 'Ativo';
+        return { k, name: s.name, start: s.startDate || '-', due: s.planDueDate || '-', status };
+      }).sort((a, b) => a.due.localeCompare(b.due));
+      return `
+        <div class="admin-card">
+          <h3 class="admin-section-title">Calendário de vencimentos</h3>
+          <div class="admin-table-wrap">
+            <table class="admin-table"><thead><tr><th>Data</th><th>Alunos com vencimento</th></tr></thead><tbody>${rows.join('') || '<tr><td colspan="2">Sem vencimentos no mês.</td></tr>'}</tbody></table>
+          </div>
+          <h3 class="admin-section-title">Próximos vencimentos</h3>
+          <div class="admin-table-wrap">
+            <table class="admin-table"><thead><tr><th>Aluno</th><th>Início</th><th>Vencimento</th><th>Status</th></tr></thead><tbody>${upcoming.map(u => `<tr><td><a href="#" data-pick-student="${u.k}">${u.name}</a></td><td>${u.start}</td><td>${u.due}</td><td>${u.status}</td></tr>`).join('')}</tbody></table>
+          </div>
+        </div>
+      `;
     }
 
     function renderAdminEditor(studentKey) {
@@ -1482,94 +1572,114 @@
       if (!student.planPrice) student.planPrice = '';
       if (!student.planHistory) student.planHistory = '';
       if (!student.exerciseTable) student.exerciseTable = '';
-      if (!student.substitutionsText) student.substitutionsText = '';
       if (!student.lastWorkoutUpdate) student.lastWorkoutUpdate = '';
       if (!student.lastDietUpdate) student.lastDietUpdate = '';
+      if (!Array.isArray(student.diet)) student.diet = [];
 
-      const meals = getMealsFromStudent(student);
-      const tabs = ['Treino', 'Dieta', 'Refeições', 'Instruções', 'Plano', 'Acesso'];
-      const tabButtons = tabs.map(t => `<button type="button" class="admin-tab-btn ${adminState.tab === t ? 'active' : ''}" data-admin-tab="${t}">${t}</button>`).join('');
+      const parseMealMacros = (macros = '') => ({
+        kcal: parseFloat((macros.match(/(\d+[.,]?\d*)\s*kcal/i) || [,'0'])[1].replace(',', '.')) || 0,
+        protein: parseFloat((macros.match(/PTN:\s*([\d.,]+)/i) || [,'0'])[1].replace(',', '.')) || 0,
+        carbs: parseFloat((macros.match(/CHO:\s*([\d.,]+)/i) || [,'0'])[1].replace(',', '.')) || 0,
+        fat: parseFloat((macros.match(/GOR:\s*([\d.,]+)/i) || [,'0'])[1].replace(',', '.')) || 0
+      });
+      const meals = getMealsFromStudent(student).map((meal, idx) => ({ ...meal, time: meal.time || '', ...parseMealMacros(meal.macros), idx }));
+      const totals = meals.reduce((acc, m) => ({ kcal: acc.kcal + m.kcal, protein: acc.protein + m.protein, carbs: acc.carbs + m.carbs, fat: acc.fat + m.fat }), { kcal: 0, protein: 0, carbs: 0, fat: 0 });
 
-      const mealEditorHtml = meals.map((meal, index) => `
-        <div class="admin-meal-item" data-meal-index="${index}">
-          <div class="admin-grid">
-            <div class="form-group"><label class="form-label">Nome da refeição</label><input class="form-input js-meal-number" value="${meal.number || ''}"></div>
-            <div class="form-group"><label class="form-label">Horário / macros</label><input class="form-input js-meal-macros" value="${meal.macros || ''}"></div>
-          </div>
-          <div class="form-group"><label class="form-label">Alimentos (quantidade | alimento | referência)</label><textarea class="admin-textarea js-meal-items">${mealItemsToText(meal.items)}</textarea></div>
-          <div class="form-group"><label class="form-label">Observações</label><textarea class="admin-textarea js-meal-obs">${meal.obs || ''}</textarea></div>
-        </div>
-      `).join('');
+      if (adminState.section === 'calendario') {
+        document.getElementById('adminEditorMount').innerHTML = renderCalendarTab();
+        document.querySelectorAll('[data-pick-student]').forEach(row => row.addEventListener('click', (e) => {
+          e.preventDefault();
+          adminState.studentKey = row.getAttribute('data-pick-student');
+          adminState.section = 'dieta';
+          renderAdminPanel();
+        }));
+        return;
+      }
 
       let body = '';
-      if (adminState.tab === 'Treino') {
+      if (adminState.section === 'dieta') {
         body = `
-          <h3 class="admin-section-title">Sessão Treinos</h3>
+          <h3 class="admin-section-title">Sessão Dieta e Refeições</h3>
+          <div class="admin-grid">
+            <div class="form-group"><label class="form-label">Aluno</label><input class="form-input" value="${student.name}" disabled></div>
+            <div class="form-group"><label class="form-label">Plano atual</label><input class="form-input" value="${student.planStatus || 'Ativo'}" disabled></div>
+          </div>
+          <div class="admin-meal-list">
+            ${meals.map((meal, index) => `
+              <div class="admin-meal-item" data-meal-index="${index}">
+                <div class="admin-grid">
+                  <div class="form-group"><label class="form-label">Título</label><input class="form-input js-meal-title" value="${meal.number || ''}"></div>
+                  <div class="form-group"><label class="form-label">Horário</label><input class="form-input js-meal-time" value="${meal.time || ''}"></div>
+                  <div class="form-group"><label class="form-label">Proteína (g)</label><input class="form-input js-meal-ptn" value="${meal.protein}"></div>
+                  <div class="form-group"><label class="form-label">Carbo (g)</label><input class="form-input js-meal-cho" value="${meal.carbs}"></div>
+                  <div class="form-group"><label class="form-label">Gordura (g)</label><input class="form-input js-meal-fat" value="${meal.fat}"></div>
+                  <div class="form-group"><label class="form-label">Kcal</label><input class="form-input js-meal-kcal" value="${meal.kcal}"></div>
+                </div>
+                <div class="form-group"><label class="form-label">Alimentos / descritivo</label><textarea class="admin-textarea js-meal-items">${mealItemsToText(meal.items)}</textarea></div>
+                <div class="form-group"><label class="form-label">Substituições / observações</label><textarea class="admin-textarea js-meal-obs">${meal.obs || ''}</textarea></div>
+                <div class="admin-actions">
+                  <button type="button" class="secondary-btn js-meal-up">Subir</button>
+                  <button type="button" class="secondary-btn js-meal-down">Descer</button>
+                  <button type="button" class="secondary-btn js-meal-remove">Remover</button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+          <div class="admin-actions"><button class="secondary-btn" id="addMealBtn" type="button">Adicionar nova refeição</button></div>
+          <div class="admin-kpis">
+            <div class="admin-kpi"><div class="admin-kpi-value" id="totalPtn">${totals.protein.toFixed(1)}</div><div class="admin-kpi-label">Proteína total (g)</div></div>
+            <div class="admin-kpi"><div class="admin-kpi-value" id="totalCho">${totals.carbs.toFixed(1)}</div><div class="admin-kpi-label">Carbo total (g)</div></div>
+            <div class="admin-kpi"><div class="admin-kpi-value" id="totalFat">${totals.fat.toFixed(1)}</div><div class="admin-kpi-label">Gordura total (g)</div></div>
+            <div class="admin-kpi"><div class="admin-kpi-value" id="totalKcal">${totals.kcal.toFixed(0)}</div><div class="admin-kpi-label">Kcal total dia</div></div>
+          </div>
+        `;
+      } else if (adminState.section === 'treino') {
+        body = `
+          <h3 class="admin-section-title">Sessão Treino</h3>
           <div class="admin-grid">
             <div class="form-group"><label class="form-label">Título do treino</label><input id="adminTrainingTitle" class="form-input" value="${student.trainingTitle || ''}"></div>
-            <div class="form-group"><label class="form-label">Última atualização treino</label><input id="adminLastWorkoutUpdate" type="date" class="form-input" value="${student.lastWorkoutUpdate || ''}"></div>
-            <div class="form-group"><label class="form-label">Sessão A</label><input id="adminSessionA" class="form-input" value="${(student.sessionTitles && student.sessionTitles[0]) || ''}"></div>
-            <div class="form-group"><label class="form-label">Sessão B</label><input id="adminSessionB" class="form-input" value="${(student.sessionTitles && student.sessionTitles[1]) || ''}"></div>
-            <div class="form-group"><label class="form-label">Sessão C</label><input id="adminSessionC" class="form-input" value="${(student.sessionTitles && student.sessionTitles[2]) || ''}"></div>
-            <div class="form-group"><label class="form-label">Sessão D</label><input id="adminSessionD" class="form-input" value="${(student.sessionTitles && student.sessionTitles[3]) || ''}"></div>
-          </div>
-          <div class="admin-grid">
             <div class="form-group"><label class="form-label">Link treino A</label><input id="adminLinkA" class="form-input" value="${student.routines?.torso1 || ''}"></div>
             <div class="form-group"><label class="form-label">Link treino B</label><input id="adminLinkB" class="form-input" value="${student.routines?.limbs1 || ''}"></div>
             <div class="form-group"><label class="form-label">Link treino C</label><input id="adminLinkC" class="form-input" value="${student.routines?.torso2 || ''}"></div>
             <div class="form-group"><label class="form-label">Link treino D</label><input id="adminLinkD" class="form-input" value="${student.routines?.limbs2 || ''}"></div>
           </div>
-          <div class="form-group"><label class="form-label">Exercícios, séries, reps, carga, observações (texto livre)</label><textarea id="adminExerciseTable" class="admin-textarea">${student.exerciseTable || ''}</textarea></div>
+          <div class="form-group"><label class="form-label">Exercícios, séries, repetições, carga e observações</label><textarea id="adminExerciseTable" class="admin-textarea">${student.exerciseTable || ''}</textarea></div>
         `;
-      } else if (adminState.tab === 'Dieta') {
-        body = `
-          <h3 class="admin-section-title">Sessão Dieta</h3>
-          <div class="admin-grid">
-            <div class="form-group"><label class="form-label">Status de adesão</label><select id="adminAdherenceStatus" class="form-input"><option ${student.adherenceStatus === 'Em acompanhamento' ? 'selected' : ''}>Em acompanhamento</option><option ${student.adherenceStatus === 'Em dia' ? 'selected' : ''}>Em dia</option><option ${student.adherenceStatus === 'Atenção' ? 'selected' : ''}>Atenção</option><option ${student.adherenceStatus === 'Pausado' ? 'selected' : ''}>Pausado</option></select></div>
-            <div class="form-group"><label class="form-label">Última atualização dieta</label><input id="adminLastDietUpdate" type="date" class="form-input" value="${student.lastDietUpdate || ''}"></div>
-          </div>
-          <div class="form-group"><label class="form-label">Substituições e observações da dieta</label><textarea id="adminSubstitutionsText" class="admin-textarea">${student.substitutionsText || ''}</textarea></div>
-        `;
-      } else if (adminState.tab === 'Refeições') {
-        body = `
-          <h3 class="admin-section-title">Sessão Refeições</h3>
-          <div class="admin-meal-list">${mealEditorHtml}</div>
-          <button class="secondary-btn" id="addMealBtn" type="button">Adicionar refeição</button>
-        `;
-      } else if (adminState.tab === 'Instruções') {
+      } else if (adminState.section === 'instrucoes') {
         body = `
           <h3 class="admin-section-title">Sessão Instruções e Justificativas</h3>
           <div class="form-group"><label class="form-label">Justificativa estratégica</label><textarea id="adminPriority" class="admin-textarea">${student.trainingPriority || ''}</textarea></div>
           <div class="form-group"><label class="form-label">Justificativa de sequência</label><textarea id="adminSequence" class="admin-textarea">${student.trainingSequence || ''}</textarea></div>
-          <div class="form-group"><label class="form-label">Instruções específicas / observações clínicas</label><textarea id="adminInstructionText" class="admin-textarea">${student.instructionText || ''}</textarea></div>
+          <div class="form-group"><label class="form-label">Orientações específicas</label><textarea id="adminInstructionText" class="admin-textarea">${student.instructionText || ''}</textarea></div>
         `;
-      } else if (adminState.tab === 'Plano') {
+      } else if (adminState.section === 'acesso') {
+        body = `
+          <h3 class="admin-section-title">Sessão Acesso</h3>
+          <div class="admin-grid">
+            <div class="form-group"><label class="form-label">Login</label><input class="form-input" value="${studentKey}" disabled></div>
+            <div class="form-group"><label class="form-label">Senha</label><input id="adminStudentPassword" class="form-input" value="${student.password || ''}"></div>
+            <div class="form-group"><label class="form-label">Data início</label><input id="adminStartDate" type="date" class="form-input" value="${student.startDate || ''}"></div>
+            <div class="form-group"><label class="form-label">Status</label><input id="adminProfileStatus" class="form-input" value="${student.status || 'ativo'}"></div>
+          </div>
+        `;
+      } else if (adminState.section === 'planos') {
         body = `
           <h3 class="admin-section-title">Sessão Planos</h3>
           <div class="admin-grid">
-            <div class="form-group"><label class="form-label">Status do plano</label><select id="adminPlanStatus" class="form-input"><option ${student.planStatus === 'Ativo' ? 'selected' : ''}>Ativo</option><option ${student.planStatus === 'Vencendo' ? 'selected' : ''}>Vencendo</option><option ${student.planStatus === 'Vencido' ? 'selected' : ''}>Vencido</option><option ${student.planStatus === 'Pausado' ? 'selected' : ''}>Pausado</option></select></div>
-            <div class="form-group"><label class="form-label">Data de vencimento</label><input id="adminPlanDueDate" type="date" class="form-input" value="${student.planDueDate || ''}"></div>
-            <div class="form-group"><label class="form-label">Data de renovação</label><input id="adminPlanRenewalDate" type="date" class="form-input" value="${student.planRenewalDate || ''}"></div>
+            <div class="form-group"><label class="form-label">Status plano</label><select id="adminPlanStatus" class="form-input"><option ${student.planStatus === 'Ativo' ? 'selected' : ''}>Ativo</option><option ${student.planStatus === 'Vencendo' ? 'selected' : ''}>Vencendo</option><option ${student.planStatus === 'Vencido' ? 'selected' : ''}>Vencido</option><option ${student.planStatus === 'Pausado' ? 'selected' : ''}>Pausado</option></select></div>
+            <div class="form-group"><label class="form-label">Vencimento</label><input id="adminPlanDueDate" type="date" class="form-input" value="${student.planDueDate || ''}"></div>
+            <div class="form-group"><label class="form-label">Renovação</label><input id="adminPlanRenewalDate" type="date" class="form-input" value="${student.planRenewalDate || ''}"></div>
             <div class="form-group"><label class="form-label">Valor pago</label><input id="adminPlanPrice" class="form-input" value="${student.planPrice || ''}"></div>
           </div>
           <div class="form-group"><label class="form-label">Histórico financeiro</label><textarea id="adminPlanHistory" class="admin-textarea">${student.planHistory || ''}</textarea></div>
         `;
       } else {
-        body = `
-          <h3 class="admin-section-title">Sessão Acesso</h3>
-          <div class="admin-grid">
-            <div class="form-group"><label class="form-label">Login do aluno</label><input class="form-input" value="${studentKey}" disabled></div>
-            <div class="form-group"><label class="form-label">Senha do aluno</label><input id="adminStudentPassword" class="form-input" value="${student.password || ''}"></div>
-            <div class="form-group"><label class="form-label">Data de início</label><input id="adminStartDate" type="date" class="form-input" value="${student.startDate || ''}"></div>
-            <div class="form-group"><label class="form-label">Status cadastro</label><input id="adminProfileStatus" class="form-input" value="${student.status || 'ativo'}"></div>
-          </div>
-        `;
+        body = `<h3 class="admin-section-title">Sessão ${adminState.section}</h3><p class="form-label">Selecione um aluno na tabela para editar dados específicos.</p>`;
       }
 
       document.getElementById('adminEditorMount').innerHTML = `
         <div class="admin-card">
           <h3 class="admin-title" style="font-size: var(--text-lg); margin-bottom: var(--space-2);">${student.name}</h3>
-          <div class="admin-student-tabs">${tabButtons}</div>
           ${body}
           <div class="admin-actions">
             <button class="login-btn" id="saveAdminBtn" type="button" style="width:auto;">Salvar alterações</button>
@@ -1579,66 +1689,53 @@
         </div>
       `;
 
-      document.querySelectorAll('[data-admin-tab]').forEach(btn => btn.addEventListener('click', () => {
-        adminState.tab = btn.getAttribute('data-admin-tab');
-        renderAdminEditor(studentKey);
-      }));
       const addMealBtn = document.getElementById('addMealBtn');
-      if (addMealBtn) {
-        addMealBtn.addEventListener('click', () => {
-          const baseDiet = getMealsFromStudent(student);
-          baseDiet.push({ number: `Refeição ${baseDiet.length + 1}`, macros: '', items: [], obs: '' });
-          student.diet = baseDiet;
-          renderAdminEditor(studentKey);
-        });
-      }
-      document.getElementById('viewAsStudentBtn').addEventListener('click', () => {
-        currentStudent = studentKey;
-        isAdminSession = false;
-        renderContent();
-      });
+      if (addMealBtn) addMealBtn.addEventListener('click', () => { student.diet.push({ number: `Refeição ${student.diet.length + 1}`, time: '', macros: '0 kcal | PTN: 0 g | CHO: 0 g | GOR: 0 g', items: [], obs: '' }); renderAdminEditor(studentKey); });
+      document.querySelectorAll('.js-meal-remove').forEach((b, i) => b.addEventListener('click', () => { student.diet.splice(i, 1); renderAdminEditor(studentKey); }));
+      document.querySelectorAll('.js-meal-up').forEach((b, i) => b.addEventListener('click', () => { if (i === 0) return; [student.diet[i - 1], student.diet[i]] = [student.diet[i], student.diet[i - 1]]; renderAdminEditor(studentKey); }));
+      document.querySelectorAll('.js-meal-down').forEach((b, i) => b.addEventListener('click', () => { if (i >= student.diet.length - 1) return; [student.diet[i + 1], student.diet[i]] = [student.diet[i], student.diet[i + 1]]; renderAdminEditor(studentKey); }));
+
+      document.getElementById('viewAsStudentBtn').addEventListener('click', () => { currentStudent = studentKey; isAdminSession = false; renderContent(); });
       document.getElementById('saveAdminBtn').addEventListener('click', () => {
         const backup = JSON.parse(JSON.stringify(student));
         try {
           const val = (id) => document.getElementById(id)?.value;
-          if (val('adminTrainingTitle') !== undefined) student.trainingTitle = val('adminTrainingTitle').trim();
-          if (val('adminSessionA') !== undefined) {
-            student.sessionTitles = [val('adminSessionA').trim(), val('adminSessionB').trim(), val('adminSessionC').trim(), val('adminSessionD').trim()];
+          if (adminState.section === 'dieta') {
+            const mealNodes = Array.from(document.querySelectorAll('.admin-meal-item'));
+            student.diet = mealNodes.map((node, i) => {
+              const p = parseFloat((node.querySelector('.js-meal-ptn').value || '0').replace(',', '.')) || 0;
+              const c = parseFloat((node.querySelector('.js-meal-cho').value || '0').replace(',', '.')) || 0;
+              const g = parseFloat((node.querySelector('.js-meal-fat').value || '0').replace(',', '.')) || 0;
+              const kcal = parseFloat((node.querySelector('.js-meal-kcal').value || '0').replace(',', '.')) || 0;
+              return {
+                number: node.querySelector('.js-meal-title').value.trim() || `Refeição ${i + 1}`,
+                time: node.querySelector('.js-meal-time').value.trim(),
+                macros: `${kcal} kcal | PTN: ${p} g | CHO: ${c} g | GOR: ${g} g`,
+                items: parseItemsText(node.querySelector('.js-meal-items').value),
+                obs: node.querySelector('.js-meal-obs').value.trim()
+              };
+            });
+            const totalsNow = student.diet.reduce((acc, m) => {
+              const m1 = (m.macros.match(/PTN:\s*([\d.,]+)/i) || [,'0'])[1];
+              const m2 = (m.macros.match(/CHO:\s*([\d.,]+)/i) || [,'0'])[1];
+              const m3 = (m.macros.match(/GOR:\s*([\d.,]+)/i) || [,'0'])[1];
+              const m4 = (m.macros.match(/(\d+[.,]?\d*)\s*kcal/i) || [,'0'])[1];
+              acc.ptn += parseFloat(String(m1).replace(',', '.')) || 0;
+              acc.cho += parseFloat(String(m2).replace(',', '.')) || 0;
+              acc.gor += parseFloat(String(m3).replace(',', '.')) || 0;
+              acc.kcal += parseFloat(String(m4).replace(',', '.')) || 0;
+              return acc;
+            }, { ptn: 0, cho: 0, gor: 0, kcal: 0 });
+            student.totalMacros = { kcal: `~${totalsNow.kcal.toFixed(0)}`, ptn: `~${totalsNow.ptn.toFixed(1)}`, cho: `~${totalsNow.cho.toFixed(1)}`, gor: `~${totalsNow.gor.toFixed(1)}` };
+          }
+          if (val('adminTrainingTitle') !== undefined) {
+            student.trainingTitle = val('adminTrainingTitle').trim();
             student.routines = { torso1: val('adminLinkA').trim(), limbs1: val('adminLinkB').trim(), torso2: val('adminLinkC').trim(), limbs2: val('adminLinkD').trim() };
             student.exerciseTable = val('adminExerciseTable').trim();
-            student.lastWorkoutUpdate = val('adminLastWorkoutUpdate');
           }
-          if (val('adminAdherenceStatus') !== undefined) {
-            student.adherenceStatus = val('adminAdherenceStatus');
-            student.lastDietUpdate = val('adminLastDietUpdate');
-            student.substitutionsText = val('adminSubstitutionsText').trim();
-          }
-          if (val('adminPriority') !== undefined) {
-            student.trainingPriority = val('adminPriority').trim();
-            student.trainingSequence = val('adminSequence').trim();
-            student.instructionText = val('adminInstructionText').trim();
-          }
-          if (val('adminPlanStatus') !== undefined) {
-            student.planStatus = val('adminPlanStatus');
-            student.planDueDate = val('adminPlanDueDate');
-            student.planRenewalDate = val('adminPlanRenewalDate');
-            student.planPrice = val('adminPlanPrice').trim();
-            student.planHistory = val('adminPlanHistory').trim();
-          }
-          if (val('adminStudentPassword') !== undefined) {
-            student.password = val('adminStudentPassword').trim() || student.password;
-            student.startDate = val('adminStartDate') || student.startDate;
-            student.status = val('adminProfileStatus')?.trim() || student.status;
-          }
-          if (adminState.tab === 'Refeições') {
-            const mealNodes = Array.from(document.querySelectorAll('.admin-meal-item'));
-            student.diet = mealNodes.map((node, index) => ({
-              number: node.querySelector('.js-meal-number').value.trim() || `Refeição ${index + 1}`,
-              macros: node.querySelector('.js-meal-macros').value.trim(),
-              items: parseItemsText(node.querySelector('.js-meal-items').value),
-              obs: node.querySelector('.js-meal-obs').value.trim()
-            }));
-          }
+          if (val('adminPriority') !== undefined) { student.trainingPriority = val('adminPriority').trim(); student.trainingSequence = val('adminSequence').trim(); student.instructionText = val('adminInstructionText').trim(); }
+          if (val('adminStudentPassword') !== undefined) { student.password = val('adminStudentPassword').trim() || student.password; student.startDate = val('adminStartDate'); student.status = val('adminProfileStatus').trim(); }
+          if (val('adminPlanStatus') !== undefined) { student.planStatus = val('adminPlanStatus'); student.planDueDate = val('adminPlanDueDate'); student.planRenewalDate = val('adminPlanRenewalDate'); student.planPrice = val('adminPlanPrice').trim(); student.planHistory = val('adminPlanHistory').trim(); }
           saveStudentsState();
           document.getElementById('adminFeedback').textContent = 'Salvo com sucesso.';
           renderAdminPanel();
