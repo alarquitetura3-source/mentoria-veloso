@@ -210,6 +210,83 @@
     .secondary-btn:hover {
       background: var(--moss-wash);
     }
+    .admin-section-title {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      color: var(--moss-deep);
+      margin: var(--space-6) 0 var(--space-2);
+    }
+    .admin-kpis {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: var(--space-3);
+      margin-top: var(--space-4);
+    }
+    .admin-kpi {
+      background: var(--parchment);
+      border: 1px solid var(--moss-tint);
+      border-radius: var(--radius-md);
+      padding: var(--space-3);
+    }
+    .admin-kpi-value {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      color: var(--moss-deep);
+      line-height: 1;
+    }
+    .admin-kpi-label {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: var(--space-1);
+    }
+    .admin-table-wrap {
+      overflow: auto;
+      margin-top: var(--space-3);
+      border: 1px solid var(--divider);
+      border-radius: var(--radius-md);
+      background: var(--parchment);
+    }
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--text-sm);
+      min-width: 720px;
+    }
+    .admin-table th, .admin-table td {
+      padding: var(--space-3);
+      border-bottom: 1px solid var(--divider);
+      text-align: left;
+    }
+    .admin-table thead th {
+      background: var(--moss-wash);
+      color: var(--moss-deep);
+      font-weight: 600;
+    }
+    .quick-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      margin-top: var(--space-4);
+    }
+    .quick-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      text-decoration: none;
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--moss-tint);
+      color: var(--moss-mid);
+      background: var(--moss-wash);
+      font-size: var(--text-sm);
+      font-weight: 500;
+    }
+    .quick-link:hover {
+      background: var(--parchment-2);
+      border-color: var(--moss-pale);
+    }
 
     /* MAIN CONTENT */
     .main-content { display: none; }
@@ -844,8 +921,7 @@
   <!-- LOGIN FORM -->
   <div class="login-container" id="loginContainer">
     <form class="login-form" id="loginForm">
-      <h1 class="login-title">Mentoria Veloso</h1>
-      <p class="login-helper">Aluno: login individual | Admin: usuario <strong>veloso</strong></p>
+      <h1 class="login-title">Veloso</h1>
       <div class="form-group">
         <label for="username" class="form-label">Usuário</label>
         <input type="text" id="username" class="form-input" required>
@@ -1115,7 +1191,7 @@
 
     let currentStudent = null;
     let isAdminSession = false;
-    const adminCredentials = { username: 'veloso', password: 'admin123' };
+    const adminCredentials = { username: 'bcardosov', password: '12345678' };
     const studentsSnapshot = JSON.parse(JSON.stringify(students));
     const STORAGE_KEY = 'mentoria-veloso-students-v1';
 
@@ -1193,6 +1269,32 @@
       return Object.keys(students).find(key => students[key].name === name) || null;
     }
 
+    function ensureStudentDefaults(student) {
+      if (!student) return;
+      if (!student.startDate) student.startDate = '';
+      if (!student.adherenceStatus) student.adherenceStatus = 'Em acompanhamento';
+      if (!student.adherenceNotes) student.adherenceNotes = '';
+      if (!student.calendarNotes) student.calendarNotes = '';
+      if (!student.instructionText) student.instructionText = '';
+      if (!student.password) student.password = '1234';
+    }
+
+    function buildAdminRows() {
+      return Object.keys(students).map((key) => {
+        const s = students[key];
+        ensureStudentDefaults(s);
+        return `
+          <tr>
+            <td>${s.name}</td>
+            <td>${key}</td>
+            <td>${s.startDate || '-'}</td>
+            <td>${s.adherenceStatus || '-'}</td>
+            <td>${getMealsFromStudent(s).length}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
     function parseItemsText(text) {
       return text
         .split('\n')
@@ -1210,15 +1312,31 @@
     }
 
     function renderAdminPanel() {
+      Object.keys(students).forEach((key) => ensureStudentDefaults(students[key]));
       const studentOptions = Object.keys(students)
         .map(key => `<option value="${key}">${students[key].name}</option>`)
         .join('');
+      const totalStudents = Object.keys(students).length;
+      const comInicio = Object.values(students).filter(s => !!s.startDate).length;
+      const comDieta = Object.values(students).filter(s => getMealsFromStudent(s).length > 0).length;
 
       const content = `
         <section class="admin-layout">
           <div class="admin-card">
             <h2 class="admin-title">Painel Administrativo</h2>
-            <p class="prose">Edite plano alimentar, justificativas e treino por aluno. Alterações ficam salvas no navegador deste dispositivo.</p>
+            <p class="prose">Gestão completa por aluno com foco em organização premium: visão geral, adesão/calendário, treinos, dietas, instruções e credenciais.</p>
+            <div class="admin-kpis">
+              <div class="admin-kpi"><div class="admin-kpi-value">${totalStudents}</div><div class="admin-kpi-label">Alunos</div></div>
+              <div class="admin-kpi"><div class="admin-kpi-value">${comInicio}</div><div class="admin-kpi-label">Com data de início</div></div>
+              <div class="admin-kpi"><div class="admin-kpi-value">${comDieta}</div><div class="admin-kpi-label">Com dieta ativa</div></div>
+            </div>
+            <h3 class="admin-section-title">Visão geral de alunos</h3>
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead><tr><th>Aluno</th><th>Login</th><th>Data início</th><th>Status adesão</th><th>Refeições</th></tr></thead>
+                <tbody>${buildAdminRows()}</tbody>
+              </table>
+            </div>
             <div class="form-group" style="margin-top: var(--space-4);">
               <label class="form-label" for="adminStudentSelect">Aluno</label>
               <select id="adminStudentSelect" class="form-input">${studentOptions}</select>
@@ -1241,6 +1359,7 @@
     function renderAdminEditor(studentKey) {
       const student = students[studentKey];
       if (!student) return;
+      ensureStudentDefaults(student);
       const meals = getMealsFromStudent(student);
 
       const mealEditorHtml = meals.map((meal, index) => `
@@ -1255,6 +1374,23 @@
       `).join('');
 
       document.getElementById('adminEditorMount').innerHTML = `
+        <h3 class="admin-section-title">Adesão e calendário</h3>
+        <div class="admin-grid">
+          <div class="form-group"><label class="form-label">Data de início</label><input id="adminStartDate" type="date" class="form-input" value="${student.startDate || ''}"></div>
+          <div class="form-group">
+            <label class="form-label">Status de adesão</label>
+            <select id="adminAdherenceStatus" class="form-input">
+              <option ${student.adherenceStatus === 'Em acompanhamento' ? 'selected' : ''}>Em acompanhamento</option>
+              <option ${student.adherenceStatus === 'Em dia' ? 'selected' : ''}>Em dia</option>
+              <option ${student.adherenceStatus === 'Atenção' ? 'selected' : ''}>Atenção</option>
+              <option ${student.adherenceStatus === 'Pausado' ? 'selected' : ''}>Pausado</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group"><label class="form-label">Notas de adesão</label><textarea id="adminAdherenceNotes" class="admin-textarea">${student.adherenceNotes || ''}</textarea></div>
+        <div class="form-group"><label class="form-label">Calendário / acompanhamento</label><textarea id="adminCalendarNotes" class="admin-textarea">${student.calendarNotes || ''}</textarea></div>
+
+        <h3 class="admin-section-title">Treinos</h3>
         <div class="admin-grid">
           <div class="form-group"><label class="form-label">Título do Treino</label><input id="adminTrainingTitle" class="form-input" value="${student.trainingTitle || ''}"></div>
           <div class="form-group"><label class="form-label">Título Sessão A</label><input id="adminSessionA" class="form-input" value="${(student.sessionTitles && student.sessionTitles[0]) || 'Torso 1'}"></div>
@@ -1268,10 +1404,19 @@
           <div class="form-group"><label class="form-label">Link Sessão C</label><input id="adminLinkC" class="form-input" value="${student.routines?.torso2 || ''}"></div>
           <div class="form-group"><label class="form-label">Link Sessão D</label><input id="adminLinkD" class="form-input" value="${student.routines?.limbs2 || ''}"></div>
         </div>
-        <div class="form-group" style="margin-top: var(--space-3);"><label class="form-label">Justificativa (Priorização estratégica)</label><textarea id="adminPriority" class="admin-textarea">${student.trainingPriority || ''}</textarea></div>
+
+        <h3 class="admin-section-title">Instruções individuais</h3>
+        <div class="form-group"><label class="form-label">Justificativa (Priorização estratégica)</label><textarea id="adminPriority" class="admin-textarea">${student.trainingPriority || ''}</textarea></div>
         <div class="form-group"><label class="form-label">Justificativa (Sequência dos exercícios)</label><textarea id="adminSequence" class="admin-textarea">${student.trainingSequence || ''}</textarea></div>
-        <hr class="page-divider" />
-        <h3 class="admin-title" style="font-size: var(--text-lg); margin-bottom: var(--space-2);">Refeições do aluno</h3>
+        <div class="form-group"><label class="form-label">Texto de orientação adicional do aluno</label><textarea id="adminInstructionText" class="admin-textarea">${student.instructionText || ''}</textarea></div>
+
+        <h3 class="admin-section-title">Credenciais e dados de acesso</h3>
+        <div class="admin-grid">
+          <div class="form-group"><label class="form-label">Login do aluno</label><input id="adminStudentLogin" class="form-input" value="${studentKey}" disabled></div>
+          <div class="form-group"><label class="form-label">Senha do aluno</label><input id="adminStudentPassword" class="form-input" value="${student.password || ''}"></div>
+        </div>
+
+        <h3 class="admin-section-title">Dietas</h3>
         <div class="admin-meal-list" id="adminMealList">${mealEditorHtml}</div>
         <div class="admin-actions">
           <button class="secondary-btn" id="addMealBtn" type="button">Adicionar refeição</button>
@@ -1297,6 +1442,10 @@
       document.getElementById('saveAdminBtn').addEventListener('click', () => {
         const backup = JSON.parse(JSON.stringify(student));
         try {
+          student.startDate = document.getElementById('adminStartDate').value;
+          student.adherenceStatus = document.getElementById('adminAdherenceStatus').value;
+          student.adherenceNotes = document.getElementById('adminAdherenceNotes').value.trim();
+          student.calendarNotes = document.getElementById('adminCalendarNotes').value.trim();
           student.trainingTitle = document.getElementById('adminTrainingTitle').value.trim();
           student.sessionTitles = [
             document.getElementById('adminSessionA').value.trim(),
@@ -1312,6 +1461,8 @@
           };
           student.trainingPriority = document.getElementById('adminPriority').value.trim();
           student.trainingSequence = document.getElementById('adminSequence').value.trim();
+          student.instructionText = document.getElementById('adminInstructionText').value.trim();
+          student.password = document.getElementById('adminStudentPassword').value.trim() || student.password;
 
           const mealNodes = Array.from(document.querySelectorAll('.admin-meal-item'));
           student.diet = mealNodes.map((node, index) => ({
@@ -1324,6 +1475,9 @@
           saveStudentsState();
           document.getElementById('adminFeedback').textContent = 'Alterações salvas com sucesso para este aluno.';
           console.info('[admin] Atualização aplicada para aluno.', { studentKey, meals: student.diet.length });
+          renderAdminPanel();
+          document.getElementById('adminStudentSelect').value = studentKey;
+          renderAdminEditor(studentKey);
         } catch (error) {
           students[studentKey] = backup;
           document.getElementById('adminFeedback').textContent = 'Erro ao salvar. Alterações revertidas para segurança.';
@@ -1405,9 +1559,10 @@
       const content = `
         <!-- HERO -->
         <section class="hero" aria-labelledby="hero-title">
-          <h1 id="hero-title" class="hero-title">Plano Personalizado</h1>
-          <div class="hero-meta">
-            ${student.heroMeta.map(meta => `<span class="meta-chip"><span class="meta-chip-dot"></span>${meta}</span>`).join('')}
+          <h1 id="hero-title" class="hero-title">Protocolo Individualizado</h1>
+          <div class="quick-actions">
+            <a class="quick-link" href="#s-links-title">Ir para Treinos</a>
+            <a class="quick-link" href="#s-cardapio-title">Ir para Refeições</a>
           </div>
         </section>
 
@@ -1419,6 +1574,7 @@
           <div class="prose">
             <p>${student.name.split(' ')[0]}, este documento reúne de forma organizada todas as informações referentes ao seu protocolo de treinamento e às diretrizes nutricionais desta fase. Cada decisão aqui descrita baseia-se na melhor evidência científica disponível, sendo adaptada às suas características individuais, objetivos e contexto atual. Leia com atenção e não hesite em entrar em contato a qualquer momento para esclarecimentos.</p>
             <p>Estou disponível em tempo integral para acompanhar sua evolução, sanar dúvidas, realizar ajustes no plano alimentar e analisar os registros de treino. Minha disponibilidade não se limita ao horário de sessões presenciais — toda e qualquer comunicação entre nós é bem-vinda e valorizada.</p>
+            ${student.instructionText ? `<p><strong>Orientações individuais:</strong> ${student.instructionText}</p>` : ''}
           </div>
         </section>
 
