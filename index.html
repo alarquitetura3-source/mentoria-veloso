@@ -7,49 +7,57 @@
 
  <link rel="preconnect" href="https://fonts.googleapis.com" />
  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
  <style>
  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
  :root {
- --moss-deep: #2d3a1e;
- --moss-mid: #3e5228;
- --moss-light: #5a7340;
- --moss-pale: #8aac68;
- --moss-tint: #d6e4c8;
- --moss-wash: #eef4e7;
- --parchment: #f7f5f0;
- --parchment-2: #f2efe8;
- --divider: #dcd9d2;
- --text-primary: #1e2416;
- --text-body: #3a3d33;
- --text-muted: #6b7060;
- --text-faint: #9aa090;
- --gold-accent: #8b6914;
-
+ --primary-color: #556b2d;
+ --accent-color: #7b8c3a;
+ --background: #f5f6ee;
+ --surface: #ffffff;
+ --surface-muted: #eef2e4;
+ --surface-soft: #f2f4e9;
+ --border-color: rgba(85, 107, 45, 0.16);
+ --text-primary: #172015;
+ --text-secondary: #5b6551;
+ --text-muted: #829074;
+ --text-faint: #a4ae9a;
+ --success-color: #2f9468;
+ --warning-color: #b88c1f;
+ --danger-color: #9d4132;
+ --shadow-sm: 0 10px 30px rgba(23, 32, 21, 0.08);
+ --shadow-md: 0 18px 45px rgba(23, 32, 21, 0.10);
+ --shadow-lg: 0 28px 75px rgba(23, 32, 21, 0.14);
  --font-display: 'Inter', sans-serif;
  --font-body: 'Inter', sans-serif;
-
  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
  --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
  --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
  --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
  --text-2xl: clamp(2rem, 1.2rem + 2.5vw, 3rem);
- --text-hero: clamp(2.5rem, 1rem + 4vw, 4.5rem);
-
+ --text-hero: clamp(2.75rem, 5vw, 4.75rem);
  --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem;
  --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem;
  --space-8: 2rem; --space-10: 2.5rem; --space-12: 3rem;
  --space-16: 4rem; --space-20: 5rem; --space-24: 6rem;
-
- --radius-sm: 0.25rem; --radius-md: 0.5rem;
- --radius-lg: 0.75rem; --radius-xl: 1.25rem;
- --shadow-sm: 0 1px 3px oklch(0.18 0.04 130 / 0.08);
- --shadow-md: 0 4px 14px oklch(0.18 0.04 130 / 0.10);
- --shadow-lg: 0 12px 36px oklch(0.18 0.04 130 / 0.13);
+ --radius-sm: 0.35rem; --radius-md: 0.75rem;
+ --radius-lg: 1.25rem; --radius-xl: 1.75rem;
  --transition: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+ --moss-deep: #182016;
+ --moss-mid: #5c664d;
+ --moss-light: #8b9778;
+ --moss-pale: rgba(85, 107, 45, 0.16);
+ --moss-tint: rgba(149, 172, 121, 1);
+ --moss-wash: #eef4e4;
+ --parchment: var(--surface-muted);
+ --parchment-2: var(--surface-soft);
+ --divider: var(--border-color);
+ --gold-accent: var(--primary-color);
+ --shadow-soft: var(--shadow-sm);
+ --shadow-strong: var(--shadow-lg);
  }
 
  html {
@@ -60,11 +68,11 @@
  }
 
  body {
- background: var(--parchment);
- color: var(--text-body);
+ background: var(--background);
+ color: var(--text-primary);
  font-family: var(--font-body);
  font-size: var(--text-base);
- line-height: 1.75;
+ line-height: 1.6;
  min-height: 100dvh;
  }
 
@@ -75,23 +83,27 @@
  justify-content: center;
  min-height: 100vh;
  padding: var(--space-6);
+ background: linear-gradient(180deg, rgba(85, 107, 45, 0.09) 0%, rgba(244, 248, 238, 0) 45%);
  }
  .login-form {
- background: var(--parchment-2);
- border: 1px solid var(--divider);
- border-radius: var(--radius-lg);
- padding: var(--space-8);
- box-shadow: var(--shadow-md);
- max-width: 400px;
+ background: var(--surface);
+ border: 1px solid var(--border-color);
+ border-radius: var(--radius-xl);
+ padding: clamp(2.5rem, 4vw, 3.25rem);
+ box-shadow: var(--shadow-sm);
+ max-width: 430px;
  width: 100%;
  }
  .login-title {
  font-family: var(--font-display);
- font-size: var(--text-2xl);
- font-weight: 500;
- color: var(--moss-deep);
+ font-size: clamp(2.4rem, 5vw, 3rem);
+ font-weight: 700;
+ letter-spacing: 0.22em;
+ text-transform: uppercase;
+ color: var(--text-primary);
  text-align: center;
  margin-bottom: var(--space-6);
+ line-height: 1.05;
  }
  .form-group {
  margin-bottom: var(--space-4);
@@ -99,41 +111,49 @@
  .form-label {
  display: block;
  font-size: var(--text-sm);
- font-weight: 500;
- color: var(--moss-mid);
+ font-weight: 600;
+ color: var(--text-secondary);
  margin-bottom: var(--space-2);
  }
  .form-input {
  width: 100%;
  padding: var(--space-3) var(--space-4);
- border: 1px solid var(--divider);
+ border: 1px solid var(--border-color);
  border-radius: var(--radius-md);
  font-size: var(--text-base);
- background: var(--parchment);
- color: var(--text-body);
+ background: var(--surface-muted);
+ color: var(--text-primary);
  }
  .form-input:focus {
  outline: none;
- border-color: var(--moss-pale);
- box-shadow: 0 0 0 3px oklch(from var(--moss-pale) l c h / 0.1);
+ border-color: var(--primary-color);
+ box-shadow: 0 0 0 4px rgba(85, 107, 45, 0.12);
  }
  .login-btn {
  width: 100%;
  padding: var(--space-3) var(--space-4);
- background: var(--moss-mid);
+ background: var(--primary-color);
  color: white;
  border: none;
- border-radius: var(--radius-md);
+ border-radius: var(--radius-lg);
  font-size: var(--text-base);
- font-weight: 500;
+ font-weight: 700;
+ letter-spacing: 0.02em;
  cursor: pointer;
- transition: background var(--transition);
+ transition: transform var(--transition), background var(--transition), box-shadow var(--transition);
+ box-shadow: 0 14px 32px rgba(85, 107, 45, 0.16);
  }
  .login-btn:hover {
- background: var(--moss-deep);
+ background: var(--accent-color);
+ transform: translateY(-1px);
+ }
+ .login-btn:disabled {
+ opacity: 0.6;
+ cursor: not-allowed;
+ box-shadow: none;
  }
  .error-msg {
- color: var(--gold-accent);
+ color: var(--danger-color);
  font-size: var(--text-sm);
  text-align: center;
  margin-top: var(--space-4);
@@ -147,15 +167,15 @@
  position: sticky;
  top: 0;
  z-index: 100;
- background: oklch(from var(--parchment) l c h / 0.96);
+ background: rgba(255, 255, 255, 0.98);
  backdrop-filter: blur(12px);
  -webkit-backdrop-filter: blur(12px);
- border-bottom: 1px solid var(--divider);
+ border-bottom: 1px solid var(--border-color);
  }
  .header-inner {
- max-width: 820px;
+ max-width: 1080px;
  margin: 0 auto;
- padding: var(--space-4) var(--space-6);
+ padding: clamp(1rem, 2vw, 1.75rem) var(--space-6);
  display: flex;
  align-items: center;
  justify-content: space-between;
@@ -166,35 +186,35 @@
  align-items: center;
  gap: var(--space-3);
  }
- .logo-mark svg { width: 32px; height: 32px; }
+ .logo-mark svg { width: 36px; height: 36px; }
  .logo-text {
  font-family: var(--font-display);
  font-size: var(--text-lg);
- font-weight: 600;
- color: var(--moss-deep);
- letter-spacing: 0.01em;
- line-height: 1.1;
+ font-weight: 700;
+ color: var(--text-primary);
+ letter-spacing: 0.04em;
+ line-height: 1.05;
  }
  .logo-sub {
  display: block;
  font-family: var(--font-body);
  font-size: var(--text-xs);
- font-weight: 300;
- color: var(--text-muted);
- letter-spacing: 0.06em;
+ font-weight: 500;
+ color: var(--text-secondary);
+ letter-spacing: 0.12em;
  text-transform: uppercase;
  }
  .logout-btn {
  font-size: var(--text-sm);
- color: var(--moss-mid);
+ color: var(--text-secondary);
  text-decoration: none;
- border-bottom: 1px solid var(--moss-tint);
- padding-bottom: 1px;
+ border: 1px solid transparent;
+ padding: 0.65rem 0;
  transition: color var(--transition), border-color var(--transition);
  }
  .logout-btn:hover {
- color: var(--moss-deep);
- border-bottom-color: var(--moss-pale);
+ color: var(--text-primary);
+ border-color: var(--border-color);
  }
 
  /* ─── QUICK ACCESS BUTTONS ─── */
@@ -203,101 +223,115 @@
  gap: var(--space-4);
  margin-bottom: var(--space-8);
  justify-content: center;
+ flex-wrap: wrap;
  }
  .quick-btn {
  display: inline-flex;
  align-items: center;
+ justify-content: center;
  gap: var(--space-2);
  padding: var(--space-3) var(--space-6);
- background: var(--moss-mid);
+ background: var(--primary-color);
  color: white;
  border: none;
  border-radius: var(--radius-lg);
  font-size: var(--text-base);
- font-weight: 500;
+ font-weight: 700;
  text-decoration: none;
- transition: background var(--transition);
+ transition: transform var(--transition), background var(--transition), box-shadow var(--transition);
  cursor: pointer;
+ box-shadow: 0 14px 32px rgba(85, 107, 45, 0.15);
+ }
+ .quick-btn:hover {
+ background: var(--accent-color);
+ transform: translateY(-1px);
  }
  .workout-controls {
  display: flex;
  gap: var(--space-4);
  justify-content: center;
  margin: var(--space-6) 0;
+ flex-wrap: wrap;
  }
  .workout-btn {
  padding: var(--space-3) var(--space-6);
- background: var(--gold-accent);
+ background: var(--primary-color);
  color: white;
  border: none;
  border-radius: var(--radius-lg);
  font-size: var(--text-base);
- font-weight: 500;
+ font-weight: 700;
  cursor: pointer;
- transition: background var(--transition);
+ transition: transform var(--transition), background var(--transition);
  }
  .workout-btn:hover {
- background: #7b5b0a;
+ background: var(--accent-color);
+ transform: translateY(-1px);
  }
  .page-container {
- max-width: 820px;
+ max-width: 1080px;
  margin: 0 auto;
- padding: var(--space-10) var(--space-6) var(--space-20);
+ padding: clamp(2rem, 4vw, 3rem) var(--space-6) var(--space-16);
  }
 
  /* ─── HERO SECTION ─── */
  .hero {
- padding: var(--space-16) 0 var(--space-12);
- border-bottom: 1px solid var(--divider);
+ padding: clamp(3rem, 7vw, 5rem) 0 clamp(2.5rem, 5vw, 4rem);
+ border-radius: var(--radius-xl);
+ background: linear-gradient(180deg, rgba(85, 107, 45, 0.10) 0%, rgba(255, 255, 255, 0.96) 100%);
+ border: 1px solid rgba(85, 107, 45, 0.14);
  margin-bottom: var(--space-16);
- }
- .hero-label {
- font-size: var(--text-xs);
- font-weight: 500;
- letter-spacing: 0.12em;
- text-transform: uppercase;
- color: var(--moss-light);
- margin-bottom: var(--space-4);
+ box-shadow: 0 24px 50px rgba(85, 107, 45, 0.06);
  }
  .hero-title {
  font-family: var(--font-display);
- font-size: var(--text-hero);
- font-weight: 500;
- color: var(--moss-deep);
- line-height: 1.1;
- margin-bottom: var(--space-3);
- letter-spacing: -0.01em;
+ font-size: clamp(3rem, 5vw, 4.5rem);
+ font-weight: 800;
+ color: var(--text-primary);
+ line-height: 1.02;
+ margin-bottom: var(--space-4);
+ letter-spacing: -0.05em;
+ max-width: 12ch;
  }
- .hero-name {
- font-family: var(--font-display);
- font-size: var(--text-2xl);
- font-weight: 400;
- color: var(--moss-mid);
- margin-bottom: var(--space-8);
+ .hero-subtitle {
+ font-size: var(--text-lg);
+ color: var(--text-secondary);
+ max-width: 66ch;
+ line-height: 1.7;
+ margin-bottom: var(--space-6);
  }
  .hero-meta {
  display: flex;
  flex-wrap: wrap;
  gap: var(--space-3);
+ margin-top: var(--space-4);
  }
- .meta-chip {
+ .hero-pill {
  display: inline-flex;
  align-items: center;
- gap: var(--space-2);
- padding: var(--space-2) var(--space-4);
- background: var(--moss-wash);
- border: 1px solid var(--moss-tint);
- border-radius: var(--radius-xl);
- font-size: var(--text-xs);
- font-weight: 500;
- color: var(--moss-mid);
- letter-spacing: 0.03em;
+ padding: 0.75rem 1rem;
+ border-radius: 999px;
+ border: 1px solid rgba(85, 107, 45, 0.18);
+ background: rgba(85, 107, 45, 0.08);
+ color: var(--accent-color);
+ font-size: var(--text-sm);
+ font-weight: 700;
+ letter-spacing: 0.04em;
  }
- .meta-chip-dot {
- width: 6px; height: 6px;
+ .hero-pill::before {
+ content: '';
+ width: 6px;
+ height: 6px;
  border-radius: 50%;
- background: var(--moss-pale);
- flex-shrink: 0;
+ background: var(--accent-color);
+ margin-right: 0.5rem;
+ }
+ .hero-name {
+ font-family: var(--font-display);
+ font-size: var(--text-2xl);
+ font-weight: 500;
+ color: var(--text-secondary);
+ margin-bottom: var(--space-8);
  }
 
  /* ─── SECTION GENERIC ─── */
@@ -306,19 +340,19 @@
  }
  .section-label {
  font-size: var(--text-xs);
- font-weight: 500;
- letter-spacing: 0.12em;
+ font-weight: 700;
+ letter-spacing: 0.18em;
  text-transform: uppercase;
- color: var(--moss-light);
+ color: var(--text-secondary);
  margin-bottom: var(--space-3);
  }
  .section-title {
  font-family: var(--font-display);
- font-size: var(--text-xl);
- font-weight: 500;
- color: var(--moss-deep);
- line-height: 1.2;
- margin-bottom: var(--space-6);
+ font-size: clamp(1.4rem, 2vw, 2.25rem);
+ font-weight: 700;
+ color: var(--text-primary);
+ line-height: 1.15;
+ margin-bottom: var(--space-4);
  }
  .section-divider {
  width: 48px;
@@ -600,20 +634,23 @@
 
  /* ─── TAG BADGE ─── */
  .badge {
- display: inline-block;
- padding: 2px var(--space-3);
- background: var(--moss-wash);
- border: 1px solid var(--moss-tint);
- border-radius: var(--radius-xl);
+ display: inline-flex;
+ align-items: center;
+ gap: 0.35rem;
+ padding: 0.55rem 0.95rem;
+ background: rgba(85, 107, 45, 0.10);
+ border: 1px solid rgba(85, 107, 45, 0.18);
+ border-radius: 999px;
  font-size: var(--text-xs);
- font-weight: 600;
- color: var(--moss-mid);
- letter-spacing: 0.04em;
+ font-weight: 700;
+ color: var(--accent-color);
+ letter-spacing: 0.08em;
+ text-transform: uppercase;
  }
  .badge.gold {
- background: #fdf6e3;
- border-color: #e8d8a0;
- color: var(--gold-accent);
+ background: rgba(149, 172, 121, 0.18);
+ border-color: rgba(149, 172, 121, 0.28);
+ color: var(--primary-color);
  }
 
  /* ─── FOOTER ─── */
@@ -814,30 +851,31 @@
  margin-bottom: var(--space-6);
  }
  .profile-card {
- background: var(--parchment-2);
- border: 1px solid var(--divider);
- border-radius: var(--radius-md);
- padding: var(--space-4);
+ background: var(--surface);
+ border: 1px solid var(--border-color);
+ border-radius: var(--radius-lg);
+ padding: var(--space-5);
  text-align: center;
+ box-shadow: var(--shadow-sm);
  }
  .profile-card h3 {
  margin-bottom: var(--space-2);
- color: var(--moss-deep);
+ color: var(--text-primary);
  }
  .profile-card p {
  margin-bottom: var(--space-4);
- color: var(--text-muted);
+ color: var(--text-secondary);
  }
  .profile-card button {
- background: var(--moss-mid);
+ background: var(--primary-color);
  color: white;
  border: none;
- padding: var(--space-2) var(--space-4);
- border-radius: var(--radius-md);
+ padding: var(--space-3) var(--space-5);
+ border-radius: var(--radius-lg);
  cursor: pointer;
  }
  .profile-card button:hover {
- background: var(--moss-deep);
+ background: var(--accent-color);
  }
  #editProfileForm, #editWorkoutForm {
  display: flex;
@@ -846,71 +884,402 @@
  max-width: 600px;
  }
  #editProfileForm label, #editWorkoutForm label {
- font-weight: 500;
- color: var(--moss-mid);
+ font-weight: 600;
+ color: var(--text-secondary);
  }
  #editProfileForm input, #editWorkoutForm input, #editProfileForm textarea, #editWorkoutForm textarea {
  padding: var(--space-3);
- border: 1px solid var(--divider);
+ border: 1px solid var(--border-color);
  border-radius: var(--radius-md);
  font-family: var(--font-body);
+ background: var(--surface);
+ color: var(--text-primary);
  }
  #editProfileForm button, #editWorkoutForm button {
  padding: var(--space-3) var(--space-6);
- background: var(--moss-mid);
+ background: var(--primary-color);
  color: white;
  border: none;
- border-radius: var(--radius-md);
+ border-radius: var(--radius-lg);
  cursor: pointer;
- font-weight: 500;
+ font-weight: 700;
  }
  #editProfileForm button:hover, #editWorkoutForm button:hover {
- background: var(--moss-deep);
+ background: var(--accent-color);
  }
  .meal-edit {
- background: var(--parchment-2);
- border: 1px solid var(--divider);
- border-radius: var(--radius-md);
- padding: var(--space-4);
+ background: var(--surface);
+ border: 1px solid var(--border-color);
+ border-radius: var(--radius-lg);
+ padding: var(--space-5);
  margin-bottom: var(--space-4);
  }
  .meal-edit h4 {
  margin-bottom: var(--space-3);
- color: var(--moss-deep);
+ color: var(--text-primary);
  }
  .meal-edit label {
  display: block;
  margin-bottom: var(--space-2);
- font-weight: 500;
- color: var(--moss-mid);
+ font-weight: 600;
+ color: var(--text-secondary);
  }
  .meal-edit input, .meal-edit textarea {
  width: 100%;
- padding: var(--space-2);
- border: 1px solid var(--divider);
+ padding: var(--space-3);
+ border: 1px solid var(--border-color);
  border-radius: var(--radius-md);
  margin-bottom: var(--space-3);
  font-family: var(--font-body);
+ background: var(--surface);
+ color: var(--text-primary);
  }
  #editProfileForm button, #editWorkoutForm button, #changePasswordForm button, #createStudentForm button {
  margin-right: var(--space-2);
  margin-top: var(--space-2);
  padding: var(--space-3) var(--space-6);
- background: var(--moss-mid);
+ background: var(--primary-color);
  color: white;
  border: none;
- border-radius: var(--radius-md);
+ border-radius: var(--radius-lg);
  cursor: pointer;
- font-weight: 500;
+ font-weight: 700;
  }
  #editProfileForm button:hover, #editWorkoutForm button:hover, #changePasswordForm button:hover, #createStudentForm button:hover {
- background: var(--moss-deep);
+ background: var(--accent-color);
  }
  #editProfileForm button[type="button"], #editWorkoutForm button[type="button"], #changePasswordForm button[type="button"], #createStudentForm button[type="button"] {
- background: var(--moss-light);
+ background: var(--surface-muted);
+ color: var(--text-primary);
  }
  #editProfileForm button[type="button"]:hover, #editWorkoutForm button[type="button"]:hover, #changePasswordForm button[type="button"]:hover, #createStudentForm button[type="button"]:hover {
- background: var(--moss-mid);
+ background: var(--surface);
+ }
+ .admin-header {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   gap: var(--space-6);
+   margin-bottom: var(--space-6);
+ }
+ .admin-header .section-label {
+   color: var(--text-secondary);
+   margin-bottom: var(--space-2);
+   text-transform: uppercase;
+   letter-spacing: 0.1em;
+   font-size: var(--text-xs);
+ }
+ .admin-header .section-title {
+   margin: 0;
+   font-size: clamp(1.75rem, 2.5vw, 2.8rem);
+   color: var(--text-primary);
+ }
+ .admin-tabs {
+   display: flex;
+   flex-wrap: wrap;
+   gap: var(--space-3);
+ }
+ .admin-tab {
+   border: 1px solid var(--border-color);
+   background: var(--surface);
+   color: var(--text-secondary);
+   padding: var(--space-3) var(--space-4);
+   border-radius: var(--radius-lg);
+   cursor: pointer;
+   transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+ }
+ .admin-tab.active,
+ .admin-tab:hover {
+   background: var(--surface-soft);
+   border-color: var(--primary-color);
+   color: var(--text-primary);
+ }
+ .admin-card-grid {
+   display: grid;
+   grid-template-columns: repeat(3, minmax(0, 1fr));
+   gap: var(--space-4);
+   margin-bottom: var(--space-6);
+ }
+ .admin-card {
+   background: var(--surface);
+   border: 1px solid var(--border-color);
+   border-radius: var(--radius-xl);
+   padding: var(--space-6);
+   box-shadow: var(--shadow-sm);
+ }
+ .admin-card-label {
+   margin: 0 0 var(--space-3) 0;
+   font-size: var(--text-sm);
+   color: var(--text-secondary);
+ }
+ .admin-card-value {
+   margin: 0;
+   font-size: clamp(2rem, 3vw, 2.6rem);
+   color: var(--text-primary);
+   font-weight: 700;
+ }
+ .admin-section {
+   margin-bottom: var(--space-8);
+ }
+ .section-header {
+   display: flex;
+   align-items: flex-end;
+   justify-content: space-between;
+   gap: var(--space-4);
+   margin-bottom: var(--space-4);
+ }
+ .table-card,
+ .form-card,
+ .settings-card,
+ .history-card {
+   background: var(--surface);
+   border: 1px solid var(--border-color);
+   border-radius: var(--radius-xl);
+   padding: var(--space-6);
+   box-shadow: var(--shadow-sm);
+ }
+ .admin-table {
+   width: 100%;
+   border-collapse: separate;
+   border-spacing: 0 0.5rem;
+   font-size: var(--text-sm);
+ }
+ .admin-table th,
+ .admin-table td {
+   padding: var(--space-3) var(--space-4);
+   text-align: left;
+   border-bottom: 1px solid transparent;
+ }
+ .admin-table th {
+   background: transparent;
+   color: var(--text-secondary);
+   font-weight: 700;
+ }
+ .admin-table tr {
+   background: var(--surface-soft);
+ }
+ .admin-table tr:hover {
+   background: rgba(85, 107, 45, 0.08);
+ }
+ .admin-table.compact th,
+ .admin-table.compact td {
+   padding: var(--space-2) var(--space-3);
+ }
+ .clickable-row {
+   cursor: pointer;
+ }
+ .table-actions {
+   display: flex;
+   flex-wrap: wrap;
+   gap: var(--space-2);
+ }
+ .table-actions button {
+   border: 1px solid var(--border-color);
+   background: var(--surface);
+   padding: var(--space-2) var(--space-3);
+   border-radius: var(--radius-lg);
+   cursor: pointer;
+   color: var(--text-primary);
+ }
+ .table-actions button:hover {
+   background: var(--surface-soft);
+ }
+ .table-actions button.danger {
+   border-color: rgba(194, 75, 44, 0.2);
+   color: var(--danger-color);
+ }
+ .admin-filters {
+   display: grid;
+   grid-template-columns: repeat(3, minmax(0, 1fr));
+   gap: var(--space-4);
+   margin-bottom: var(--space-4);
+ }
+ .filter-group label {
+   display: block;
+   color: var(--text-secondary);
+   margin-bottom: var(--space-2);
+   font-weight: 700;
+ }
+ .filter-group input,
+ .filter-group select {
+   width: 100%;
+   padding: var(--space-3);
+   border-radius: var(--radius-lg);
+   border: 1px solid var(--border-color);
+   background: var(--surface);
+   color: var(--text-primary);
+ }
+ .form-grid {
+   display: grid;
+   grid-template-columns: repeat(2, minmax(0, 1fr));
+   gap: var(--space-4);
+ }
+ .form-grid label {
+   display: flex;
+   flex-direction: column;
+   gap: var(--space-2);
+   font-weight: 700;
+ }
+ .form-grid input,
+ .form-grid select,
+ .form-grid textarea {
+   width: 100%;
+   padding: var(--space-3);
+   border: 1px solid var(--border-color);
+   border-radius: var(--radius-lg);
+   background: var(--surface);
+   color: var(--text-primary);
+ }
+ .form-grid textarea {
+   min-height: 120px;
+ }
+ .form-actions {
+   display: flex;
+   justify-content: flex-end;
+   gap: var(--space-3);
+   margin-top: var(--space-4);
+ }
+ .modal-overlay {
+   position: fixed;
+   inset: 0;
+   display: none;
+   justify-content: center;
+   align-items: center;
+   background: rgba(25, 28, 32, 0.55);
+   z-index: 20;
+ }
+ .modal-card {
+   width: min(95%, 760px);
+   background: var(--surface);
+   border-radius: var(--radius-xl);
+   padding: var(--space-6);
+   box-shadow: var(--shadow-lg);
+   position: relative;
+ }
+ .modal-close {
+   position: absolute;
+   top: var(--space-4);
+   right: var(--space-4);
+   background: transparent;
+   border: none;
+   font-size: var(--text-2xl);
+   cursor: pointer;
+ }
+ .modal-section h3 {
+   margin-top: 0;
+   margin-bottom: var(--space-3);
+   color: var(--text-primary);
+ }
+ .modal-actions {
+   display: flex;
+   gap: var(--space-3);
+   flex-wrap: wrap;
+   margin: var(--space-4) 0;
+ }
+ .history-card h4 {
+   margin-top: 0;
+   margin-bottom: var(--space-4);
+ }
+ .calendar-header,
+ .calendar-legend {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   gap: var(--space-4);
+   margin-bottom: var(--space-4);
+ }
+ .calendar-controls button {
+   border: 1px solid var(--border-color);
+   background: var(--surface);
+   color: var(--text-primary);
+   padding: var(--space-2) var(--space-4);
+   border-radius: var(--radius-lg);
+   cursor: pointer;
+ }
+ .calendar-grid {
+   display: grid;
+   grid-template-columns: repeat(7, minmax(0, 1fr));
+   gap: var(--space-2);
+ }
+ .calendar-weekday,
+ .calendar-day {
+   background: var(--surface-soft);
+   border: 1px solid var(--border-color);
+   border-radius: var(--radius-lg);
+   padding: var(--space-3);
+   min-height: 90px;
+ }
+ .calendar-weekday {
+   font-weight: 700;
+   text-align: center;
+   color: var(--text-secondary);
+ }
+ .calendar-day.empty {
+   background: transparent;
+   border: none;
+ }
+ .calendar-day-number {
+   font-weight: 700;
+   margin-bottom: var(--space-2);
+ }
+ .calendar-day-events {
+   display: flex;
+   flex-wrap: wrap;
+   gap: var(--space-2);
+ }
+ .calendar-day.overdue {
+   border-color: var(--danger-color);
+ }
+ .event-pill {
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   min-width: 22px;
+   height: 22px;
+   border-radius: 999px;
+   color: white;
+   font-size: var(--text-xs);
+   font-weight: 700;
+ }
+ .event-pill.vencimento {
+   background: var(--danger-color);
+ }
+ .event-pill.adesao {
+   background: var(--primary-color);
+ }
+ .status-pill {
+   display: inline-flex;
+   align-items: center;
+   padding: 0.45rem 0.75rem;
+   border-radius: var(--radius-full);
+   font-size: var(--text-xs);
+   font-weight: 700;
+   color: white;
+ }
+ .status-paid { background: var(--success-color); }
+ .status-pending { background: var(--warning-color); }
+ .status-soon { background: #f4a569; color: var(--text-primary); }
+ .status-overdue { background: var(--danger-color); }
+ .status-inactive { background: #7f8390; }
+ @media (max-width: 1024px) {
+   .admin-card-grid,
+   .admin-filters,
+   .form-grid {
+     grid-template-columns: 1fr;
+   }
+ }
+ @media (max-width: 768px) {
+   .admin-header {
+     flex-direction: column;
+     align-items: stretch;
+   }
+   .admin-tabs {
+     justify-content: stretch;
+   }
+   .admin-tab {
+     width: 100%;
+     text-align: center;
+   }
  }
  </style>
 </head>
@@ -920,7 +1289,7 @@
  <!-- LOGIN FORM -->
  <div class="login-container" id="loginContainer">
  <form class="login-form" id="loginForm">
- <h1 class="login-title">Mentoria Veloso</h1>
+ <h1 class="login-title">MENTORIA VELOSO</h1>
  <div class="form-group">
  <label for="username" class="form-label">Nome do Aluno</label>
  <input type="text" id="username" class="form-input" required>
@@ -942,13 +1311,13 @@
  <div class="site-logo">
  <div class="logo-mark" aria-hidden="true">
  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Logo">
- <circle cx="16" cy="16" r="15" stroke="#3e5228" stroke-width="1.5" fill="none"/>
- <path d="M10 22 Q16 8 22 22" stroke="#3e5228" stroke-width="1.8" fill="none" stroke-linecap="round"/>
- <circle cx="16" cy="13" r="2.5" fill="#5a7340"/>
+ <circle cx="16" cy="16" r="15" stroke="#556b2d" stroke-width="1.5" fill="none"/>
+ <path d="M10 22 Q16 8 22 22" stroke="#556b2d" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+ <circle cx="16" cy="13" r="2.5" fill="#7b8c3a"/>
  </svg>
  </div>
  <div class="logo-text">
- Mentoria Veloso
+ MENTORIA VELOSO
  <span class="logo-sub">Painel Administrativo</span>
  </div>
  </div>
@@ -971,13 +1340,13 @@
  <div class="site-logo">
  <div class="logo-mark" aria-hidden="true">
  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Logo">
- <circle cx="16" cy="16" r="15" stroke="#3e5228" stroke-width="1.5" fill="none"/>
- <path d="M10 22 Q16 8 22 22" stroke="#3e5228" stroke-width="1.8" fill="none" stroke-linecap="round"/>
- <circle cx="16" cy="13" r="2.5" fill="#5a7340"/>
+ <circle cx="16" cy="16" r="15" stroke="#556b2d" stroke-width="1.5" fill="none"/>
+ <path d="M10 22 Q16 8 22 22" stroke="#556b2d" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+ <circle cx="16" cy="13" r="2.5" fill="#7b8c3a"/>
  </svg>
  </div>
  <div class="logo-text">
- Mentoria Veloso
+ MENTORIA VELOSO
  <span class="logo-sub" id="studentName">Protocolo Individual</span>
  </div>
  </div>
@@ -1260,6 +1629,121 @@
  // Carregar dados ao iniciar
  loadStudents();
 
+ const adminState = {
+  activeTab: 'dashboard',
+  searchQuery: '',
+  statusFilter: 'all',
+  monthFilter: 'all',
+  calendarDate: new Date()
+ };
+
+ function getStudentList() {
+  return Object.entries(students).map(([id, student]) => ({ id, ...student }));
+ }
+
+ function normalizeStudentData() {
+  Object.keys(students).forEach(key => {
+    const student = students[key];
+    if (!student.historicoPagamentos) student.historicoPagamentos = [];
+    if (typeof student.ativo === 'undefined') student.ativo = student.statusPagamento !== 'inativo' && !student.blocked;
+    if (typeof student.statusPagamento === 'undefined') student.statusPagamento = 'pendente';
+    if (typeof student.valorMensal === 'number') student.valorMensal = String(student.valorMensal);
+    if (typeof student.valorPagoMesAtual === 'number') student.valorPagoMesAtual = String(student.valorPagoMesAtual);
+  });
+ }
+
+ function updateStudentStatuses() {
+  const today = new Date();
+  getStudentList().forEach(student => {
+    const dueDate = parseDate(student.dataVencimento);
+    if (!student.ativo) {
+      student.statusPagamento = 'inativo';
+      return;
+    }
+    if (student.statusPagamento === 'pago') return;
+    if (!dueDate) {
+      student.statusPagamento = student.statusPagamento || 'pendente';
+      return;
+    }
+    const diffDays = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+    if (diffDays < 0) {
+      student.statusPagamento = 'atrasado';
+    } else if (diffDays <= 5) {
+      student.statusPagamento = 'vencimento proximo';
+    } else if (student.statusPagamento !== 'pago') {
+      student.statusPagamento = student.statusPagamento || 'pendente';
+    }
+  });
+ }
+
+ function getFilteredStudents() {
+  const query = adminState.searchQuery.trim().toLowerCase();
+  return getStudentList().filter(student => {
+    const matchesSearch = !query || [student.name, student.email, student.plano, student.login].some(value => String(value || '').toLowerCase().includes(query));
+    const matchesStatus = adminState.statusFilter === 'all' || student.statusPagamento === adminState.statusFilter;
+    const matchesMonth = adminState.monthFilter === 'all' || parseDate(student.dataVencimento) && `${parseDate(student.dataVencimento).getMonth() + 1}-${parseDate(student.dataVencimento).getFullYear()}` === adminState.monthFilter;
+    return matchesSearch && matchesStatus && matchesMonth;
+  }).sort((a, b) => a.name.localeCompare(b.name));
+ }
+
+ function parseDate(value) {
+  if (!value) return null;
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date;
+ }
+
+ function formatDate(value) {
+  const date = parseDate(value);
+  if (!date) return '—';
+  return date.toLocaleDateString('pt-BR');
+ }
+
+ function cleanMoney(value) {
+  if (value == null) return 0;
+  const normalized = String(value).replace(/[R$\s\.]/g, '').replace(',', '.');
+  return parseFloat(normalized) || 0;
+ }
+
+ function formatCurrency(value) {
+  const number = typeof value === 'number' ? value : cleanMoney(value);
+  return `R$ ${number.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+ }
+
+ function getStatusClass(status) {
+  switch (status) {
+    case 'pago': return 'status-paid';
+    case 'pendente': return 'status-pending';
+    case 'vencimento proximo': return 'status-soon';
+    case 'atrasado': return 'status-overdue';
+    case 'inativo': return 'status-inactive';
+    default: return 'status-pending';
+  }
+ }
+
+ function getStatusLabel(status) {
+  switch (status) {
+    case 'pago': return 'Pago';
+    case 'pendente': return 'Pendente';
+    case 'vencimento proximo': return 'Vencimento próximo';
+    case 'atrasado': return 'Atrasado';
+    case 'inativo': return 'Inativo';
+    default: return 'Pendente';
+  }
+ }
+
+ function exportStudents() {
+  const data = JSON.stringify(students, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'students-export.json';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+ }
+
  // Login
  document.getElementById('loginForm').addEventListener('submit', function(e) {
  e.preventDefault();
@@ -1311,389 +1795,573 @@
  renderContent();
  }
 
- function renderAdminContent() {
- const content = `
- <section class="content-section">
- <p class="section-label">Gerenciamento</p>
- <h2 class="section-title">Painel Administrativo</h2>
- <div class="section-divider"></div>
- <p>Bem-vindo ao painel administrativo. Aqui você pode gerenciar perfis, treinos e dietas.</p>
- <div class="training-grid">
- <div class="training-card">
- <p class="training-card-label">Perfis</p>
- <p class="training-card-title">Gerenciar Alunos</p>
- <button onclick="manageProfiles()">Editar</button>
- </div>
- <div class="training-card">
- <p class="training-card-label">Treinos</p>
- <p class="training-card-title">Gerenciar Rotinas</p>
- <button onclick="manageWorkouts()">Editar</button>
- </div>
- <div class="training-card">
- <p class="training-card-label">Dietas</p>
- <p class="training-card-title">Gerenciar Planos</p>
- <button onclick="manageDiets()">Editar</button>
- </div>
- <div class="training-card">
- <p class="training-card-label">Sistema</p>
- <p class="training-card-title">Configurações</p>
- <button onclick="systemSettings()">Editar</button>
- </div>
- </div>
- </section>
- `;
- document.getElementById('adminContent').innerHTML = content;
- }
+ 
+function renderAdminContent(tab = adminState.activeTab) {
+    adminState.activeTab = tab;
+    normalizeStudentData();
+    updateStudentStatuses();
+    const content = `
+      <section class="admin-header">
+        <div>
+          <p class="section-label">Área Administrativa</p>
+          <h2 class="section-title">Mentoria Veloso - Gestão de Alunos</h2>
+        </div>
+        <div class="admin-tabs">
+          <button class="admin-tab ${adminState.activeTab === 'dashboard' ? 'active' : ''}" onclick="renderAdminContent('dashboard')">Dashboard</button>
+          <button class="admin-tab ${adminState.activeTab === 'students' ? 'active' : ''}" onclick="renderAdminContent('students')">Alunos</button>
+          <button class="admin-tab ${adminState.activeTab === 'calendar' ? 'active' : ''}" onclick="renderAdminContent('calendar')">Calendário</button>
+          <button class="admin-tab ${adminState.activeTab === 'register' ? 'active' : ''}" onclick="renderAdminContent('register')">Cadastrar</button>
+          <button class="admin-tab ${adminState.activeTab === 'settings' ? 'active' : ''}" onclick="renderAdminContent('settings')">Configurações</button>
+        </div>
+      </section>
+      <section class="admin-main">
+        ${renderAdminTabContent()}
+      </section>
+      <div id="adminModal" class="modal-overlay" style="display:none;" onclick="closeAdminModal(event)">
+        <div class="modal-card" onclick="event.stopPropagation();">
+          <button class="modal-close" onclick="closeAdminModal(event)">×</button>
+          <div id="adminModalContent"></div>
+        </div>
+      </div>
+    `;
+    document.getElementById('adminContent').innerHTML = content;
+}
 
- function manageProfiles() {
- const content = `
- <h2 class="section-title">Gerenciar Perfis de Alunos</h2>
- <div class="section-divider"></div>
- <p>Selecione um aluno para editar suas informações ou crie um novo.</p>
- <div style="margin-bottom: var(--space-4);">
- <button onclick="createNewStudent()" style="background: var(--moss-pale); padding: var(--space-3) var(--space-6);">+ Criar Novo Aluno</button>
- </div>
- <div class="profile-list">
- ${Object.keys(students).filter(key => !students[key].isAdmin).map(key => `
- <div class="profile-card">
- <h3>${students[key].name}</h3>
- <p>Usuário: ${key}</p>
- <button onclick="editProfile('${key}')">Editar</button>
- <button onclick="changePassword('${key}')" style="background: var(--moss-light);">Mudar Senha</button>
- </div>
- `).join('')}
- </div>
- <hr style="margin: var(--space-6) 0;">
- <button onclick="exportStudents()" style="margin-right: var(--space-2);">Exportar Dados (JSON)</button>
- <button onclick="renderAdminContent()" style="background: var(--moss-mid);">← Voltar</button>
- `;
- document.getElementById('adminContent').innerHTML = content;
- }
+function renderAdminTabContent() {
+    switch (adminState.activeTab) {
+      case 'students':
+        return renderAdminStudentsTab();
+      case 'calendar':
+        return renderAdminCalendarTab();
+      case 'register':
+        return renderAdminRegisterTab();
+      case 'settings':
+        return renderAdminSettingsTab();
+      default:
+        return renderAdminDashboardTab();
+    }
+}
 
- function editProfile(username) {
- const student = students[username];
- const content = `
- <h2 class="section-title">Editar Perfil: ${student.name}</h2>
- <div class="section-divider"></div>
- <form id="editProfileForm">
- <label>Nome:</label>
- <input type="text" id="editName" value="${student.name}" required>
- <label>Bloqueado:</label>
- <input type="checkbox" id="editBlocked" ${student.blocked ? 'checked' : ''}>
- <label style="display: flex; gap: var(--space-2); align-items: center;">
- <input type="checkbox" id="deleteStudent"> Desativar este aluno
- </label>
- <button type="submit">Salvar</button>
- <button type="button" onclick="manageProfiles()">← Voltar</button>
- </form>
- `;
- document.getElementById('adminContent').innerHTML = content;
- document.getElementById('editProfileForm').addEventListener('submit', function(e) {
- e.preventDefault();
- if (document.getElementById('deleteStudent').checked) {
- if (confirm('Tem certeza que deseja desativar este aluno?')) {
- delete students[username];
- saveStudents();
- alert('Aluno removido!');
- manageProfiles();
- }
- return;
- }
- students[username].name = document.getElementById('editName').value;
- students[username].blocked = document.getElementById('editBlocked').checked;
- saveStudents();
- alert('Perfil salvo!');
- manageProfiles();
- });
- }
+function renderAdminDashboardTab() {
+    const studentsList = getStudentList();
+    const today = new Date();
+    const activeCount = studentsList.filter(student => student.ativo).length;
+    const overdueCount = studentsList.filter(student => student.statusPagamento === 'atrasado').length;
+    const dueSoonCount = studentsList.filter(student => student.statusPagamento === 'vencimento proximo').length;
+    const receivedTotal = studentsList.reduce((sum, student) => sum + cleanMoney(student.valorPagoMesAtual), 0);
+    const expectedTotal = studentsList.reduce((sum, student) => sum + cleanMoney(student.valorMensal), 0);
+    const newThisMonth = studentsList.filter(student => {
+      const adesao = parseDate(student.dateAdesao);
+      return adesao && adesao.getMonth() === today.getMonth() && adesao.getFullYear() === today.getFullYear();
+    }).length;
+    const upcoming = studentsList
+      .filter(student => student.statusPagamento === 'vencimento proximo')
+      .slice(0, 5);
+    return `
+      <div class="admin-card-grid">
+        <div class="admin-card">
+          <p class="admin-card-label">Alunos ativos</p>
+          <p class="admin-card-value">${activeCount}</p>
+        </div>
+        <div class="admin-card">
+          <p class="admin-card-label">Inadimplentes</p>
+          <p class="admin-card-value">${overdueCount}</p>
+        </div>
+        <div class="admin-card">
+          <p class="admin-card-label">Recebido no mês</p>
+          <p class="admin-card-value">${formatCurrency(receivedTotal)}</p>
+        </div>
+        <div class="admin-card">
+          <p class="admin-card-label">Previsto no mês</p>
+          <p class="admin-card-value">${formatCurrency(expectedTotal)}</p>
+        </div>
+        <div class="admin-card">
+          <p class="admin-card-label">Vencimentos próximos</p>
+          <p class="admin-card-value">${dueSoonCount}</p>
+        </div>
+        <div class="admin-card">
+          <p class="admin-card-label">Novos este mês</p>
+          <p class="admin-card-value">${newThisMonth}</p>
+        </div>
+      </div>
+      <section class="admin-section">
+        <div class="section-header">
+          <div>
+            <p class="section-label">Panorama Financeiro</p>
+            <h3 class="section-title">Vencimentos em destaque</h3>
+          </div>
+        </div>
+        <div class="table-card">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Aluno</th>
+                <th>Plano</th>
+                <th>Valor mensal</th>
+                <th>Vencimento</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${upcoming.map(student => `
+                <tr onclick="openStudentModal('${student.id}')" class="clickable-row">
+                  <td>${student.name}</td>
+                  <td>${student.plano}</td>
+                  <td>${formatCurrency(student.valorMensal)}</td>
+                  <td>${formatDate(student.dataVencimento)}</td>
+                  <td><span class="status-pill ${getStatusClass(student.statusPagamento)}">${getStatusLabel(student.statusPagamento)}</span></td>
+                </tr>
+              `).join('')}
+              ${upcoming.length === 0 ? '<tr><td colspan="5">Nenhum vencimento próximo.</td></tr>' : ''}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    `;
+}
 
- function changePassword(username) {
- const student = students[username];
- const content = `
- <h2 class="section-title">Alterar Senha: ${student.name}</h2>
- <div class="section-divider"></div>
- <form id="changePasswordForm">
- <p>Usuário: <strong>${username}</strong></p>
- <label>Nova Senha:</label>
- <input type="password" id="newPassword" placeholder="Digite a nova senha" required>
- <label>Confirmar Senha:</label>
- <input type="password" id="confirmPassword" placeholder="Confirme a nova senha" required>
- <button type="submit">Alterar Senha</button>
- <button type="button" onclick="manageProfiles()">← Voltar</button>
- </form>
- `;
- document.getElementById('adminContent').innerHTML = content;
- document.getElementById('changePasswordForm').addEventListener('submit', function(e) {
- e.preventDefault();
- const newPassword = document.getElementById('newPassword').value;
- const confirmPassword = document.getElementById('confirmPassword').value;
- if (newPassword !== confirmPassword) {
- alert('As senhas não conferem!');
- return;
- }
- if (newPassword.length < 4) {
- alert('A senha deve ter no mínimo 4 caracteres!');
- return;
- }
- students[username].password = newPassword;
- saveStudents();
- alert('Senha alterada com sucesso!');
- manageProfiles();
- });
- }
+function renderAdminStudentsTab() {
+    const months = Array.from(new Set(getStudentList().map(student => {
+      const due = parseDate(student.dataVencimento);
+      return due ? `${due.getMonth() + 1}-${due.getFullYear()}` : null;
+    }).filter(Boolean)));
+    return `
+      <section class="admin-section">
+        <div class="admin-filters">
+          <div class="filter-group">
+            <label>Buscar</label>
+            <input type="search" value="${adminState.searchQuery}" oninput="updateAdminSearch(event)" placeholder="Nome, e-mail ou plano" />
+          </div>
+          <div class="filter-group">
+            <label>Status</label>
+            <select onchange="updateAdminStatusFilter(event)">
+              <option value="all" ${adminState.statusFilter === 'all' ? 'selected' : ''}>Todos</option>
+              <option value="pago" ${adminState.statusFilter === 'pago' ? 'selected' : ''}>Pago</option>
+              <option value="pendente" ${adminState.statusFilter === 'pendente' ? 'selected' : ''}>Pendente</option>
+              <option value="vencimento proximo" ${adminState.statusFilter === 'vencimento proximo' ? 'selected' : ''}>Próximo</option>
+              <option value="atrasado" ${adminState.statusFilter === 'atrasado' ? 'selected' : ''}>Atrasado</option>
+              <option value="inativo" ${adminState.statusFilter === 'inativo' ? 'selected' : ''}>Inativo</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Mês</label>
+            <select onchange="updateAdminMonthFilter(event)">
+              <option value="all">Todos</option>
+              ${months.map(month => {
+                const [m, y] = month.split('-');
+                return `<option value="${month}" ${adminState.monthFilter === month ? 'selected' : ''}>${String(m).padStart(2, '0')}/${y}</option>`;
+              }).join('')}
+            </select>
+          </div>
+        </div>
+        <div class="table-card">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Aluno</th>
+                <th>Adesão</th>
+                <th>Vencimento</th>
+                <th>Valor mensal</th>
+                <th>Pago no mês</th>
+                <th>Último pagamento</th>
+                <th>Status</th>
+                <th>Plano</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${getFilteredStudents().map(student => `
+                <tr>
+                  <td>${student.name}</td>
+                  <td>${formatDate(student.dateAdesao)}</td>
+                  <td>${formatDate(student.dataVencimento)}</td>
+                  <td>${formatCurrency(student.valorMensal)}</td>
+                  <td>${formatCurrency(student.valorPagoMesAtual)}</td>
+                  <td>${formatDate(student.dataUltimoPagamento)}</td>
+                  <td><span class="status-pill ${getStatusClass(student.statusPagamento)}">${getStatusLabel(student.statusPagamento)}</span></td>
+                  <td>${student.plano}</td>
+                  <td class="table-actions">
+                    <button onclick="editStudent('${student.id}')">Editar</button>
+                    <button onclick="openStudentModal('${student.id}')">Ver</button>
+                    <button onclick="deleteStudent('${student.id}')" class="danger">Excluir</button>
+                  </td>
+                </tr>
+              `).join('')}
+              ${getFilteredStudents().length === 0 ? '<tr><td colspan="9">Nenhum aluno encontrado.</td></tr>' : ''}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    `;
+}
 
- function createNewStudent() {
- const content = `
- <h2 class="section-title">Criar Novo Aluno</h2>
- <div class="section-divider"></div>
- <form id="createStudentForm">
- <label>Nome do Aluno:</label>
- <input type="text" id="newName" placeholder="Ex: João Silva" required>
- <label>Nome de Usuário (sem espaços):</label>
- <input type="text" id="newUsername" placeholder="Ex: joaosilva" required>
- <label>Senha:</label>
- <input type="password" id="newPassword" placeholder="Mínimo 4 caracteres" required>
- <label>Título do Treino:</label>
- <input type="text" id="newTrainingTitle" placeholder="Ex: Divisão Torso / Limbs" required>
- <label>Prioridade do Treino:</label>
- <textarea id="newTrainingPriority" placeholder="Descreva a prioridade estratégica"></textarea>
- <label>Total Calórico Diário:</label>
- <input type="text" id="newTotalKcal" placeholder="Ex: ~2000" required>
- <label>Proteína (g):</label>
- <input type="text" id="newTotalPtn" placeholder="Ex: ~150 g" required>
- <label>Carboidrato (g):</label>
- <input type="text" id="newTotalCho" placeholder="Ex: ~260 g" required>
- <label>Gordura (g):</label>
- <input type="text" id="newTotalGor" placeholder="Ex: ~29 g" required>
- <button type="submit">Criar Aluno</button>
- <button type="button" onclick="manageProfiles()">← Voltar</button>
- </form>
- `;
- document.getElementById('adminContent').innerHTML = content;
- document.getElementById('createStudentForm').addEventListener('submit', function(e) {
- e.preventDefault();
- const username = document.getElementById('newUsername').value.toLowerCase().trim();
- if (students[username]) {
- alert('Este nome de usuário já existe!');
- return;
- }
- students[username] = {
- password: document.getElementById('newPassword').value,
- name: document.getElementById('newName').value,
- blocked: false,
- heroMeta: ['Novo Aluno', 'Fase de Ganho', 'Frequência 4x / semana'],
- trainingTitle: document.getElementById('newTrainingTitle').value,
- sessionTitles: ['Sessão 1', 'Sessão 2', 'Sessão 3', 'Sessão 4'],
- trainingContent: ['Este é seu protocolo personalizado. Leia com atenção.'],
- trainingPriority: document.getElementById('newTrainingPriority').value,
- trainingSequence: 'A ordem dos exercícios é estratégica.',
- routines: { sessao1: '#', sessao2: '#', sessao3: '#', sessao4: '#' },
- diet: [
- {
- number: 'Refeição 1',
- macros: '500 kcal | PTN: 30 g | CHO: 60 g | GOR: 10 g',
- items: [{ qty: '1', item: 'Exemplo de alimento', ref: 'pronto para consumo' }]
- }
- ],
- totalMacros: {
- kcal: document.getElementById('newTotalKcal').value,
- ptn: document.getElementById('newTotalPtn').value,
- cho: document.getElementById('newTotalCho').value,
- gor: document.getElementById('newTotalGor').value
- }
- };
- saveStudents();
- alert(`Aluno criado com sucesso! Usuário: ${username}`);
- manageProfiles();
- });
- }
+function renderAdminCalendarTab() {
+    const year = adminState.calendarDate.getFullYear();
+    const month = adminState.calendarDate.getMonth();
+    const firstDay = new Date(year, month, 1).getDay();
+    const totalDays = new Date(year, month + 1, 0).getDate();
+    const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+    const events = getCalendarEvents();
+    let cells = '';
+    for (let i = 0; i < firstDay; i++) {
+      cells += '<div class="calendar-day empty"></div>';
+    }
+    for (let day = 1; day <= totalDays; day++) {
+      const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      const dayEvents = events.filter(event => event.dateKey === dateKey);
+      const badges = dayEvents.map(event => `<span class="event-pill ${event.type}">${event.type === 'vencimento' ? 'V' : 'A'}</span>`).join('');
+      const highlight = dayEvents.some(event => event.type === 'vencimento' && event.status === 'atrasado') ? 'overdue' : '';
+      cells += `
+        <div class="calendar-day ${highlight}" ${dayEvents.length ? `onclick="openStudentModal('${dayEvents[0].studentId}')"` : ''}>
+          <div class="calendar-day-number">${day}</div>
+          <div class="calendar-day-events">${badges}</div>
+        </div>
+      `;
+    }
+    return `
+      <section class="admin-section">
+        <div class="calendar-header">
+          <div>
+            <p class="section-label">Calendário</p>
+            <h3 class="section-title">Vencimentos e adições</h3>
+          </div>
+          <div class="calendar-controls">
+            <button onclick="changeCalendarMonth(-1)">&larr;</button>
+            <span>${adminState.calendarDate.toLocaleString('pt-BR', { month: 'long', year: 'numeric' })}</span>
+            <button onclick="changeCalendarMonth(1)">&rarr;</button>
+          </div>
+        </div>
+        <div class="calendar-grid">
+          ${weekDays.map(day => `<div class="calendar-weekday">${day}</div>`).join('')}
+          ${cells}
+        </div>
+        <div class="calendar-legend">
+          <span><strong>V</strong> Vencimento</span>
+          <span><strong>A</strong> Adesão</span>
+        </div>
+      </section>
+    `;
+}
 
- function exportStudents() {
- const dataStr = JSON.stringify(students, null, 2);
- const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
- const exportFileDefaultName = 'students.json';
- const linkElement = document.createElement('a');
- linkElement.setAttribute('href', dataUri);
- linkElement.setAttribute('download', exportFileDefaultName);
- linkElement.click();
- }
+function getCalendarEvents() {
+    return getStudentList().flatMap(student => {
+      const events = [];
+      if (student.dataVencimento) {
+        events.push({
+          dateKey: student.dataVencimento,
+          type: 'vencimento',
+          studentId: student.id,
+          status: student.statusPagamento,
+          label: `${student.name} - Vencimento`
+        });
+      }
+      if (student.dateAdesao) {
+        events.push({
+          dateKey: student.dateAdesao,
+          type: 'adesao',
+          studentId: student.id,
+          status: student.statusPagamento,
+          label: `${student.name} - Adesão`
+        });
+      }
+      return events;
+    });
+}
 
- function manageWorkouts() {
- const content = `
- <h2 class="section-title">Gerenciar Treinos</h2>
- <div class="section-divider"></div>
- <p>Selecione um aluno para editar seus treinos.</p>
- <div class="profile-list">
- ${Object.keys(students).filter(key => !students[key].isAdmin).map(key => `
- <div class="profile-card">
- <h3>${students[key].name}</h3>
- <button onclick="editWorkouts('${key}')">Editar Treinos</button>
- </div>
- `).join('')}
- </div>
- <button onclick="renderAdminContent()" style="background: var(--moss-mid); margin-top: var(--space-4);">← Voltar</button>
- `;
- document.getElementById('adminContent').innerHTML = content;
- }
+function changeCalendarMonth(direction) {
+    adminState.calendarDate = new Date(adminState.calendarDate.getFullYear(), adminState.calendarDate.getMonth() + direction, 1);
+    renderAdminContent('calendar');
+}
 
- function editWorkouts(username) {
- const student = students[username];
- const content = `
- <h2 class="section-title">Editar Treinos: ${student.name}</h2>
- <div class="section-divider"></div>
- <form id="editWorkoutForm">
- <label>Título do Treino:</label>
- <input type="text" id="editTrainingTitle" value="${student.trainingTitle || ''}" required>
- <label>Prioridade:</label>
- <textarea id="editTrainingPriority">${student.trainingPriority || ''}</textarea>
- <label>Sequência:</label>
- <textarea id="editTrainingSequence">${student.trainingSequence || ''}</textarea>
- <label>Conteúdo (parágrafos separados por | ):</label>
- <textarea id="editTrainingContent">${student.trainingContent ? student.trainingContent.join('|') : ''}</textarea>
- <h3>Links das Rotinas</h3>
- ${Object.keys(student.routines || {}).map(key => `
- <label>${key}:</label>
- <input type="url" id="editRoutine${key}" value="${student.routines[key]}" required>
- `).join('')}
- <button type="submit">Salvar</button>
- <button type="button" onclick="manageWorkouts()">← Voltar</button>
- </form>
- `;
- document.getElementById('adminContent').innerHTML = content;
- document.getElementById('editWorkoutForm').addEventListener('submit', function(e) {
- e.preventDefault();
- students[username].trainingTitle = document.getElementById('editTrainingTitle').value;
- students[username].trainingPriority = document.getElementById('editTrainingPriority').value;
- students[username].trainingSequence = document.getElementById('editTrainingSequence').value;
- students[username].trainingContent = document.getElementById('editTrainingContent').value.split('|').map(p => p.trim());
- Object.keys(student.routines || {}).forEach(key => {
- students[username].routines[key] = document.getElementById(`editRoutine${key}`).value;
- });
- saveStudents();
- alert('Treinos salvos!');
- manageWorkouts();
- });
- }
+function renderAdminRegisterTab() {
+    return `
+      <section class="admin-section">
+        <div class="section-header">
+          <div>
+            <p class="section-label">Cadastro</p>
+            <h3 class="section-title">Cadastrar novo aluno</h3>
+          </div>
+        </div>
+        <div class="form-card">
+          <form id="adminRegisterForm" onsubmit="saveNewStudent(event)">
+            ${renderStudentFormFields()}
+            <div class="form-actions">
+              <button type="submit">Salvar aluno</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    `;
+}
 
- function manageDiets() {
- const content = `
- <h2 class="section-title">Gerenciar Dietas</h2>
- <div class="section-divider"></div>
- <p>Selecione um aluno para editar sua dieta.</p>
- <div class="profile-list">
- ${Object.keys(students).filter(key => !students[key].isAdmin).map(key => `
- <div class="profile-card">
- <h3>${students[key].name}</h3>
- <button onclick="editDiet('${key}')">Editar Dieta</button>
- </div>
- `).join('')}
- </div>
- <button onclick="renderAdminContent()" style="background: var(--moss-mid); margin-top: var(--space-4);">← Voltar</button>
- `;
- document.getElementById('adminContent').innerHTML = content;
- }
+function renderStudentFormFields(student = {}) {
+    return `
+      <div class="form-grid">
+        <label>Nome completo<input type="text" name="name" value="${student.name || ''}" required></label>
+        <label>E-mail<input type="email" name="email" value="${student.email || ''}" required></label>
+        <label>Telefone<input type="tel" name="phone" value="${student.phone || ''}" required></label>
+        <label>Login<input type="text" name="login" value="${student.login || ''}" required></label>
+        <label>Senha<input type="password" name="password" value="${student.password || ''}" required></label>
+        <label>Data de adesão<input type="date" name="dateAdesao" value="${student.dateAdesao || new Date().toISOString().slice(0, 10)}" required></label>
+        <label>Data de vencimento<input type="date" name="dataVencimento" value="${student.dataVencimento || new Date(new Date().setDate(new Date().getDate() + 30)).toISOString().slice(0, 10)}" required></label>
+        <label>Valor mensal<input type="text" name="valorMensal" value="${student.valorMensal || '0'}" required></label>
+        <label>Valor pago no mês<input type="text" name="valorPagoMesAtual" value="${student.valorPagoMesAtual || '0'}" required></label>
+        <label>Data último pagamento<input type="date" name="dataUltimoPagamento" value="${student.dataUltimoPagamento || ''}"></label>
+        <label>Plano contratado<input type="text" name="plano" value="${student.plano || ''}" required></label>
+        <label>Status<select name="statusPagamento">
+          <option value="pago" ${student.statusPagamento === 'pago' ? 'selected' : ''}>Pago</option>
+          <option value="pendente" ${student.statusPagamento === 'pendente' ? 'selected' : ''}>Pendente</option>
+          <option value="vencimento proximo" ${student.statusPagamento === 'vencimento proximo' ? 'selected' : ''}>Próximo</option>
+          <option value="atrasado" ${student.statusPagamento === 'atrasado' ? 'selected' : ''}>Atrasado</option>
+          <option value="inativo" ${student.statusPagamento === 'inativo' ? 'selected' : ''}>Inativo</option>
+        </select></label>
+        <label>Ativo<input type="checkbox" name="ativo" ${student.ativo !== false ? 'checked' : ''}></label>
+        <label>Observações<textarea name="observacoes">${student.observacoes || ''}</textarea></label>
+      </div>
+    `;
+}
 
- function editDiet(username) {
- const student = students[username];
- const content = `
- <h2 class="section-title">Editar Dieta: ${student.name}</h2>
- <div class="section-divider"></div>
- <div id="mealsContainer">
- ${student.diet.map((meal, index) => `
- <div class="meal-edit">
- <h4>Refeição ${index + 1}</h4>
- <label>Número:</label>
- <input type="text" id="mealNumber${index}" value="${meal.number}">
- <label>Macros:</label>
- <input type="text" id="mealMacros${index}" value="${meal.macros}">
- <label>Itens (qty|item|ref separados por ; ):</label>
- <textarea id="mealItems${index}">${meal.items.map(item => `${item.qty}|${item.item}|${item.ref}`).join(';')}</textarea>
- <label>Observação:</label>
- <input type="text" id="mealObs${index}" value="${meal.obs || ''}">
- </div>
- `).join('')}
- </div>
- <button onclick="addMeal('${username}')">Adicionar Refeição</button>
- <button onclick="saveDiet('${username}')">Salvar Dieta</button>
- <button onclick="manageDiets()">← Voltar</button>
- `;
- document.getElementById('adminContent').innerHTML = content;
- }
+function saveNewStudent(e) {
+    e.preventDefault();
+    const form = e.target;
+    const data = new FormData(form);
+    const login = data.get('login').toLowerCase().trim();
+    if (!login) {
+      alert('Login é obrigatório.');
+      return;
+    }
+    if (students[login]) {
+      alert('Já existe um aluno com este login.');
+      return;
+    }
+    students[login] = {
+      password: data.get('password'),
+      name: data.get('name'),
+      email: data.get('email'),
+      phone: data.get('phone'),
+      login,
+      blocked: false,
+      heroMeta: ['Aluno Novo', 'Consultoria Online', 'Frequência Sob Medida'],
+      trainingTitle: 'Plano Personalizado',
+      sessionTitles: ['Sessão 1', 'Sessão 2', 'Sessão 3', 'Sessão 4'],
+      trainingContent: ['Conteúdo de treino será definido após a avaliação inicial.'],
+      trainingPriority: '',
+      trainingSequence: '',
+      routines: { sessao1: '#', sessao2: '#', sessao3: '#', sessao4: '#' },
+      diet: [],
+      totalMacros: { kcal: '~0', ptn: '~0 g', cho: '~0 g', gor: '~0 g' },
+      email: data.get('email'),
+      phone: data.get('phone'),
+      dateAdesao: data.get('dateAdesao'),
+      dataVencimento: data.get('dataVencimento'),
+      valorMensal: data.get('valorMensal'),
+      valorPagoMesAtual: data.get('valorPagoMesAtual'),
+      dataUltimoPagamento: data.get('dataUltimoPagamento') || '',
+      statusPagamento: data.get('statusPagamento'),
+      plano: data.get('plano'),
+      observacoes: data.get('observacoes'),
+      ativo: data.get('ativo') === 'on',
+      historicoPagamentos: []
+    };
+    normalizeStudentData();
+    saveStudents();
+    alert('Aluno cadastrado com sucesso.');
+    renderAdminContent('students');
+}
 
- function addMeal(username) {
- const student = students[username];
- student.diet.push({
- number: 'Nova Refeição',
- macros: '0 kcal | PTN: 0 g | CHO: 0 g | GOR: 0 g',
- items: []
- });
- editDiet(username);
- }
+function renderAdminSettingsTab() {
+    return `
+      <section class="admin-section">
+        <div class="section-header">
+          <div>
+            <p class="section-label">Configurações</p>
+            <h3 class="section-title">Importar e exportar dados</h3>
+          </div>
+        </div>
+        <div class="settings-card">
+          <button onclick="exportStudents()">Exportar alunos e pagamentos</button>
+          <button onclick="importStudents()">Importar JSON</button>
+        </div>
+      </section>
+    `;
+}
 
- function saveDiet(username) {
- const student = students[username];
- student.diet.forEach((meal, index) => {
- meal.number = document.getElementById(`mealNumber${index}`).value;
- meal.macros = document.getElementById(`mealMacros${index}`).value;
- const itemsStr = document.getElementById(`mealItems${index}`).value;
- meal.items = itemsStr.split(';').map(item => {
- const [qty, itemName, ref] = item.split('|');
- return { qty: qty.trim(), item: itemName.trim(), ref: ref.trim() };
- });
- meal.obs = document.getElementById(`mealObs${index}`).value;
- });
- // Recalcular totalMacros aproximado
- let totalKcal = 0, totalPtn = 0, totalCho = 0, totalGor = 0;
- student.diet.forEach(meal => {
- const macros = meal.macros.match(/(\d+) kcal.*PTN: (\d+) g.*CHO: (\d+) g.*GOR: (\d+) g/);
- if (macros) {
- totalKcal += parseInt(macros[1]);
- totalPtn += parseInt(macros[2]);
- totalCho += parseInt(macros[3]);
- totalGor += parseInt(macros[4]);
- }
- });
- student.totalMacros = { kcal: `~${totalKcal}`, ptn: `~${totalPtn} g`, cho: `~${totalCho} g`, gor: `~${totalGor} g` };
- saveStudents();
- alert('Dieta salva!');
- manageDiets();
- }
+function updateAdminSearch(event) {
+    adminState.searchQuery = event.target.value;
+    renderAdminContent('students');
+}
 
- function systemSettings() {
- const content = `
- <h2 class="section-title">Configurações do Sistema</h2>
- <div class="section-divider"></div>
- <p>Aqui você pode gerenciar configurações gerais.</p>
- <button onclick="exportStudents()">Exportar Todos os Dados</button>
- <button onclick="importStudents()">Importar Dados (JSON)</button>
- <button onclick="renderAdminContent()" style="background: var(--moss-mid); margin-top: var(--space-4);">← Voltar</button>
- `;
- document.getElementById('adminContent').innerHTML = content;
- }
+function updateAdminStatusFilter(event) {
+    adminState.statusFilter = event.target.value;
+    renderAdminContent('students');
+}
 
- function importStudents() {
- const input = document.createElement('input');
- input.type = 'file';
- input.accept = '.json';
- input.onchange = function(e) {
- const file = e.target.files[0];
- const reader = new FileReader();
- reader.onload = function(event) {
- try {
- const imported = JSON.parse(event.target.result);
- Object.assign(students, imported);
- alert('Dados importados com sucesso!');
- systemSettings();
- } catch (err) {
- alert('Erro ao importar dados.');
- }
- };
- reader.readAsText(file);
- };
- input.click();
- }
+function updateAdminMonthFilter(event) {
+    adminState.monthFilter = event.target.value;
+    renderAdminContent('students');
+}
 
- function renderContent() {
+function editStudent(studentId) {
+    const student = students[studentId];
+    if (!student) return;
+    const content = `
+      <section class="admin-section">
+        <div class="section-header">
+          <div>
+            <p class="section-label">Edição</p>
+            <h3 class="section-title">Editar aluno</h3>
+          </div>
+        </div>
+        <div class="form-card">
+          <form id="editStudentForm" onsubmit="saveStudentEdit(event, '${studentId}')">
+            ${renderStudentFormFields(student)}
+            <div class="form-actions">
+              <button type="submit">Salvar alterações</button>
+              <button type="button" class="secondary" onclick="renderAdminContent('students')">Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    `;
+    document.getElementById('adminContent').innerHTML = content;
+}
+
+function saveStudentEdit(event, studentId) {
+    event.preventDefault();
+    const form = event.target;
+    const data = new FormData(form);
+    const student = students[studentId];
+    if (!student) return;
+    students[studentId] = {
+      ...student,
+      password: data.get('password'),
+      name: data.get('name'),
+      email: data.get('email'),
+      phone: data.get('phone'),
+      login: data.get('login'),
+      dateAdesao: data.get('dateAdesao'),
+      dataVencimento: data.get('dataVencimento'),
+      valorMensal: data.get('valorMensal'),
+      valorPagoMesAtual: data.get('valorPagoMesAtual'),
+      dataUltimoPagamento: data.get('dataUltimoPagamento') || '',
+      statusPagamento: data.get('statusPagamento'),
+      plano: data.get('plano'),
+      observacoes: data.get('observacoes'),
+      ativo: data.get('ativo') === 'on'
+    };
+    normalizeStudentData();
+    saveStudents();
+    alert('Dados do aluno atualizados.');
+    renderAdminContent('students');
+}
+
+function deleteStudent(studentId) {
+    if (!confirm('Tem certeza que deseja excluir este aluno permanentemente?')) return;
+    delete students[studentId];
+    saveStudents();
+    renderAdminContent('students');
+}
+
+function openStudentModal(studentId) {
+    const student = students[studentId];
+    if (!student) return;
+    const historyRows = (student.historicoPagamentos || []).map(entry => `
+      <tr>
+        <td>${formatDate(entry.data)}</td>
+        <td>${formatCurrency(entry.valor)}</td>
+        <td>${entry.mes}</td>
+        <td>${entry.observacoes || ''}</td>
+      </tr>
+    `).join('');
+    const content = `
+      <div class="modal-section">
+        <h3>${student.name}</h3>
+        <p><strong>Telefone:</strong> ${student.phone || '—'}</p>
+        <p><strong>E-mail:</strong> ${student.email || '—'}</p>
+        <p><strong>Plano:</strong> ${student.plano}</p>
+        <p><strong>Valor mensal:</strong> ${formatCurrency(student.valorMensal)}</p>
+        <p><strong>Status:</strong> <span class="status-pill ${getStatusClass(student.statusPagamento)}">${getStatusLabel(student.statusPagamento)}</span></p>
+        <p><strong>Vencimento:</strong> ${formatDate(student.dataVencimento)}</p>
+        <div class="modal-actions">
+          <button onclick="editStudent('${studentId}')">Editar</button>
+          <button onclick="markPaymentPaid('${studentId}')">Marcar como pago</button>
+        </div>
+        <div class="history-card">
+          <h4>Histórico financeiro</h4>
+          <table class="admin-table compact">
+            <thead>
+              <tr><th>Data</th><th>Valor</th><th>Mês</th><th>Observações</th></tr>
+            </thead>
+            <tbody>
+              ${historyRows || '<tr><td colspan="4">Nenhum pagamento registrado.</td></tr>'}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+    showAdminModal(content);
+}
+
+function showAdminModal(html) {
+    document.getElementById('adminModalContent').innerHTML = html;
+    document.getElementById('adminModal').style.display = 'flex';
+}
+
+function closeAdminModal(event) {
+    if (event && event.target !== document.getElementById('adminModal')) return;
+    document.getElementById('adminModal').style.display = 'none';
+}
+
+function markPaymentPaid(studentId) {
+    const student = students[studentId];
+    if (!student) return;
+    const amount = cleanMoney(student.valorMensal);
+    const today = new Date().toISOString().slice(0, 10);
+    student.valorPagoMesAtual = String(amount);
+    student.dataUltimoPagamento = today;
+    student.statusPagamento = 'pago';
+    student.historicoPagamentos = student.historicoPagamentos || [];
+    student.historicoPagamentos.unshift({
+      data: today,
+      valor: amount,
+      mes: `${new Date().toLocaleString('pt-BR', { month: 'long', year: 'numeric' })}`,
+      observacoes: 'Pagamento registrado manualmente'
+    });
+    saveStudents();
+    closeAdminModal();
+    renderAdminContent(adminState.activeTab);
+}
+
+function systemSettings() {
+    renderAdminContent('settings');
+}
+
+function importStudents() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    input.onchange = function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        try {
+          const imported = JSON.parse(event.target.result);
+          Object.assign(students, imported);
+          normalizeStudentData();
+          saveStudents();
+          alert('Dados importados com sucesso!');
+          renderAdminContent('settings');
+        } catch (err) {
+          alert('Erro ao importar dados.');
+        }
+      };
+      reader.readAsText(file);
+    };
+    input.click();
+}
+
+function renderContent() {
  const student = students[currentStudent];
  document.getElementById('studentName').textContent = `Protocolo Individual: ${student.name}`;
  document.getElementById('footerThanks').textContent = `Obrigado pela confiança, ${student.name.split(' ')[0]}!`;
@@ -1701,10 +2369,9 @@
  const content = `
  <!-- HERO -->
  <section class="hero" aria-labelledby="hero-title">
- <h1 id="hero-title" class="hero-title">Plano Personalizado</h1>
- <div class="hero-meta">
- ${student.heroMeta.map(meta => `<span class="meta-chip"><span class="meta-chip-dot"></span>${meta}</span>`).join('')}
- </div>
+ <h1 id="hero-title" class="hero-title">Protocolo Personalizado</h1>
+ <p class="hero-subtitle">Um plano exclusivo com direção estratégica, briefing objetivo e um visual direto para você ler e aplicar com confiança.</p>
+ <div class="hero-meta">${(student.heroMeta || []).map(meta => `<span class="hero-pill">${meta}</span>`).join('')}</div>
  </section>
 
  <!-- QUICK ACCESS BUTTONS -->
