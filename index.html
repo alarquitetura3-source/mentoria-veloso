@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mentoria Veloso</title>
+  <title>Mentoria Veloso</title>     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -2190,7 +2190,7 @@
       document.getElementById('pageContent').innerHTML = content;
     }
 
-    loadStudentsState();
+    (async () => { const SUPABASE_URL = 'https://ycpubvhikrqzilnhkctm.supabase.co'; const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljcHVidmhpa3JxemlsbmhrY3RtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NjI4NjgsImV4cCI6MjA5MjUzODg2OH0.A2tlWFxoXdGvkW7Us1v5v4Tpig5FFCoaBTUxXJOYQws'; if (window.supabase) { window._supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON); } await loadStudentsState(); })();
   </script>
 </body>
 </html>
